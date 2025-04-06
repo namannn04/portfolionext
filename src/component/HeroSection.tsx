@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
 export default function HeroSection() {
-  const [particles, setParticles] = useState<
-    { top: number; left: number; delay: number; moveY: number }[]
-  >([])
+  const [particles, setParticles] = useState<{ top: number; left: number; delay: number; moveY: number }[]>([])
+  const [isHovering, setIsHovering] = useState(false)
+  const imageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const newParticles = Array.from({ length: 15 }, () => ({
@@ -61,15 +61,73 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           className="relative mb-6 flex h-[60vh] sm:h-[70vh] md:h-[80vh] w-auto items-center justify-center"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
           <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 opacity-30 blur-xl" />
-          <div className="absolute -inset-1 rounded-xl border-2 border-purple-500/50" />
-          <div className="absolute -inset-2 rounded-xl border border-blue-500/30" />
-          <div className="absolute -bottom-3 -left-3 h-16 w-16 sm:h-20 sm:w-20 border-b-2 border-l-2 border-purple-500" />
-          <div className="absolute -right-3 -top-3 h-16 w-16 sm:h-20 sm:w-20 border-r-2 border-t-2 border-blue-500" />
+          <motion.div
+            className="absolute -inset-1 rounded-xl border-2 border-purple-500/50"
+            animate={
+              isHovering
+                ? {
+                    borderColor: ["rgba(168, 85, 247, 0.5)", "rgba(59, 130, 246, 0.5)", "rgba(168, 85, 247, 0.5)"],
+                  }
+                : {}
+            }
+            transition={{ duration: 1.5, repeat: isHovering ? Number.POSITIVE_INFINITY : 0 }}
+          />
+          <motion.div
+            className="absolute -inset-2 rounded-xl border border-blue-500/30"
+            animate={
+              isHovering
+                ? {
+                    borderColor: ["rgba(59, 130, 246, 0.3)", "rgba(168, 85, 247, 0.3)", "rgba(59, 130, 246, 0.3)"],
+                  }
+                : {}
+            }
+            transition={{ duration: 1.5, repeat: isHovering ? Number.POSITIVE_INFINITY : 0, delay: 0.2 }}
+          />
+          <motion.div
+            className="absolute -bottom-3 -left-3 h-16 w-16 sm:h-20 sm:w-20 border-b-2 border-l-2 border-purple-500"
+            animate={
+              isHovering
+                ? {
+                    x: [0, -5, 0],
+                    y: [0, 5, 0],
+                    borderColor: ["rgb(168, 85, 247)", "rgb(59, 130, 246)", "rgb(168, 85, 247)"],
+                  }
+                : {}
+            }
+            transition={{ duration: 0.8, repeat: isHovering ? Number.POSITIVE_INFINITY : 0 }}
+          />
+          <motion.div
+            className="absolute -right-3 -top-3 h-16 w-16 sm:h-20 sm:w-20 border-r-2 border-t-2 border-blue-500"
+            animate={
+              isHovering
+                ? {
+                    x: [0, 5, 0],
+                    y: [0, -5, 0],
+                    borderColor: ["rgb(59, 130, 246)", "rgb(168, 85, 247)", "rgb(59, 130, 246)"],
+                  }
+                : {}
+            }
+            transition={{ duration: 0.8, repeat: isHovering ? Number.POSITIVE_INFINITY : 0 }}
+          />
 
           {/* Main image */}
-          <div className="relative h-full w-auto overflow-hidden">
+          <div ref={imageRef} className="relative h-full w-auto overflow-hidden">
+            <motion.div
+              className="absolute inset-0 z-10 bg-gradient-to-r from-purple-500/10 to-blue-500/10 mix-blend-overlay"
+              initial={{ opacity: 0 }}
+              animate={isHovering ? { opacity: [0, 0.5, 0] } : { opacity: 0 }}
+              transition={{ duration: 0.5, repeat: isHovering ? Number.POSITIVE_INFINITY : 0 }}
+            />
+            <motion.div
+              className="absolute inset-0 z-10 bg-gradient-to-b from-blue-500/10 to-purple-500/10 mix-blend-overlay"
+              initial={{ opacity: 0 }}
+              animate={isHovering ? { opacity: [0, 0.5, 0] } : { opacity: 0 }}
+              transition={{ duration: 0.7, repeat: isHovering ? Number.POSITIVE_INFINITY : 0, delay: 0.2 }}
+            />
             <Image
               src="/profile.jpg"
               alt="Naman Dadhich"
@@ -77,6 +135,98 @@ export default function HeroSection() {
               height={800}
               className="h-full w-auto object-cover"
               priority
+            />
+
+            {/* Glitch effect on hover */}
+            <motion.div
+              className="absolute inset-0 bg-blue-500/20 mix-blend-screen"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={
+                isHovering
+                  ? {
+                      x: ["-100%", "100%"],
+                      opacity: [0, 0.8, 0],
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{
+                duration: 0.5,
+                repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
+                repeatDelay: 1,
+              }}
+            />
+            <motion.div
+              className="absolute inset-0 bg-purple-500/20 mix-blend-screen"
+              initial={{ x: "100%", opacity: 0 }}
+              animate={
+                isHovering
+                  ? {
+                      x: ["100%", "-100%"],
+                      opacity: [0, 0.8, 0],
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{
+                duration: 0.5,
+                repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
+                repeatDelay: 1,
+                delay: 0.25,
+              }}
+            />
+
+            {/* RGB split effect on hover */}
+            <motion.div
+              className="absolute inset-0 bg-red-500/30 mix-blend-screen"
+              initial={{ x: 0, y: 0, opacity: 0 }}
+              animate={
+                isHovering
+                  ? {
+                      x: [0, -8, 0],
+                      opacity: [0, 0.5, 0],
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{
+                duration: 0.2,
+                repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
+                repeatDelay: 1.5,
+              }}
+            />
+            <motion.div
+              className="absolute inset-0 bg-green-500/30 mix-blend-screen"
+              initial={{ x: 0, y: 0, opacity: 0 }}
+              animate={
+                isHovering
+                  ? {
+                      x: [0, 0, 0],
+                      opacity: [0, 0.5, 0],
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{
+                duration: 0.2,
+                repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
+                repeatDelay: 1.5,
+                delay: 0.05,
+              }}
+            />
+            <motion.div
+              className="absolute inset-0 bg-blue-500/30 mix-blend-screen"
+              initial={{ x: 0, y: 0, opacity: 0 }}
+              animate={
+                isHovering
+                  ? {
+                      x: [0, 8, 0],
+                      opacity: [0, 0.5, 0],
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{
+                duration: 0.2,
+                repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
+                repeatDelay: 1.5,
+                delay: 0.1,
+              }}
             />
 
             {/* Scan line effect */}
@@ -151,3 +301,4 @@ export default function HeroSection() {
     </section>
   )
 }
+
