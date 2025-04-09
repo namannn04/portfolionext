@@ -1,8 +1,15 @@
+import Background from "@/component/Background";
+import GitHubContribution from "@/component/GitHubContribution";
 import HeroSection from "@/component/HeroSection";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <HeroSection/>
+    <>
+      <Background /> {/* No need to wrap anything inside it now */}
+      <HeroSection />
+      <main className="container mx-auto mt-20 py-10 px-4">
+        <GitHubContribution />
+      </main>
+    </>
   );
 }
