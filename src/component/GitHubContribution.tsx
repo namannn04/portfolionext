@@ -25,12 +25,12 @@ export default function GitHubContribution() {
       <CardHeader className="border-b border-purple-500/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Github className="h-5 w-5 text-purple-400" />
-            <CardTitle className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+            <Github className="h-5 w-5 text-teal-400" />
+            <CardTitle className="bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
               GitHub Contributions
             </CardTitle>
           </div>
-          <div className="px-3 py-1 rounded-full bg-black border border-purple-500/30 text-sm text-purple-300">
+          <div className="px-3 py-1 rounded-full bg-black border border-purple-500/30 text-sm text-cyan-300">
             @{username}
           </div>
         </div>
@@ -47,8 +47,8 @@ export default function GitHubContribution() {
               key={year}
               className={`px-3 py-1 text-sm rounded-full border ${
                 selectedYear === year
-                  ? "bg-purple-500 text-white border-purple-500"
-                  : "text-purple-300 border-purple-400 hover:bg-purple-700/20"
+                  ? "bg-teal-500 text-white border-teal-500"
+                  : "text-cyan-300 border-cyan-400 hover:bg-cyan-700/20"
               } transition-all`}
               onClick={() => setSelectedYear(year)}
             >
@@ -58,7 +58,7 @@ export default function GitHubContribution() {
         </div>
 
         {/* Contribution Graph with Thin Scrollbar and Gap */}
-        <div className="p-4 rounded-lg bg-[#5c5c5c] border border-purple-500/10 overflow-x-auto custom-scrollbar mb-6">
+        <div className="p-4 rounded-lg bg-[#a3a3a3] border border-purple-500/10 overflow-x-auto custom-scrollbar mb-6">
           <GitHubCalendar
             username={username}
             year={selectedYear !== "last" ? parseInt(selectedYear) : undefined}

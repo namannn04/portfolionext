@@ -46,7 +46,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden pt-10 bg-black px-4 sm:px-6 md:px-8">
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden pt-10 px-4 sm:px-6 md:px-8">
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(55,0,255,0.15),transparent_70%)]" />
 
@@ -55,7 +55,7 @@ export default function HeroSection() {
         {[...Array(10)].map((_, i) => (
           <motion.div
             key={`h-${i}`}
-            className="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500 to-transparent"
+            className="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-teal-500 to-transparent"
             style={{ top: `${i * 10}%` }}
             animate={{ x: ["-100%", "100%"] }}
             transition={{
@@ -68,7 +68,7 @@ export default function HeroSection() {
         {[...Array(10)].map((_, i) => (
           <motion.div
             key={`v-${i}`}
-            className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-blue-500 to-transparent"
+            className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500 to-transparent"
             style={{ left: `${i * 10}%` }}
             animate={{ y: ["-100%", "100%"] }}
             transition={{
@@ -93,7 +93,7 @@ export default function HeroSection() {
         >
           {/* Outer glow that intensifies on hover */}
           <motion.div
-            className="absolute -inset-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 opacity-30 blur-xl"
+            className="absolute -inset-4 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 opacity-30 blur-xl"
             animate={
               isHovering
                 ? {
@@ -115,7 +115,7 @@ export default function HeroSection() {
 
           {/* Animated border elements */}
           <motion.div
-            className="absolute -inset-1 rounded-xl border-2 border-purple-500/50 overflow-hidden"
+            className="absolute -inset-1 rounded-xl border-2 border-teal-500/50 overflow-hidden"
             animate={
               isHovering
                 ? {
@@ -148,7 +148,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="absolute -inset-2 rounded-xl border border-blue-500/30"
+            className="absolute -inset-2 rounded-xl border border-cyan-500/30"
             animate={
               isHovering
                 ? {
@@ -169,7 +169,7 @@ export default function HeroSection() {
 
           {/* Corner elements with more dramatic animation */}
           <motion.div
-            className="absolute -bottom-3 -left-3 h-16 w-16 sm:h-20 sm:w-20 border-b-2 border-l-2 border-purple-500"
+            className="absolute -bottom-3 -left-3 h-16 w-16 sm:h-20 sm:w-20 border-b-2 border-l-2 border-teal-500"
             animate={
               isHovering
                 ? {
@@ -189,7 +189,7 @@ export default function HeroSection() {
             }}
           />
           <motion.div
-            className="absolute -right-3 -top-3 h-16 w-16 sm:h-20 sm:w-20 border-r-2 border-t-2 border-blue-500"
+            className="absolute -right-3 -top-3 h-16 w-16 sm:h-20 sm:w-20 border-r-2 border-t-2 border-cyan-500"
             animate={
               isHovering
                 ? {
@@ -217,7 +217,7 @@ export default function HeroSection() {
             {/* Holographic overlay that follows mouse */}
             {isHovering && (
               <motion.div
-                className="absolute inset-0 z-20 bg-gradient-to-r from-cyan-500/10 via-purple-500/20 to-pink-500/10"
+                className="absolute inset-0 z-20 bg-gradient-to-r from-cyan-500/10 via-teal-500/20 to-pink-500/10"
                 style={{
                   background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.1), transparent 70%)`,
                   mixBlendMode: "screen",
@@ -323,7 +323,7 @@ export default function HeroSection() {
                   }}
                 />
                 <motion.div
-                  className="absolute inset-0 bg-blue-500/40 mix-blend-screen"
+                  className="absolute inset-0 bg-cyan-500/40 mix-blend-screen"
                   initial={{ x: 0, opacity: 0 }}
                   animate={{
                     x: [0, 15, 0, 8, 0],
@@ -380,7 +380,7 @@ export default function HeroSection() {
 
             {/* Scan line effect - enhanced for hover */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-transparent"
+              className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent"
               animate={{
                 y: ["-100%", "200%"],
                 opacity: isHovering ? [0.1, 0.3, 0.1] : 0.1,
@@ -474,14 +474,14 @@ export default function HeroSection() {
         >
           <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider text-white">
             <span className="relative">
-              <span className="relative z-10 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="relative z-10 bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
                 Naman Dadhich
               </span>
               <motion.span
                 initial={{ width: 0 }}
                 animate={{ width: "100%" }}
                 transition={{ duration: 1, delay: 0.8 }}
-                className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-blue-500"
+                className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-teal-500 to-cyan-500"
               />
             </span>
           </h1>
@@ -490,7 +490,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-2 md:mt-5 text-center text-sm sm:text-lg md:text-xl font-medium uppercase tracking-[0.2em] text-blue-400"
+            className="mt-2 md:mt-5 text-center text-sm sm:text-lg md:text-xl font-medium uppercase tracking-[0.2em] text-cyan-400"
           >
             Web Developer
           </motion.h2>
@@ -501,7 +501,7 @@ export default function HeroSection() {
       {particles.map((p, index) => (
         <motion.div
           key={index}
-          className="absolute h-1 w-1 rounded-full bg-purple-500"
+          className="absolute h-1 w-1 rounded-full bg-teal-500"
           style={{
             top: `${p.top}%`,
             left: `${p.left}%`,
