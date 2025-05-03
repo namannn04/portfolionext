@@ -1,5 +1,5 @@
-import AboutSection from "@/component/AboutUs";
-import Background from "@/component/Background";
+import AboutUs from "@/component/AboutUs";
+// import Background from "@/components/Background";
 import GitHubContribution from "@/component/GitHubContribution";
 import HeroSection from "@/component/HeroSection";
 import Projects from "@/component/Projects";
@@ -12,12 +12,12 @@ export default function Home() {
       <div className="bg-black">
         {/* Box only visible on screens >= sm */}
         <div className="sm:block pt-20">
-          <div className="sm:max-w-[60%] mx-auto border border-teal-500 rounded-xl p-6">
+          <div className="sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl p-6">
             <HeroSection />
             <main className="mt-20 py-10 px-2">
               <GitHubContribution />
             </main>
-            <AboutSection />
+            <AboutUs />
             <SkillsSection />
             <Projects />
           </div>

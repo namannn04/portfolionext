@@ -1,76 +1,233 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useRef } from "react";
-import { Code, ExternalLink, Github, Linkedin, Mail, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useRef } from "react"
+import { Briefcase, Code, ExternalLink, User } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+// Reusable Experience Item Component
+interface TimelineItemProps {
+  title: string
+  company: string
+  period: string
+  description: string
+  skills: string[]
+  isFirst?: boolean
+}
+
+const TimelineItem = ({ title, company, period, description, skills, isFirst = false }: TimelineItemProps) => {
+  // Use teal styling for all items as requested (based on first experience item)
+  const gradientClass = "from-teal-500 via-teal-500/50 to-teal-500/20"
+  const accentColor = "teal"
+  const textColor = "cyan-400"
+  const bgColor = "cyan-500/10"
+  const borderColor = "cyan-500/20"
+
+  return (
+    <div className="relative pl-8 pb-8">
+      <div className={`absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b ${gradientClass}`}></div>
+      <div
+        className={`absolute w-5 h-5 rounded-full border-2 border-${accentColor}-500 bg-zinc-900 -left-[11px] top-0 z-10`}
+      ></div>
+      <div className={`absolute w-3 h-3 bg-${accentColor}-500 rounded-full -left-[7px] top-[4px] z-20`}></div>
+
+      <div className="bg-zinc-800/70 rounded-lg border border-zinc-700/50 p-5 shadow-lg hover:shadow-teal-500/5 transition-all duration-300 hover:border-cyan-500/30">
+        <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
+          <div>
+            <h4 className="text-white font-semibold text-lg">{title}</h4>
+            <p className={`text-${textColor}`}>{company}</p>
+          </div>
+          <div
+            className={`px-3 py-1 bg-${bgColor} border border-${borderColor} rounded-full text-${textColor} text-xs font-medium`}
+          >
+            {period}
+          </div>
+        </div>
+        <p className="text-zinc-300">{description}</p>
+        <div className="flex flex-wrap gap-2 mt-3">
+          {skills.map((skill, index) => (
+            <span key={index} className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function AboutSection() {
-  const [activeTab, setActiveTab] = useState("about");
-  const [contentHeight, setContentHeight] = useState(0);
-  const aboutContentRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState("about")
+  const [contentHeight, setContentHeight] = useState(0)
+  const aboutContentRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+  // Experience data
+  const experiences = [
+    {
+      title: "Senior Frontend Developer",
+      company: "TechCorp Inc.",
+      period: "2021 - Present",
+      description:
+        "Led the frontend development team in building a modern SaaS platform using Next.js and TypeScript. Implemented CI/CD pipelines and improved performance by 40%.",
+      skills: ["React", "Next.js", "TypeScript", "CI/CD"],
+    },
+    {
+      title: "Web Developer",
+      company: "Pears Global Hackathon",
+      period: "2025",
+      description:
+        "Developed and maintained multiple client projects using React, Node.js, and MongoDB. Collaborated with design teams to implement responsive UI components.",
+      skills: ["React", "Node.js", "MongoDB", "UI/UX"],
+    },
+    {
+      title: "Web Developer",
+      company: "Code Kshetra 2.0",
+      period: "2024 - 2025",
+      description:
+        "I had the privilege of participating in a prestigious national-level hackathon organized by Geek Room (MSIT). During the event, I worked on a website using React.js, which proved to be an incredible learning experience. Collaborating with a talented team and overcoming challenges together made this journey truly unforgettable.",
+      skills: ["HTML/CSS", "JavaScript", "WordPress", "PHP"],
+    },
+    {
+      title: "Web Developer",
+      company: "Code Cubicle 3.0",
+      period: "2024",
+      description:
+        "It was one of the major hackathons organized by Geek Room (MSIT), and I had the opportunity to work with their team. I worked on a website using Next.js, which provided a great learning experience. Collaborating with talented individuals and tackling challenges together made it a memorable event.",
+      skills: ["Figma", "HTML/CSS", "UI/UX", "Photoshop"],
+    },
+  ]
+
+  // Responsibilities data
+  const responsibilities = [
+    {
+      title: "Technical Lead",
+      company: "Student Developer Society",
+      period: "2023 - Present",
+      description:
+        "Leading a team of student developers in building campus projects. Organizing workshops and hackathons to foster technical skills among students.",
+      skills: ["Leadership", "Project Management", "Mentoring", "Event Planning"],
+    },
+    {
+      title: "Open Source Contributor",
+      company: "GitHub Community",
+      period: "2022 - Present",
+      description:
+        "Actively contributing to various open-source projects. Fixed bugs and implemented new features for popular JavaScript libraries.",
+      skills: ["Git", "Open Source", "Documentation", "Community Building"],
+    },
+    {
+      title: "Workshop Facilitator",
+      company: "Tech Workshops",
+      period: "2023 - Present",
+      description:
+        "Conducting regular workshops on web development technologies. Created comprehensive learning materials and hands-on exercises for participants.",
+      skills: ["Public Speaking", "Curriculum Development", "Teaching", "Technical Writing"],
+    },
+  ]
 
   // Set the content height based on the About section's natural height
   useEffect(() => {
     if (aboutContentRef.current) {
-      setContentHeight(aboutContentRef.current.scrollHeight);
+      setContentHeight(aboutContentRef.current.scrollHeight)
     }
-  }, []);
+  }, [])
+
+  // Handle mouse movement for the header animation
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (headerRef.current) {
+        const rect = headerRef.current.getBoundingClientRect()
+        setMousePosition({
+          x: (e.clientX - rect.left) / rect.width,
+          y: (e.clientY - rect.top) / rect.height,
+        })
+      }
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
 
   return (
     <section className="relative bg-black w-full py-16 px-4 md:px-8 lg:px-2">
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5">
-          <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-purple-500 blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-indigo-500 blur-3xl"></div>
+          <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-teal-500 blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-teal-500 blur-3xl"></div>
         </div>
       </div>
 
       <div className="container mx-auto max-w-6xl relative z-10">
-        {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-10"> */}
-        {/* Left column - Profile */}
+        {/* Enhanced Header */}
+        <div
+          ref={headerRef}
+          className="mb-16 relative overflow-hidden rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm p-8 md:p-12"
+          style={{
+            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
+              mousePosition.y * 100
+            }%, rgba(20,184,166,0.15), rgba(8,145,178,0.1), rgba(0,0,0,0))`,
+          }}
+        >
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500"></div>
+          <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500"></div>
+          <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-teal-500 via-cyan-500 to-teal-500"></div>
+          <div className="absolute top-0 right-0 h-full w-1 bg-gradient-to-b from-teal-500 via-cyan-500 to-teal-500"></div>
+
+          <h2 className="text-5xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 animate-pulse-slow">
+            About Me
+          </h2>
+          <p className="text-gray-400 max-w-2xl text-lg">
+            Passionate developer crafting digital experiences with code and creativity. Explore my journey, skills, and
+            the path that led me here.
+          </p>
+
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-teal-500/10 blur-xl"></div>
+          <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-cyan-500/10 blur-xl"></div>
+        </div>
 
         {/* Right column - Content */}
         <div className="lg:col-span-8">
           <div className="bg-black backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl h-full overflow-hidden">
-            {/* Premium Toggle */}
+            {/* Tab Navigation */}
             <div className="p-6 pb-0">
-              <div className="bg-zinc-900/80 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center gap-1 max-w-xs mx-auto border border-zinc-800">
+              <div className="bg-zinc-900/80 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center gap-1 max-w-md mx-auto border border-zinc-800">
                 <button
                   onClick={() => setActiveTab("about")}
                   className={`relative flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 w-full ${
-                    activeTab === "about"
-                      ? "text-white"
-                      : "text-zinc-400 hover:text-zinc-200"
+                    activeTab === "about" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
                   }`}
                 >
                   {activeTab === "about" && (
-                    <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-lg animate-in-toggle"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-lg shadow-lg animate-in-toggle"></span>
                   )}
-                  <User
-                    className={`h-4 w-4 z-10 ${
-                      activeTab === "about" ? "text-white" : ""
-                    }`}
-                  />
+                  <User className={`h-4 w-4 z-10 ${activeTab === "about" ? "text-white" : ""}`} />
                   <span className="z-10">About</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("experience")}
                   className={`relative flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 w-full ${
-                    activeTab === "experience"
-                      ? "text-white"
-                      : "text-zinc-400 hover:text-zinc-200"
+                    activeTab === "experience" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
                   }`}
                 >
                   {activeTab === "experience" && (
-                    <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-lg animate-in-toggle"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-lg shadow-lg animate-in-toggle"></span>
                   )}
-                  <Code
-                    className={`h-4 w-4 z-10 ${
-                      activeTab === "experience" ? "text-white" : ""
-                    }`}
-                  />
+                  <Code className={`h-4 w-4 z-10 ${activeTab === "experience" ? "text-white" : ""}`} />
                   <span className="z-10">Experience</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab("responsibilities")}
+                  className={`relative flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 w-full ${
+                    activeTab === "responsibilities" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  {activeTab === "responsibilities" && (
+                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-lg shadow-lg animate-in-toggle"></span>
+                  )}
+                  <Briefcase className={`h-4 w-4 z-10 ${activeTab === "responsibilities" ? "text-white" : ""}`} />
+                  <span className="z-10">Roles</span>
                 </button>
               </div>
             </div>
@@ -78,238 +235,85 @@ export default function AboutSection() {
             {/* Content */}
             <div className="p-6" style={{ minHeight: `${contentHeight}px` }}>
               {activeTab === "about" && (
-                <div
-                  ref={aboutContentRef}
-                  className="space-y-6 animate-in fade-in duration-300"
-                >
+                <div ref={aboutContentRef} className="space-y-6 animate-in fade-in duration-300">
                   <div className="space-y-4">
                     <p className="text-zinc-300 leading-relaxed">
-                      Hello! I'm Naman Dadhich, a passionate Full Stack
-                      Developer with over 1 years of experience in building web
-                      applications. I specialize in creating responsive,
-                      user-friendly interfaces with modern technologies like
-                      React, Next.js, and TypeScript.
+                      Hello! I'm Naman Dadhich, a passionate Full Stack Developer with over 1 years of experience in
+                      building web applications. I specialize in creating responsive, user-friendly interfaces with
+                      modern technologies like React, Next.js, and TypeScript.
                     </p>
                     <p className="text-zinc-300 leading-relaxed">
-                      My journey in web development began during my university
-                      years when I discovered my passion for creating digital
-                      experiences. Since then, I've worked with various startups
-                      and established companies to deliver high-quality software
-                      solutions that solve real-world problems.
+                      My journey in web development began during my university years when I discovered my passion for
+                      creating digital experiences. Since then, I've worked with various startups and established
+                      companies to deliver high-quality software solutions that solve real-world problems.
                     </p>
                     <p className="text-zinc-300 leading-relaxed">
-                      I believe in writing clean, maintainable code and staying
-                      up-to-date with the latest industry trends. When I'm not
-                      coding, you can find me exploring new technologies,
-                      contributing to open-source projects, or sharing my
-                      knowledge through blog posts and community events.
+                      I believe in writing clean, maintainable code and staying up-to-date with the latest industry
+                      trends. When I'm not coding, you can find me exploring new technologies, contributing to
+                      open-source projects, or sharing my knowledge through blog posts and community events.
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
                       <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
-                        <h4 className="text-white font-semibold mb-2">
-                          Education
-                        </h4>
+                        <h4 className="text-white font-semibold mb-2">Education</h4>
                         <p className="text-zinc-300">Bachelor of Technology</p>
-                        <p className="text-zinc-400 text-sm">
-                          Maharaja Surajmal Institute of Technology, 2027
-                        </p>
+                        <p className="text-zinc-400 text-sm">Maharaja Surajmal Institute of Technology, 2027</p>
                       </div>
                       <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
-                        <h4 className="text-white font-semibold mb-2">
-                          Location
-                        </h4>
+                        <h4 className="text-white font-semibold mb-2">Location</h4>
                         <p className="text-zinc-300">New Delhi, India</p>
-                        <p className="text-zinc-400 text-sm">
-                          Available for remote work
-                        </p>
+                        <p className="text-zinc-400 text-sm">Available for remote work</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-zinc-700/50">
-                    <Button className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white">
+                    <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
                       Download Resume
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
                 </div>
               )}
+
               {activeTab === "experience" && (
                 <div
                   className="animate-in fade-in duration-300 overflow-y-auto custom-scrollbar pr-2"
                   style={{ maxHeight: `${contentHeight}px` }}
                 >
                   <div className="space-y-8">
-                    {/* Experience Item 1 */}
-                    <div className="relative pl-8 pb-8">
-                      <div className="absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b from-purple-500 via-purple-500/50 to-purple-500/20"></div>
-                      <div className="absolute w-5 h-5 rounded-full border-2 border-purple-500 bg-zinc-900 -left-[11px] top-0 z-10"></div>
-                      <div className="absolute w-3 h-3 bg-purple-500 rounded-full -left-[7px] top-[4px] z-20"></div>
+                    {experiences.map((exp, index) => (
+                      <TimelineItem
+                        key={index}
+                        title={exp.title}
+                        company={exp.company}
+                        period={exp.period}
+                        description={exp.description}
+                        skills={exp.skills}
+                        isFirst={index === 0}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
 
-                      <div className="bg-zinc-800/70 rounded-lg border border-zinc-700/50 p-5 shadow-lg hover:shadow-purple-500/5 transition-all duration-300 hover:border-purple-500/30">
-                        <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
-                          <div>
-                            <h4 className="text-white font-semibold text-lg">
-                              Senior Frontend Developer
-                            </h4>
-                            <p className="text-purple-400">TechCorp Inc.</p>
-                          </div>
-                          <div className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-xs font-medium">
-                            2021 - Present
-                          </div>
-                        </div>
-                        <p className="text-zinc-300">
-                          Led the frontend development team in building a modern
-                          SaaS platform using Next.js and TypeScript.
-                          Implemented CI/CD pipelines and improved performance
-                          by 40%.
-                        </p>
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            React
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            Next.js
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            TypeScript
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            CI/CD
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Experience Item 2 */}
-                    <div className="relative pl-8 pb-8">
-                      <div className="absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b from-purple-500/50 via-purple-500/30 to-purple-500/10"></div>
-                      <div className="absolute w-5 h-5 rounded-full border-2 border-purple-500/70 bg-zinc-900 -left-[11px] top-0 z-10"></div>
-                      <div className="absolute w-3 h-3 bg-purple-500/70 rounded-full -left-[7px] top-[4px] z-20"></div>
-
-                      <div className="bg-zinc-800/70 rounded-lg border border-zinc-700/50 p-5 shadow-lg hover:shadow-purple-500/5 transition-all duration-300 hover:border-purple-500/30">
-                        <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
-                          <div>
-                            <h4 className="text-white font-semibold text-lg">
-                              Web Developer
-                            </h4>
-                            <p className="text-purple-400">
-                              Pears Global Hackathon
-                            </p>
-                          </div>
-                          <div className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-xs font-medium">
-                            2025
-                          </div>
-                        </div>
-                        <p className="text-zinc-300">
-                          Developed and maintained multiple client projects
-                          using React, Node.js, and MongoDB. Collaborated with
-                          design teams to implement responsive UI components.
-                        </p>
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            React
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            Node.js
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            MongoDB
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            UI/UX
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Experience Item 3 */}
-                    <div className="relative pl-8 pb-8">
-                      <div className="absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b from-purple-500/30 via-purple-500/20 to-purple-500/5"></div>
-                      <div className="absolute w-5 h-5 rounded-full border-2 border-purple-500/50 bg-zinc-900 -left-[11px] top-0 z-10"></div>
-                      <div className="absolute w-3 h-3 bg-purple-500/50 rounded-full -left-[7px] top-[4px] z-20"></div>
-
-                      <div className="bg-zinc-800/70 rounded-lg border border-zinc-700/50 p-5 shadow-lg hover:shadow-purple-500/5 transition-all duration-300 hover:border-purple-500/30">
-                        <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
-                          <div>
-                            <h4 className="text-white font-semibold text-lg">
-                              Web Developer
-                            </h4>
-                            <p className="text-purple-400">Code Kshetra 2.0</p>
-                          </div>
-                          <div className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-xs font-medium">
-                            2024 - 2025
-                          </div>
-                        </div>
-                        <p className="text-zinc-300">
-                          I had the privilege of participating in a prestigious
-                          national-level hackathon organized by Geek Room
-                          (MSIT). During the event, I worked on a website using
-                          React.js, which proved to be an incredible learning
-                          experience. Collaborating with a talented team and
-                          overcoming challenges together made this journey truly
-                          unforgettable.
-                        </p>
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            HTML/CSS
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            JavaScript
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            WordPress
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            PHP
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Experience Item 4 */}
-                    <div className="relative pl-8">
-                      <div className="absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b from-purple-500/10 to-transparent"></div>
-                      <div className="absolute w-5 h-5 rounded-full border-2 border-purple-500/30 bg-zinc-900 -left-[11px] top-0 z-10"></div>
-                      <div className="absolute w-3 h-3 bg-purple-500/30 rounded-full -left-[7px] top-[4px] z-20"></div>
-
-                      <div className="bg-zinc-800/70 rounded-lg border border-zinc-700/50 p-5 shadow-lg hover:shadow-purple-500/5 transition-all duration-300 hover:border-purple-500/30">
-                        <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
-                          <div>
-                            <h4 className="text-white font-semibold text-lg">
-                              Web Developer
-                            </h4>
-                            <p className="text-purple-400">Code Cubicle 3.0</p>
-                          </div>
-                          <div className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-xs font-medium">
-                            2024
-                          </div>
-                        </div>
-                        <p className="text-zinc-300">
-                          It was one of the major hackathons organized by Geek
-                          Room (MSIT), and I had the opportunity to work with
-                          their team. I worked on a website using Next.js, which
-                          provided a great learning experience. Collaborating
-                          with talented individuals and tackling challenges
-                          together made it a memorable event.
-                        </p>
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            Figma
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            HTML/CSS
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            UI/UX
-                          </span>
-                          <span className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
-                            Photoshop
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+              {activeTab === "responsibilities" && (
+                <div
+                  className="animate-in fade-in duration-300 overflow-y-auto custom-scrollbar pr-2"
+                  style={{ maxHeight: `${contentHeight}px` }}
+                >
+                  <div className="space-y-8">
+                    {responsibilities.map((role, index) => (
+                      <TimelineItem
+                        key={index}
+                        title={role.title}
+                        company={role.company}
+                        period={role.period}
+                        description={role.description}
+                        skills={role.skills}
+                        isFirst={index === 0}
+                      />
+                    ))}
                   </div>
                 </div>
               )}
@@ -318,5 +322,5 @@ export default function AboutSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
