@@ -164,7 +164,7 @@ export default function RolesPage() {
 
             <Link
               href="/"
-              className="inline-flex items-center text-zinc-400 hover:text-cyan-400 transition-colors mb-4"
+              className="inline-flex items-center text-zinc-400 hover:text-cyan-400 transition-colors z-20 mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to About

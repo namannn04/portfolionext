@@ -11,19 +11,21 @@ export default function Home() {
     <>
       {/* <Background /> */}
       <div className="bg-black">
-        {/* Box only visible on screens >= sm */}
-        <div className="sm:block pt-20">
+        <div className="sm:pt-20">
           <div className="sm:max-w-[50%] mx-auto">
             <Navbar />
           </div>
-          <div className="sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl p-6">
-            <HeroSection />
-            <main className="mt-20 py-10 px-2">
-              <GitHubContribution />
-            </main>
-            <AboutUs />
-            <SkillsSection />
-            <Projects />
+          {/* Box only visible on screens >= sm */}
+          <div className="sm:block">
+            <div className="sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl p-6">
+              <HeroSection />
+              <main className="sm:mt-20 py-10 px-2">
+                <GitHubContribution />
+              </main>
+              <AboutUs />
+              <SkillsSection />
+              <Projects />
+            </div>
           </div>
         </div>
       </div>

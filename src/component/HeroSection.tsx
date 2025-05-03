@@ -46,7 +46,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden pt-10 px-4 sm:px-6 md:px-8">
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden sm:pt-10 px-4 sm:px-6 md:px-8">
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(55,0,255,0.15),transparent_70%)]" />
 

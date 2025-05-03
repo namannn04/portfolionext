@@ -141,7 +141,7 @@ export default function ExperiencePage() {
     experiences.find((exp) => exp.id === activeExperience) || experiences[0];
 
   return (
-    <div className="sm:block pt-20 bg-black">
+    <div className="sm:block sm:pt-20 bg-black">
       <div className="sm:max-w-[50%] mx-auto">
         <Navbar />
       </div>

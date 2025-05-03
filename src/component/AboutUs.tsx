@@ -1,34 +1,45 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { Briefcase, Code, ExternalLink, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect, useRef } from "react";
+import { Briefcase, Code, ExternalLink, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Reusable Experience Item Component
 interface TimelineItemProps {
-  title: string
-  company: string
-  period: string
-  description: string
-  skills: string[]
-  isFirst?: boolean
+  title: string;
+  company: string;
+  period: string;
+  description: string;
+  skills: string[];
+  isFirst?: boolean;
 }
 
-const TimelineItem = ({ title, company, period, description, skills, isFirst = false }: TimelineItemProps) => {
+const TimelineItem = ({
+  title,
+  company,
+  period,
+  description,
+  skills,
+  isFirst = false,
+}: TimelineItemProps) => {
   // Use teal styling for all items as requested (based on first experience item)
-  const gradientClass = "from-teal-500 via-teal-500/50 to-teal-500/20"
-  const accentColor = "teal"
-  const textColor = "cyan-400"
-  const bgColor = "cyan-500/10"
-  const borderColor = "cyan-500/20"
+  const gradientClass = "from-teal-500 via-teal-500/50 to-teal-500/20";
+  const accentColor = "teal";
+  const textColor = "cyan-400";
+  const bgColor = "cyan-500/10";
+  const borderColor = "cyan-500/20";
 
   return (
     <div className="relative pl-8 pb-8">
-      <div className={`absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b ${gradientClass}`}></div>
+      <div
+        className={`absolute top-0 left-0 h-full w-[2px] bg-gradient-to-b ${gradientClass}`}
+      ></div>
       <div
         className={`absolute w-5 h-5 rounded-full border-2 border-${accentColor}-500 bg-zinc-900 -left-[11px] top-0 z-10`}
       ></div>
-      <div className={`absolute w-3 h-3 bg-${accentColor}-500 rounded-full -left-[7px] top-[4px] z-20`}></div>
+      <div
+        className={`absolute w-3 h-3 bg-${accentColor}-500 rounded-full -left-[7px] top-[4px] z-20`}
+      ></div>
 
       <div className="bg-zinc-800/70 rounded-lg border border-zinc-700/50 p-5 shadow-lg hover:shadow-teal-500/5 transition-all duration-300 hover:border-cyan-500/30">
         <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
@@ -45,22 +56,25 @@ const TimelineItem = ({ title, company, period, description, skills, isFirst = f
         <p className="text-zinc-300">{description}</p>
         <div className="flex flex-wrap gap-2 mt-3">
           {skills.map((skill, index) => (
-            <span key={index} className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs">
+            <span
+              key={index}
+              className="px-2 py-1 bg-zinc-700/50 rounded-md text-zinc-300 text-xs"
+            >
               {skill}
             </span>
           ))}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default function AboutSection() {
-  const [activeTab, setActiveTab] = useState("about")
-  const [contentHeight, setContentHeight] = useState(0)
-  const aboutContentRef = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [activeTab, setActiveTab] = useState("about");
+  const [contentHeight, setContentHeight] = useState(0);
+  const aboutContentRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Experience data
   const experiences = [
@@ -96,7 +110,7 @@ export default function AboutSection() {
         "It was one of the major hackathons organized by Geek Room (MSIT), and I had the opportunity to work with their team. I worked on a website using Next.js, which provided a great learning experience. Collaborating with talented individuals and tackling challenges together made it a memorable event.",
       skills: ["Figma", "HTML/CSS", "UI/UX", "Photoshop"],
     },
-  ]
+  ];
 
   // Responsibilities data
   const responsibilities = [
@@ -106,7 +120,12 @@ export default function AboutSection() {
       period: "2023 - Present",
       description:
         "Leading a team of student developers in building campus projects. Organizing workshops and hackathons to foster technical skills among students.",
-      skills: ["Leadership", "Project Management", "Mentoring", "Event Planning"],
+      skills: [
+        "Leadership",
+        "Project Management",
+        "Mentoring",
+        "Event Planning",
+      ],
     },
     {
       title: "Open Source Contributor",
@@ -122,35 +141,43 @@ export default function AboutSection() {
       period: "2023 - Present",
       description:
         "Conducting regular workshops on web development technologies. Created comprehensive learning materials and hands-on exercises for participants.",
-      skills: ["Public Speaking", "Curriculum Development", "Teaching", "Technical Writing"],
+      skills: [
+        "Public Speaking",
+        "Curriculum Development",
+        "Teaching",
+        "Technical Writing",
+      ],
     },
-  ]
+  ];
 
   // Set the content height based on the About section's natural height
   useEffect(() => {
     if (aboutContentRef.current) {
-      setContentHeight(aboutContentRef.current.scrollHeight)
+      setContentHeight(aboutContentRef.current.scrollHeight);
     }
-  }, [])
+  }, []);
 
   // Handle mouse movement for the header animation
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (headerRef.current) {
-        const rect = headerRef.current.getBoundingClientRect()
+        const rect = headerRef.current.getBoundingClientRect();
         setMousePosition({
           x: (e.clientX - rect.left) / rect.width,
           y: (e.clientY - rect.top) / rect.height,
-        })
+        });
       }
-    }
+    };
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <section id="about" className="relative bg-black w-full py-16 px-4 md:px-8 lg:px-2">
+    <section
+      id="about"
+      className="relative bg-black w-full py-16 px-4 md:px-8 lg:px-2"
+    >
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5">
@@ -179,8 +206,9 @@ export default function AboutSection() {
             About Me
           </h2>
           <p className="text-gray-400 max-w-2xl text-lg">
-            Passionate developer crafting digital experiences with code and creativity. Explore my journey, skills, and
-            the path that led me here.
+            Passionate developer crafting digital experiences with code and
+            creativity. Explore my journey, skills, and the path that led me
+            here.
           </p>
 
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-teal-500/10 blur-xl"></div>
@@ -190,137 +218,68 @@ export default function AboutSection() {
         {/* Right column - Content */}
         <div className="lg:col-span-8">
           <div className="bg-black backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl h-full overflow-hidden">
-            {/* Tab Navigation */}
-            <div className="p-6 pb-0">
-              <div className="bg-zinc-900/80 backdrop-blur-sm rounded-xl p-1.5 flex items-center justify-center gap-1 max-w-md mx-auto border border-zinc-800">
-                <button
-                  onClick={() => setActiveTab("about")}
-                  className={`relative flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 w-full ${
-                    activeTab === "about" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  {activeTab === "about" && (
-                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-lg shadow-lg animate-in-toggle"></span>
-                  )}
-                  <User className={`h-4 w-4 z-10 ${activeTab === "about" ? "text-white" : ""}`} />
-                  <span className="z-10">About</span>
-                </button>
-                <button
-                  onClick={() => setActiveTab("experience")}
-                  className={`relative flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 w-full ${
-                    activeTab === "experience" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  {activeTab === "experience" && (
-                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-lg shadow-lg animate-in-toggle"></span>
-                  )}
-                  <Code className={`h-4 w-4 z-10 ${activeTab === "experience" ? "text-white" : ""}`} />
-                  <span className="z-10">Experience</span>
-                </button>
-                <button
-                  onClick={() => setActiveTab("responsibilities")}
-                  className={`relative flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 w-full ${
-                    activeTab === "responsibilities" ? "text-white" : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  {activeTab === "responsibilities" && (
-                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-lg shadow-lg animate-in-toggle"></span>
-                  )}
-                  <Briefcase className={`h-4 w-4 z-10 ${activeTab === "responsibilities" ? "text-white" : ""}`} />
-                  <span className="z-10">Roles</span>
-                </button>
-              </div>
-            </div>
-
             {/* Content */}
             <div className="p-6" style={{ minHeight: `${contentHeight}px` }}>
-              {activeTab === "about" && (
-                <div ref={aboutContentRef} className="space-y-6 animate-in fade-in duration-300">
-                  <div className="space-y-4">
-                    <p className="text-zinc-300 leading-relaxed">
-                      Hello! I'm Naman Dadhich, a passionate Full Stack Developer with over 1 years of experience in
-                      building web applications. I specialize in creating responsive, user-friendly interfaces with
-                      modern technologies like React, Next.js, and TypeScript.
-                    </p>
-                    <p className="text-zinc-300 leading-relaxed">
-                      My journey in web development began during my university years when I discovered my passion for
-                      creating digital experiences. Since then, I've worked with various startups and established
-                      companies to deliver high-quality software solutions that solve real-world problems.
-                    </p>
-                    <p className="text-zinc-300 leading-relaxed">
-                      I believe in writing clean, maintainable code and staying up-to-date with the latest industry
-                      trends. When I'm not coding, you can find me exploring new technologies, contributing to
-                      open-source projects, or sharing my knowledge through blog posts and community events.
-                    </p>
+              <div
+                ref={aboutContentRef}
+                className="space-y-6 animate-in fade-in duration-300"
+              >
+                <div className="space-y-4">
+                  <p className="text-zinc-300 leading-relaxed">
+                    Hello! I'm Naman Dadhich, a passionate Full Stack Developer
+                    with over 1 years of experience in building web
+                    applications. I specialize in creating responsive,
+                    user-friendly interfaces with modern technologies like
+                    React, Next.js, and TypeScript.
+                  </p>
+                  <p className="text-zinc-300 leading-relaxed">
+                    My journey in web development began during my university
+                    years when I discovered my passion for creating digital
+                    experiences. Since then, I've worked with various startups
+                    and established companies to deliver high-quality software
+                    solutions that solve real-world problems.
+                  </p>
+                  <p className="text-zinc-300 leading-relaxed">
+                    I believe in writing clean, maintainable code and staying
+                    up-to-date with the latest industry trends. When I'm not
+                    coding, you can find me exploring new technologies,
+                    contributing to open-source projects, or sharing my
+                    knowledge through blog posts and community events.
+                  </p>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                      <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
-                        <h4 className="text-white font-semibold mb-2">Education</h4>
-                        <p className="text-zinc-300">Bachelor of Technology</p>
-                        <p className="text-zinc-400 text-sm">Maharaja Surajmal Institute of Technology, 2027</p>
-                      </div>
-                      <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
-                        <h4 className="text-white font-semibold mb-2">Location</h4>
-                        <p className="text-zinc-300">New Delhi, India</p>
-                        <p className="text-zinc-400 text-sm">Available for remote work</p>
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                    <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
+                      <h4 className="text-white font-semibold mb-2">
+                        Education
+                      </h4>
+                      <p className="text-zinc-300">Bachelor of Technology</p>
+                      <p className="text-zinc-400 text-sm">
+                        Maharaja Surajmal Institute of Technology, 2027
+                      </p>
+                    </div>
+                    <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
+                      <h4 className="text-white font-semibold mb-2">
+                        Location
+                      </h4>
+                      <p className="text-zinc-300">New Delhi, India</p>
+                      <p className="text-zinc-400 text-sm">
+                        Available for remote work
+                      </p>
                     </div>
                   </div>
-
-                  <div className="mt-8 pt-6 border-t border-zinc-700/50">
-                    <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
-                      Download Resume
-                      <ExternalLink className="ml-2 h-4 w-4" />
-                    </Button>
-                  </div>
                 </div>
-              )}
 
-              {activeTab === "experience" && (
-                <div
-                  className="animate-in fade-in duration-300 overflow-y-auto custom-scrollbar pr-2"
-                  style={{ maxHeight: `${contentHeight}px` }}
-                >
-                  <div className="space-y-8">
-                    {experiences.map((exp, index) => (
-                      <TimelineItem
-                        key={index}
-                        title={exp.title}
-                        company={exp.company}
-                        period={exp.period}
-                        description={exp.description}
-                        skills={exp.skills}
-                        isFirst={index === 0}
-                      />
-                    ))}
-                  </div>
+                <div className="mt-8 pt-6 border-t border-zinc-700/50">
+                  <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
+                    Download Resume
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </Button>
                 </div>
-              )}
-
-              {activeTab === "responsibilities" && (
-                <div
-                  className="animate-in fade-in duration-300 overflow-y-auto custom-scrollbar pr-2"
-                  style={{ maxHeight: `${contentHeight}px` }}
-                >
-                  <div className="space-y-8">
-                    {responsibilities.map((role, index) => (
-                      <TimelineItem
-                        key={index}
-                        title={role.title}
-                        company={role.company}
-                        period={role.period}
-                        description={role.description}
-                        skills={role.skills}
-                        isFirst={index === 0}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
