@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import Navbar from "@/component/Navbar";
 
 interface Experience {
   id: number;
@@ -141,6 +142,9 @@ export default function ExperiencePage() {
 
   return (
     <div className="sm:block pt-20 bg-black">
+      <div className="sm:max-w-[50%] mx-auto">
+        <Navbar />
+      </div>
       <div className="relative overflow-hidden min-h-screen sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl p-6">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">

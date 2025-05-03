@@ -31,7 +31,7 @@ export default function SkillsSection() {
   }
 
   return (
-    <section className="py-16 px-4 md:px-8 text-white relative overflow-hidden">
+    <section id="skills" className="py-16 px-4 md:px-8 text-white relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-teal-400 blur-3xl"></div>

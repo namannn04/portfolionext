@@ -150,7 +150,7 @@ export default function AboutSection() {
   }, [])
 
   return (
-    <section className="relative bg-black w-full py-16 px-4 md:px-8 lg:px-2">
+    <section id="about" className="relative bg-black w-full py-16 px-4 md:px-8 lg:px-2">
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5">

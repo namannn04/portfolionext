@@ -1,28 +1,29 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
-import { Briefcase, ArrowLeft, ChevronDown, ChevronUp } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import Image from "next/image"
+import { useState, useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { Briefcase, ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
+import Navbar from "@/component/Navbar";
 
 interface Role {
-  id: number
-  title: string
-  organization: string
-  period: string
-  description: string
-  responsibilities: string[]
-  skills: string[]
-  image?: string
+  id: number;
+  title: string;
+  organization: string;
+  period: string;
+  description: string;
+  responsibilities: string[];
+  skills: string[];
+  image?: string;
 }
 
 export default function RolesPage() {
-  const [expandedRole, setExpandedRole] = useState<number | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const containerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: false, amount: 0.2 })
+  const [expandedRole, setExpandedRole] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: false, amount: 0.2 });
 
   const roles: Role[] = [
     {
@@ -39,7 +40,13 @@ export default function RolesPage() {
         "Mentor junior developers and provide guidance on best practices",
         "Coordinate with faculty advisors on project requirements and deadlines",
       ],
-      skills: ["Leadership", "Project Management", "Mentoring", "Event Planning", "Technical Communication"],
+      skills: [
+        "Leadership",
+        "Project Management",
+        "Mentoring",
+        "Event Planning",
+        "Technical Communication",
+      ],
       image: "/placeholder.svg?height=300&width=400",
     },
     {
@@ -56,7 +63,13 @@ export default function RolesPage() {
         "Participate in community discussions and help resolve issues",
         "Organize virtual meetups for open-source contributors",
       ],
-      skills: ["Git", "Open Source", "Documentation", "Community Building", "Code Reviews"],
+      skills: [
+        "Git",
+        "Open Source",
+        "Documentation",
+        "Community Building",
+        "Code Reviews",
+      ],
       image: "/placeholder.svg?height=300&width=400",
     },
     {
@@ -73,10 +86,16 @@ export default function RolesPage() {
         "Collect and incorporate feedback to improve future workshops",
         "Collaborate with other facilitators to create a cohesive curriculum",
       ],
-      skills: ["Public Speaking", "Curriculum Development", "Teaching", "Technical Writing", "Workshop Design"],
+      skills: [
+        "Public Speaking",
+        "Curriculum Development",
+        "Teaching",
+        "Technical Writing",
+        "Workshop Design",
+      ],
       image: "/placeholder.svg?height=300&width=400",
     },
-  ]
+  ];
 
   // Handle mouse movement for background effect
   useEffect(() => {
@@ -84,19 +103,22 @@ export default function RolesPage() {
       setMousePosition({
         x: e.clientX / window.innerWidth,
         y: e.clientY / window.innerHeight,
-      })
-    }
+      });
+    };
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const toggleRole = (id: number) => {
-    setExpandedRole(expandedRole === id ? null : id)
-  }
+    setExpandedRole(expandedRole === id ? null : id);
+  };
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
+      <div className="sm:max-w-[50%] mx-auto">
+        <Navbar />
+      </div>
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900/30 to-black"></div>
@@ -137,7 +159,10 @@ export default function RolesPage() {
           <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-teal-500 to-cyan-500"></div>
           <div className="absolute top-0 right-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-teal-500 to-cyan-500"></div>
 
-          <Link href="/" className="inline-flex items-center text-zinc-400 hover:text-cyan-400 transition-colors mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center text-zinc-400 hover:text-cyan-400 transition-colors mb-4"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to About
           </Link>
@@ -147,8 +172,8 @@ export default function RolesPage() {
           </h1>
 
           <p className="text-zinc-400 mt-4 max-w-2xl">
-            Current positions and responsibilities that showcase my leadership and technical expertise in various
-            communities and organizations.
+            Current positions and responsibilities that showcase my leadership
+            and technical expertise in various communities and organizations.
           </p>
 
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-cyan-500/10 blur-xl"></div>
@@ -162,7 +187,9 @@ export default function RolesPage() {
               <motion.div
                 key={role.id}
                 initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+                }
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="group relative perspective"
               >
@@ -193,7 +220,9 @@ export default function RolesPage() {
                       <h3 className="text-3xl font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors">
                         {role.title}
                       </h3>
-                      <p className="text-cyan-400 text-lg">{role.organization}</p>
+                      <p className="text-cyan-400 text-lg">
+                        {role.organization}
+                      </p>
                     </div>
 
                     {/* Decorative elements */}
@@ -202,14 +231,18 @@ export default function RolesPage() {
 
                   {/* Description section */}
                   <div className="p-6">
-                    <p className="text-zinc-300 leading-relaxed">{role.description}</p>
+                    <p className="text-zinc-300 leading-relaxed">
+                      {role.description}
+                    </p>
 
                     {/* Toggle button */}
                     <button
                       onClick={() => toggleRole(role.id)}
                       className="flex items-center justify-between w-full mt-6 py-3 px-4 bg-zinc-800/50 hover:bg-zinc-800 rounded-lg border border-zinc-700/50 hover:border-cyan-500/30 transition-colors"
                     >
-                      <span className="font-medium text-white">View Responsibilities</span>
+                      <span className="font-medium text-white">
+                        View Responsibilities
+                      </span>
                       {expandedRole === role.id ? (
                         <ChevronUp className="h-5 w-5 text-cyan-400" />
                       ) : (
@@ -226,7 +259,9 @@ export default function RolesPage() {
                         transition={{ duration: 0.3 }}
                         className="mt-6 pt-6 border-t border-zinc-800"
                       >
-                        <h4 className="text-lg font-semibold text-white mb-4">Key Responsibilities:</h4>
+                        <h4 className="text-lg font-semibold text-white mb-4">
+                          Key Responsibilities:
+                        </h4>
                         <ul className="space-y-3 mb-6">
                           {role.responsibilities.map((item, i) => (
                             <li key={i} className="flex items-start">
@@ -236,7 +271,9 @@ export default function RolesPage() {
                           ))}
                         </ul>
 
-                        <h4 className="text-lg font-semibold text-white mb-4">Skills:</h4>
+                        <h4 className="text-lg font-semibold text-white mb-4">
+                          Skills:
+                        </h4>
                         <div className="flex flex-wrap gap-2">
                           {role.skills.map((skill, i) => (
                             <span
@@ -263,7 +300,10 @@ export default function RolesPage() {
         {/* Bottom navigation */}
         <div className="mt-24 flex justify-center">
           <Link href="/experience">
-            <Button variant="outline" className="border-zinc-700 hover:border-teal-500 hover:bg-zinc-800/50 group">
+            <Button
+              variant="outline"
+              className="border-zinc-700 hover:border-teal-500 hover:bg-zinc-800/50 group"
+            >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-400">
                 View My Experience
               </span>
@@ -273,5 +313,5 @@ export default function RolesPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

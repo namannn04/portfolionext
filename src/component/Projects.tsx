@@ -118,7 +118,7 @@ export default function Projects() {
   }
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen w-full bg-black py-20 overflow-hidden">
+    <section ref={sectionRef} id="projects" className="relative min-h-screen w-full bg-black py-20 overflow-hidden">
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-black">
         <div
