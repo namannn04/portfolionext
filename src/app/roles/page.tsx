@@ -115,7 +115,7 @@ export default function RolesPage() {
   };
 
   return (
-    <div className="bg-black sm:block">
+    <div className="pt-20 bg-black sm:block">
       <div className="sm:max-w-[50%] mx-auto">
         <Navbar />
       </div>
