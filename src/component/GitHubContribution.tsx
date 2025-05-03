@@ -100,7 +100,7 @@ export default function GitHubContribution() {
             }
 
             .custom-scrollbar {
-              scrollbar-color: #9333ea #000;
+              scrollbar-color: #00ffff #000;
               scrollbar-width: thin;
             }
           `}</style>

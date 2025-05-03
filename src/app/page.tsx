@@ -2,6 +2,7 @@ import AboutSection from "@/component/AboutUs";
 import Background from "@/component/Background";
 import GitHubContribution from "@/component/GitHubContribution";
 import HeroSection from "@/component/HeroSection";
+import Projects from "@/component/Projects";
 import SkillsSection from "@/component/SkillsSection";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
             </main>
             <AboutSection />
             <SkillsSection />
+            <Projects />
           </div>
         </div>
       </div>
