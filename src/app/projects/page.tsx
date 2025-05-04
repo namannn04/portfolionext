@@ -6,7 +6,6 @@ import Navbar from "@/component/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { useState } from "react";
 
 interface Project {
   id: number;
