@@ -117,7 +117,7 @@ export default function Navbar() {
   if (!mounted) return null;
 
   return (
-    <nav className="mb-5 z-50 bg-black text-white">
+    <nav className="mb-5 z-50 bg-black text-white relative">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Hamburger menu for mobile */}
@@ -128,7 +128,7 @@ export default function Navbar() {
               aria-label="Toggle menu"
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <></>
               ) : (
                 <Menu className="h-6 w-6" />
               )}
@@ -173,36 +173,66 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu dropdown with auto-width capsules */}
-      <div
-        className={cn(
-          "md:hidden overflow-hidden transition-all duration-500 ease-in-out",
-          isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-        )}
-      >
-        <div className="px-4 py-2 space-y-3 bg-black">
-          {navOptions.map((option, index) => (
-            <div
-              key={option.name}
-              className="transform transition-transform duration-500"
-              style={{
-                transitionDelay: `${index * 100}ms`,
-                transform: isOpen ? "translateX(0)" : "translateX(-100%)",
-              }}
+      {/* Mobile menu overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-40 bg-opacity-90 md:hidden">
+          {/* Close button */}
+          <div className="absolute top-4 left-4">
+            <button
+              onClick={toggleMenu}
+              className="text-teal-400 hover:text-teal-300 focus:outline-none"
+              aria-label="Close menu"
             >
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  handleNavClick(index, option.href);
-                }}
-                className="inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
-              >
-                {option.name} ({option.shortcut})
-              </button>
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Menu items with staggered animation */}
+          <div className="pt-20 px-4">
+            <div className="w-full space-y-3">
+              {navOptions.map((option, index) => (
+                <div
+                  key={option.name}
+                  className="menu-item"
+                  style={{
+                    animation: `slideIn 300ms forwards ${index * 100}ms`,
+                    opacity: 0,
+                    transform: "translateX(-100%)",
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      handleNavClick(index, option.href);
+                    }}
+                    className="inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
+                  >
+                    {option.name} ({option.shortcut})
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* CSS Animation KeyFrames */}
+      <style jsx>{`
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(-100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .menu-item {
+          animation-fill-mode: forwards;
+        }
+      `}</style>
     </nav>
   );
 }
