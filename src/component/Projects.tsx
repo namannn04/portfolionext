@@ -280,7 +280,7 @@ export default function Projects() {
       {/* View all projects button */}
       <div className="container mx-auto px-4 mt-16 text-center relative z-10">
         <Link
-          href="#"
+          href="/projects"
           className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-gradient-to-r from-teal-500/20 to-cyan-500/20 hover:from-teal-500/30 hover:to-cyan-500/30 border border-teal-500/30 hover:border-cyan-400/50 text-white font-medium transition-all duration-300 group"
         >
           View All Projects

@@ -115,11 +115,11 @@ export default function RolesPage() {
   };
 
   return (
-    <div className="pt-20 bg-black sm:block">
+    <div className="sm:block sm:py-20 bg-black">
       <div className="sm:max-w-[50%] mx-auto">
         <Navbar />
       </div>
-      <div className="relative min-h-screen overflow-hidden sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl p-6">
+      <div className="relative min-h-screen overflow-hidden sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900/30 to-black"></div>
@@ -153,8 +153,7 @@ export default function RolesPage() {
           {/* Grid pattern */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiMxMTExMTEiIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNNjAgMEgwdjYwaDYwVjB6TTMwIDMwaDMwVjBoLTMwdjMwek0wIDMwaDMwVjBoLTMwdjMwek0wIDYwaDMwVjMwaC0zMHYzMHpNMzAgNjBoMzBWMzBoLTMwdjMweiIgZmlsbD0iIzIyMjIyMiIgZmlsbC1vcGFjaXR5PSIwLjA1Ii8+PC9nPjwvc3ZnPg==')]"></div>
         </div>
-
-        <div className="container mx-auto px-4 py-20 relative z-10">
+        <div className="container bg-black mx-auto px-4 py-20 relative z-10">
           {/* Header with animated gradient */}
           <div className="mb-16 relative overflow-hidden rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm p-8 md:p-12">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500"></div>
