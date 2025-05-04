@@ -167,7 +167,7 @@ export default function RolesPage() {
               className="inline-flex items-center text-zinc-400 hover:text-cyan-400 transition-colors z-20 mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to About
+              Back to Home
             </Link>
 
             <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-400 leading-tight animate-pulse-slow">
