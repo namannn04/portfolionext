@@ -11,7 +11,7 @@ export default function Home() {
     <>
       {/* <Background /> */}
       <div className="bg-black">
-        <div className="sm:pt-20">
+        <div className="sm:py-20">
           <div className="sm:max-w-[50%] mx-auto">
             <Navbar />
           </div>

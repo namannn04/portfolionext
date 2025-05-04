@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Briefcase, Code, ExternalLink, User } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 // Reusable Experience Item Component
@@ -270,10 +271,12 @@ export default function AboutSection() {
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-zinc-700/50">
-                  <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
-                    Download Resume
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </Button>
+                  <Link href="/resume">
+                    <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
+                      Download Resume
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

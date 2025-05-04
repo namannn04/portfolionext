@@ -58,7 +58,7 @@ export default function GitHubContribution() {
         </div>
 
         {/* Contribution Graph with Thin Scrollbar and Gap */}
-        <div className="p-4 rounded-lg bg-[#a3a3a3] border border-purple-500/10 overflow-x-auto custom-scrollbar mb-6">
+        <div className="p-4 rounded-lg bg-[#000] border border-cyan-500 overflow-x-auto custom-scrollbar mb-6 text-white">
           <GitHubCalendar
             username={username}
             year={selectedYear !== "last" ? parseInt(selectedYear) : undefined}
@@ -78,7 +78,7 @@ export default function GitHubContribution() {
             }
 
             .react-activity-calendar text[dy=".35em"] {
-            fill: white !important;
+              fill: white !important;
             }
 
             /* 🌟 Premium custom scrollbar */
