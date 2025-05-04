@@ -45,9 +45,8 @@ export default function ExperiencePage() {
   const [parallaxYValue, setParallaxYValue] = useState<number>(0);
   const [lineYValues, setLineYValues] = useState<number[]>([0, 0, 0]);
   const [lineXValues, setLineXValues] = useState<number[]>([0, 0]);
-  const [particleYValues, setParticleYValues] = useState<number[]>(
-    Array(15).fill(0)
-  );
+  const particleYValues = Array(15).fill(0);
+
 
   useEffect(() => {
     scrollYProgress.onChange((value) => {
