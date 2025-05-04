@@ -35,6 +35,19 @@ interface GroupProject {
 export default function Page() {
   const groupProjects: GroupProject[] = [
     {
+      id: 7,
+      title: "careerCompass",
+      description:
+        "As the Head of the Development Department and Project Lead, I spearheaded the website creation for the Google Developers Group on Campus - MSIT (GDGoC - MSIT). This involved building a dynamic online presence for the group.",
+      tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"],
+      video: "/groupProjects/careercompass.mkv",
+      demoUrl: "https://careercompass-xi.vercel.app/",
+      githubUrl: "",
+      showViewProject: true,
+      contribution:
+        "I personally developed the engaging hero section and the informative events section of the website. Additionally, I meticulously refined various smaller details across the site to ensure a seamless and polished user experience.",
+    },
+    {
       id: 6,
       title: "GDGoc Website",
       description:
