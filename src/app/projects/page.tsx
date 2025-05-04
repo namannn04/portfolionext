@@ -35,17 +35,30 @@ interface GroupProject {
 export default function Page() {
   const groupProjects: GroupProject[] = [
     {
+      id: 8,
+      title: "SPARK (Under development)",
+      description:
+        "SPARK is a platform for exploring and joining communities, events, internships, and open-source projects. It also includes a social posting feature to stay updated on tech and events, all in one place with unique enhancements.",
+      tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"],
+      video: "/groupProjects/SPARK.mkv",
+      demoUrl: "https://careercompass-xi.vercel.app/",
+      githubUrl: "",
+      showViewProject: false,
+      contribution:
+        "I worked on the frontend development, user authentication implementation, and the backend logic and its integration. I also contributed to the design and implementation of the user interface.",
+    },
+    {
       id: 7,
       title: "careerCompass",
       description:
-        "As the Head of the Development Department and Project Lead, I spearheaded the website creation for the Google Developers Group on Campus - MSIT (GDGoC - MSIT). This involved building a dynamic online presence for the group.",
+        "CareerCompass is a project providing detailed career guidance using both manual resources and AI. Users can explore 500+ careers, learning about paths, skills, qualifications, counseling, and strategies.",
       tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"],
       video: "/groupProjects/careercompass.mkv",
       demoUrl: "https://careercompass-xi.vercel.app/",
       githubUrl: "",
       showViewProject: true,
       contribution:
-        "I personally developed the engaging hero section and the informative events section of the website. Additionally, I meticulously refined various smaller details across the site to ensure a seamless and polished user experience.",
+        "I contributed to the full stack: frontend UI/design, backend logic, and authentication. I also developed the admin panel for managing counselors and applications.",
     },
     {
       id: 6,
@@ -347,7 +360,7 @@ export default function Page() {
   }) => (
     <div
       key={project.id}
-      className="group h-[35rem] bg-zinc-900/40 backdrop-blur-sm rounded-xl overflow-hidden border border-zinc-800 hover:border-teal-500/50 transition-all duration-500 flex flex-col relative hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:-translate-y-1"
+      className="group h-[36rem] bg-zinc-900/40 backdrop-blur-sm rounded-xl overflow-hidden border border-zinc-800 hover:border-teal-500/50 transition-all duration-500 flex flex-col relative hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:-translate-y-1"
     >
       {/* Project number */}
       <div className="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-md border border-teal-500/20 text-teal-400 font-mono text-xs">
