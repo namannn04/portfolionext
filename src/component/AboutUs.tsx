@@ -5,14 +5,13 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-
 export default function AboutSection() {
   const [contentHeight, setContentHeight] = useState(0);
   const aboutContentRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Set the content height based on the About section's natural height
+  // Set the content height based on the About sections natural height
   useEffect(() => {
     if (aboutContentRef.current) {
       setContentHeight(aboutContentRef.current.scrollHeight);
@@ -88,25 +87,37 @@ export default function AboutSection() {
               >
                 <div className="space-y-4">
                   <p className="text-zinc-300 leading-relaxed">
-                    Hello! Myself Naman Dadhich, a passionate Full Stack Developer
-                    with over 1 years of experience in building web
-                    applications. I specialize in creating responsive,
-                    user-friendly interfaces with modern technologies like
-                    React, Next.js, and TypeScript.
+                    Hello! myself Naman Dadhich, a Full Stack Developer with a
+                    passion for coding and currently in my second year, fourth
+                    semester. I have more than a year of hands-on experience and
+                    specialize in developing solid web applications. My
+                    technology stack is mostly the MERN framework, and I often
+                    use the strength of Next.js and TypeScript to develop
+                    scalable and efficient solutions. I am committed to building
+                    stylish, clean, and responsive user interfaces that offer
+                    great user experiences.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
-                    My journey in web development began during my university
-                    years when I discovered my passion for creating digital
-                    experiences. Since then, I have worked with various startups
-                    and established companies to deliver high-quality software
-                    solutions that solve real-world problems.
+                    My path into the field of web development was ignited in my
+                    second semester. Although my first projects during the third
+                    semester were learning bases in nature (as you can observe
+                    in my projects section), a real chance materialized when I
+                    spearheaded the development of a website for a hackathon as
+                    a project organizer. This one changed how I approached the
+                    work, focusing on collaborative work and enabling me to
+                    contribute more profoundly. Being the Head of the
+                    Development Department in the Google Developer Group (GDG),
+                    previously GDSC, on my campus, I have led website
+                    development initiatives for several projects. While my own
+                    project list may be limited, I have extensive experience
+                    with team projects where I have had a leading role.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
-                    I believe in writing clean, maintainable code and staying
-                    up-to-date with the latest industry trends. When I am not
-                    coding, you can find me exploring new technologies,
-                    contributing to open-source projects, or sharing my
-                    knowledge through blog posts and community events.
+                    Outside of the world of code, I appreciate the quiet joys of
+                    music listening and refueling with some rest. I am always
+                    keen to learn and develop as a coder, welcoming new
+                    challenges and working to create meaningful digital
+                    solutions.
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
