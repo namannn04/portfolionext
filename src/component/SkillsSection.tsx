@@ -1,37 +1,83 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Code2, Database, Layers, Wrench } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
+import { useState } from "react";
+import { Code2, Database, Layers, Wrench, Crown } from "lucide-react";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
-// Move skills to the top so it's accessible for type inference
+// Move skills to the top so it is accessible for type inference
 const skills = {
-  languages: ["JavaScript", "TypeScript", "Python", "Java", "C++", "HTML", "CSS", "SQL"],
-  frameworks: ["React", "Next.js", "Vue.js", "Angular", "Express", "Django", "Flask", "TailwindCSS", "Bootstrap"],
-  databases: ["MongoDB", "PostgreSQL", "MySQL", "Firebase", "Redis", "Supabase", "DynamoDB"],
-  tools: ["Git", "Docker", "AWS", "Vercel", "Netlify", "Figma", "VS Code", "Postman", "GitHub Actions"],
-}
+  languages: [
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Java",
+    "C",
+    "C++",
+    "HTML",
+    "CSS",
+    "SQL",
+    "DOM",
+  ],
+  frameworks: [
+    "React",
+    "Next.js",
+    "Node.js",
+    "Express.js",
+    "TailwindCSS",
+    "Redux",
+    "Rest API",
+    "Framer Motion",
+    "Mongoose ODM",
+    "Bootstrap",
+  ],
+  databases: ["MongoDB", "MySQL", "Firebase"],
+  tools: [
+    "Git",
+    "AWS",
+    "Vercel",
+    "Netlify",
+    "Render",
+    "Figma",
+    "VS Code",
+    "Postman",
+    "GitHub Actions",
+  ],
+  softSkills: [
+    "Problem Solving",
+    "Teamwork",
+    "Leadership",
+    "Adaptability",
+    "Time Management",
+  ],
+};
 
 export default function SkillsSection() {
-  const [activeCategory, setActiveCategory] = useState<keyof typeof skills>("languages")
+  const [activeCategory, setActiveCategory] =
+    useState<keyof typeof skills>("languages");
 
   const categoryIcons = {
     languages: <Code2 className="h-6 w-6" />,
     frameworks: <Layers className="h-6 w-6" />,
     databases: <Database className="h-6 w-6" />,
     tools: <Wrench className="h-6 w-6" />,
-  }
+    softSkills: <Crown className="h-6 w-6" />,
+  };
 
   const categoryLabels = {
     languages: "Languages",
     frameworks: "Libraries & Frameworks",
     databases: "Databases",
     tools: "Tools & Platforms",
-  }
+    softSkills: "Soft Skills",
+  };
 
   return (
-    <section id="skills" className="py-16 px-4 md:px-8 text-white relative overflow-hidden">
+    <section
+      id="skills"
+      className="py-16 px-4 md:px-8 text-white relative overflow-hidden"
+    >
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-teal-400 blur-3xl"></div>
@@ -52,7 +98,7 @@ export default function SkillsSection() {
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
           {Object.keys(skills).map((category) => (
             <button
               key={category}
@@ -63,10 +109,16 @@ export default function SkillsSection() {
                   : "bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700"
               }`}
             >
-              <div className={`${activeCategory === category ? "text-white" : "text-teal-400"}`}>
+              <div
+                className={`${
+                  activeCategory === category ? "text-white" : "text-teal-400"
+                }`}
+              >
                 {categoryIcons[category as keyof typeof skills]}
               </div>
-              <span className="font-medium">{categoryLabels[category as keyof typeof skills]}</span>
+              <span className="font-medium">
+                {categoryLabels[category as keyof typeof skills]}
+              </span>
             </button>
           ))}
         </div>
@@ -99,8 +151,9 @@ export default function SkillsSection() {
               <h3 className="text-xl font-bold">Skill Progression</h3>
             </div>
             <p className="text-slate-300">
-              Continuously expanding my technical arsenal with cutting-edge technologies and best practices to deliver
-              exceptional digital experiences.
+              Continuously expanding my technical arsenal with cutting-edge
+              technologies and best practices to deliver exceptional digital
+              experiences.
             </p>
           </div>
 
@@ -112,8 +165,8 @@ export default function SkillsSection() {
               <h3 className="text-xl font-bold">Learning Approach</h3>
             </div>
             <p className="text-slate-300">
-              Embracing challenges through hands-on projects and collaborative development, turning complex problems
-              into elegant solutions.
+              Embracing challenges through hands-on projects and collaborative
+              development, turning complex problems into elegant solutions.
             </p>
           </div>
         </div>
@@ -121,18 +174,22 @@ export default function SkillsSection() {
         <div className="mt-16 flex justify-center">
           <div className="inline-block relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-300"></div>
-            <button className="relative px-7 py-3 bg-slate-900 rounded-lg leading-none flex items-center divide-x divide-gray-600">
-              <span className="flex items-center space-x-2 pr-6">
-                <Wrench className="h-5 w-5 text-teal-400" />
-                <span className="text-gray-100 font-medium">View Full Resume</span>
-              </span>
-              <span className="pl-6 text-cyan-400 group-hover:text-gray-100 transition duration-300">
-                See more &rarr;
-              </span>
-            </button>
+            <Link href="/resume">
+              <button className="relative px-7 py-3 bg-slate-900 rounded-lg leading-none flex items-center divide-x divide-gray-600">
+                <span className="flex items-center space-x-2 pr-6">
+                  <Wrench className="h-5 w-5 text-teal-400" />
+                  <span className="text-gray-100 font-medium">
+                    View Full Resume
+                  </span>
+                </span>
+                <span className="pl-6 text-cyan-400 group-hover:text-gray-100 transition duration-300">
+                  See more &rarr;
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
