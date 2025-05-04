@@ -5,14 +5,6 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-// Reusable Experience Item Component
-interface TimelineItemProps {
-  title: string;
-  company: string;
-  period: string;
-  description: string;
-  skills: string[];
-}
 
 export default function AboutSection() {
   const [contentHeight, setContentHeight] = useState(0);
@@ -96,7 +88,7 @@ export default function AboutSection() {
               >
                 <div className="space-y-4">
                   <p className="text-zinc-300 leading-relaxed">
-                    Hello! I'm Naman Dadhich, a passionate Full Stack Developer
+                    Hello! Myself Naman Dadhich, a passionate Full Stack Developer
                     with over 1 years of experience in building web
                     applications. I specialize in creating responsive,
                     user-friendly interfaces with modern technologies like
@@ -105,13 +97,13 @@ export default function AboutSection() {
                   <p className="text-zinc-300 leading-relaxed">
                     My journey in web development began during my university
                     years when I discovered my passion for creating digital
-                    experiences. Since then, I've worked with various startups
+                    experiences. Since then, I have worked with various startups
                     and established companies to deliver high-quality software
                     solutions that solve real-world problems.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
                     I believe in writing clean, maintainable code and staying
-                    up-to-date with the latest industry trends. When I'm not
+                    up-to-date with the latest industry trends. When I am not
                     coding, you can find me exploring new technologies,
                     contributing to open-source projects, or sharing my
                     knowledge through blog posts and community events.

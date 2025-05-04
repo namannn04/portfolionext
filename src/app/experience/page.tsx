@@ -62,15 +62,6 @@ export default function ExperiencePage() {
         Number.parseFloat((value * 10 * 0).toFixed(2)),
         Number.parseFloat((value * 10 * -1).toFixed(2)),
       ]);
-      setParticleYValues(
-        Array(15)
-          .fill(0)
-          .map((_, i) =>
-            Number.parseFloat(
-              (Math.random() * 100 - value * (Math.random() * 200)).toFixed(2)
-            )
-          )
-      );
     });
   }, [scrollYProgress]);
 
