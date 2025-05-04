@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Briefcase, Code, ExternalLink, User } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -71,7 +71,6 @@ const TimelineItem = ({
 };
 
 export default function AboutSection() {
-  const [activeTab, setActiveTab] = useState("about");
   const [contentHeight, setContentHeight] = useState(0);
   const aboutContentRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
