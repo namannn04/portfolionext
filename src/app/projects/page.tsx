@@ -39,7 +39,7 @@ export default function Page() {
       title: "SPARK (Under development)",
       description:
         "SPARK is a platform for exploring and joining communities, events, internships, and open-source projects. It also includes a social posting feature to stay updated on tech and events, all in one place with unique enhancements.",
-      tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"],
+      tags: ["React", "Node.js", "Express.js", "Firebase", "MongoDB", "Tailwind CSS"],
       video: "/groupProjects/SPARK.mkv",
       demoUrl: "https://careercompass-xi.vercel.app/",
       githubUrl: "",

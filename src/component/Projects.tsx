@@ -1,130 +1,123 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { motion } from "framer-motion"
-import { ExternalLink, Github, ArrowRight, Play, Pause } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
+import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { ExternalLink, Github, ArrowRight, Play, Pause } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 interface Project {
-  id: number
-  title: string
-  description: string
-  tags: string[]
-  mediaType: "image" | "video"
-  image?: string
-  videoUrl?: string
-  liveUrl?: string
-  githubUrl?: string
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  mediaType: "image" | "video";
+  image?: string;
+  videoUrl?: string;
+  liveUrl?: string;
+  githubUrl?: string;
 }
 
 export default function Projects() {
-  const [activeProject, setActiveProject] = useState<number | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [playingVideos, setPlayingVideos] = useState<{ [key: number]: boolean }>({})
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({})
+  const [activeProject, setActiveProject] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [playingVideos, setPlayingVideos] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({});
 
   const projects: Project[] = [
     {
       id: 1,
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with payment integration and admin dashboard.",
-      tags: ["Next.js", "TypeScript", "Tailwind CSS", "Stripe"],
-      mediaType: "image",
-      image: "/placeholder.svg?height=600&width=800",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
+      title: "careerCompass",
+      description:
+        "CareerCompass is a project providing detailed career guidance using both manual resources and AI. Users can explore 500+ careers, learning about paths, skills, qualifications, counseling, and strategies.",
+      tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"],
+      mediaType: "video",
+      videoUrl: "/groupProjects/careercompass.mkv",
+      image: "/groupProjects/careercompass.jpg",
+      liveUrl: "https://careercompass-xi.vercel.app/",
+      githubUrl: "https://github.com/namannn04/careerCompass",
     },
     {
       id: 2,
-      title: "AI Content Generator",
-      description: "An AI-powered application that generates marketing content based on user prompts.",
-      tags: ["React", "Node.js", "OpenAI", "MongoDB"],
+      title: "SPARK (Under development)",
+      description:
+        "SPARK is a platform for exploring and joining communities, events, internships, and open-source projects. It also includes a social posting feature to stay updated on tech and events, all in one place with unique enhancements.",
+      tags: ["React", "Node.js", "Express.js", "Firebase", "MongoDB", "Tailwind CSS"],
       mediaType: "video",
-      videoUrl: "https://example.com/video.mp4", // Replace with your actual video URL
-      image: "/placeholder.svg?height=600&width=800", // Fallback image
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
+      videoUrl: "/groupProjects/SPARK.mkv",
+      image: "/groupProjects/spark.jpg",
+      liveUrl: "",
+      githubUrl: "",
     },
-    {
-      id: 3,
-      title: "Fitness Tracker",
-      description: "Mobile-first application for tracking workouts, nutrition, and progress.",
-      tags: ["React Native", "Firebase", "Redux", "Charts.js"],
-      mediaType: "image",
-      image: "/placeholder.svg?height=600&width=800",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-    },
-    {
-      id: 4,
-      title: "Portfolio Website",
-      description: "A creative portfolio website showcasing my skills and projects.",
-      tags: ["Next.js", "Three.js", "GSAP", "Framer Motion"],
-      mediaType: "image",
-      image: "/placeholder.svg?height=600&width=800",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-    },
-  ]
+  ];
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect()
+        const rect = sectionRef.current.getBoundingClientRect();
         setMousePosition({
           x: e.clientX - rect.left,
           y: e.clientY - rect.top,
-        })
+        });
       }
-    }
+    };
 
-    const sectionElement = sectionRef.current
+    const sectionElement = sectionRef.current;
     if (sectionElement) {
-      sectionElement.addEventListener("mousemove", handleMouseMove)
+      sectionElement.addEventListener("mousemove", handleMouseMove);
     }
 
     return () => {
       if (sectionElement) {
-        sectionElement.removeEventListener("mousemove", handleMouseMove)
+        sectionElement.removeEventListener("mousemove", handleMouseMove);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const toggleVideoPlay = (projectId: number) => {
-    const videoElement = videoRefs.current[projectId]
+    const videoElement = videoRefs.current[projectId];
 
-    if (!videoElement) return
+    if (!videoElement) return;
 
-    const isPlaying = playingVideos[projectId]
+    const isPlaying = playingVideos[projectId];
 
     if (isPlaying) {
-      videoElement.pause()
+      videoElement.pause();
     } else {
-      videoElement.play()
+      videoElement.play();
     }
 
     setPlayingVideos((prev) => ({
       ...prev,
       [projectId]: !isPlaying,
-    }))
-  }
+    }));
+  };
 
-  const handleVideoRef = (element: HTMLVideoElement | null, projectId: number) => {
+  const handleVideoRef = (
+    element: HTMLVideoElement | null,
+    projectId: number
+  ) => {
     if (element) {
-      videoRefs.current[projectId] = element
+      videoRefs.current[projectId] = element;
     }
-  }
+  };
 
   return (
-    <section ref={sectionRef} id="projects" className="relative min-h-screen w-full bg-black py-20 overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="projects"
+      className="relative min-h-screen w-full bg-black py-20 overflow-hidden"
+    >
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-black">
         <div
           className="absolute blur-[100px] opacity-30 rounded-full w-[40vw] h-[40vw]"
           style={{
-            background: "radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(8,145,178,0.2) 70%, rgba(0,0,0,0) 100%)",
+            background:
+              "radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(8,145,178,0.2) 70%, rgba(0,0,0,0) 100%)",
             left: `${mousePosition.x * 0.05}px`,
             top: `${mousePosition.y * 0.05}px`,
             transition: "left 0.5s ease-out, top 0.5s ease-out",
@@ -139,7 +132,8 @@ export default function Projects() {
         </h2>
         <div className="h-1 w-24 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full mb-8" />
         <p className="text-gray-400 max-w-2xl text-lg">
-          Explore my latest work and creative endeavors. Each project represents a unique challenge and solution.
+          Explore my latest work and creative endeavors. Each project represents
+          a unique challenge and solution.
         </p>
       </div>
 
@@ -177,7 +171,11 @@ export default function Projects() {
                         <button
                           onClick={() => toggleVideoPlay(project.id)}
                           className="absolute inset-0 w-full h-full z-20 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
-                          aria-label={playingVideos[project.id] ? "Pause video" : "Play video"}
+                          aria-label={
+                            playingVideos[project.id]
+                              ? "Pause video"
+                              : "Play video"
+                          }
                         >
                           <div className="bg-teal-500/80 hover:bg-teal-500 rounded-full p-3 backdrop-blur-sm transition-transform transform hover:scale-110">
                             {playingVideos[project.id] ? (
@@ -211,12 +209,17 @@ export default function Projects() {
                   </div>
 
                   {/* Project info */}
-                  <Link href={project.liveUrl || project.githubUrl || "#"} className="block">
+                  <Link
+                    href={project.liveUrl || project.githubUrl || "#"}
+                    className="block"
+                  >
                     <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors hover:text-cyan-400">
                       {project.title}
                     </h3>
                   </Link>
-                  <p className="text-gray-400 mb-6 flex-grow">{project.description}</p>
+                  <p className="text-gray-400 mb-6 flex-grow">
+                    {project.description}
+                  </p>
 
                   {/* Links */}
                   <div className="flex items-center justify-between mt-auto">
@@ -228,15 +231,6 @@ export default function Projects() {
                           aria-label="GitHub Repository"
                         >
                           <Github className="w-5 h-5 text-gray-300 hover:text-teal-400" />
-                        </Link>
-                      )}
-                      {project.liveUrl && (
-                        <Link
-                          href={project.liveUrl}
-                          className="p-2 rounded-full bg-gray-800/50 hover:bg-cyan-900/50 border border-gray-700 hover:border-cyan-500 transition-all duration-300"
-                          aria-label="Live Demo"
-                        >
-                          <ExternalLink className="w-5 h-5 text-gray-300 hover:text-cyan-400" />
                         </Link>
                       )}
                     </div>
@@ -257,7 +251,8 @@ export default function Projects() {
                     activeProject === project.id ? "opacity-100" : ""
                   }`}
                   style={{
-                    boxShadow: "0 0 20px 2px rgba(20,184,166,0.3), inset 0 0 20px 2px rgba(8,145,178,0.2)",
+                    boxShadow:
+                      "0 0 20px 2px rgba(20,184,166,0.3), inset 0 0 20px 2px rgba(8,145,178,0.2)",
                   }}
                 />
               </div>
@@ -288,5 +283,5 @@ export default function Projects() {
         </Link>
       </div>
     </section>
-  )
+  );
 }
