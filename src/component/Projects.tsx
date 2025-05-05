@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Github, ArrowRight, Play, Pause } from "lucide-react";
+import { Github, ArrowRight, Play, Pause } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
