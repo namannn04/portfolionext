@@ -106,7 +106,7 @@ export default function Navbar() {
     { name: "Skills", href: "#skills", shortcut: "s" },
     { name: "Projects", href: "#projects", shortcut: "p" },
     { name: "Experience", href: "/experience", shortcut: "e" },
-    { name: "Roles", href: "/roles", shortcut: "r" },
+    { name: "Resume", href: "/resume", shortcut: "r" },
   ];
 
   const handleNavClick = (index: number, href: string) => {

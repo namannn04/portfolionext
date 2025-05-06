@@ -67,79 +67,41 @@ export default function ExperiencePage() {
   const experiences: Experience[] = [
     {
       id: 1,
-      title: "Senior Frontend Developer",
-      company: "TechCorp Inc.",
-      period: "2021 - Present",
+      title: "Development Head",
+      company: "Google Developers Group on Campus - MSIT",
+      period: "2024 - Present",
       description:
-        "Led the frontend development team in building a modern SaaS platform using Next.js and TypeScript. Implemented CI/CD pipelines and improved performance by 40%. Collaborated with designers to create a cohesive user experience across the platform. Mentored junior developers and conducted code reviews to maintain high code quality standards.",
+        "As Development Head at GDGOC MSIT, I actively promoted skill upliftment by organizing regular progress updates and providing growth opportunities. Initiated LinkedIn and GitHub profile challenges, assigned tasks, and facilitated hands-on projects to boost members' professional presence. Collaborated closely with the design team to guide developers in building the club website, ensuring smooth coordination and successful project delivery. Oversaw team activities, encouraged continuous learning, and fostered a culture of accountability and innovation.",
       skills: [
-        "React",
-        "Next.js",
-        "TypeScript",
-        "CI/CD",
+        "Full Stack Development",
         "Team Leadership",
-        "Performance Optimization",
+        "Project Management",
+        "Community Building",
+        "Technical Mentorship",
+        "Event Organization",
+        "Code Review"
       ],
       color: "teal",
-      image: "/placeholder.svg?height=400&width=800",
+      image: "/experience/gdg.jpeg",
       icon: <Briefcase className="h-5 w-5" />,
     },
     {
       id: 2,
-      title: "Web Developer",
-      company: "Pears Global Hackathon",
-      period: "2025",
+      title: "Development Deputy Head",
+      company: "Geek Room",
+      period: "2025 - Present",
       description:
-        "Developed and maintained multiple client projects using React, Node.js, and MongoDB. Collaborated with design teams to implement responsive UI components. Participated in a 48-hour hackathon and secured second place with an innovative solution for sustainable urban mobility. Implemented real-time data visualization using D3.js and Socket.io.",
+        "Recently appointed as Development Deputy Head at Geek Room, where I am supporting ongoing technical initiatives and collaborating with the team on new projects. Assisting in team coordination, skill development, and focusing on helping members improve their professional profiles. Contributing to a positive and productive environment as we work on upcoming projects.",
       skills: [
-        "React",
-        "Node.js",
-        "MongoDB",
-        "UI/UX",
-        "Real-time Data",
-        "Responsive Design",
+        "Team Collaboration",
+        "Communication",
+        "Problem Solving",
+        "Technical Support",
+        "Community Building"
       ],
       color: "cyan",
-      image: "/placeholder.svg?height=400&width=800",
+      image: "/experience/gr.jpg",
       icon: <Award className="h-5 w-5" />,
-    },
-    {
-      id: 3,
-      title: "Web Developer",
-      company: "Code Kshetra 2.0",
-      period: "2024 - 2025",
-      description:
-        "I had the privilege of participating in a prestigious national-level hackathon organized by Geek Room (MSIT). During the event, I worked on a website using React.js, which proved to be an incredible learning experience. Collaborating with a talented team and overcoming challenges together made this journey truly unforgettable. We developed an accessibility-focused web application that received recognition for its innovative approach to inclusive design.",
-      skills: [
-        "HTML/CSS",
-        "JavaScript",
-        "WordPress",
-        "PHP",
-        "Accessibility",
-        "Team Collaboration",
-      ],
-      color: "blue",
-      image: "/placeholder.svg?height=400&width=800",
-      icon: <Star className="h-5 w-5" />,
-    },
-    {
-      id: 4,
-      title: "Web Developer",
-      company: "Code Cubicle 3.0",
-      period: "2024",
-      description:
-        "It was one of the major hackathons organized by Geek Room (MSIT), and I had the opportunity to work with their team. I worked on a website using Next.js, which provided a great learning experience. Collaborating with talented individuals and tackling challenges together made it a memorable event. Our project focused on creating an educational platform that leveraged AI to personalize learning experiences for students with different learning styles.",
-      skills: [
-        "Figma",
-        "HTML/CSS",
-        "UI/UX",
-        "Photoshop",
-        "Next.js",
-        "AI Integration",
-      ],
-      color: "purple",
-      image: "/placeholder.svg?height=400&width=800",
-      icon: <Clock className="h-5 w-5" />,
     },
   ];
 
@@ -292,13 +254,15 @@ export default function ExperiencePage() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
-                <Button className="relative overflow-hidden group">
-                  <span className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 transition-all duration-300 group-hover:opacity-90"></span>
-                  <span className="relative z-10 flex items-center text-white font-medium">
-                    Download Resume
-                    <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
+                <Link href="/resume">
+                  <Button className="relative overflow-hidden group">
+                    <span className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 transition-all duration-300 group-hover:opacity-90"></span>
+                    <span className="relative z-10 flex items-center text-white font-medium">
+                      Download Resume
+                      <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </Button>
+                </Link>
               </motion.div>
             </div>
             <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-cyan-500/10 blur-xl"></div>
