@@ -106,6 +106,7 @@ export default function Navbar() {
     { name: "Skills", href: "#skills", shortcut: "s" },
     { name: "Projects", href: "#projects", shortcut: "p" },
     { name: "Experience", href: "/experience", shortcut: "e" },
+    { name: "Events", href: "/events", shortcut: "v" }, // new option
     { name: "Resume", href: "/resume", shortcut: "r" },
   ];
 
@@ -137,32 +138,26 @@ export default function Navbar() {
 
           {/* Desktop navigation with underline indicator */}
           <div className="hidden md:flex relative">
-            {/* Animated underline */}
-            <div
-              className="absolute bottom-0 h-0.5 bg-teal-400 transition-all duration-300 ease-in-out"
-              style={{
-                left: `${activeIndex * 120}px`,
-                width: "80px",
-                transform: "translateX(20px)",
-              }}
-            />
-
             {navOptions.map((option, index) => (
-              <button
-                key={option.name}
-                onClick={() => handleNavClick(index, option.href)}
-                className={cn(
-                  "px-4 py-2 mx-2 transition-all duration-300 text-white hover:text-cyan-300",
-                  pathname === option.href ||
-                    (option.href.startsWith("#") &&
-                      pathname === "/" &&
-                      window.location.hash === option.href)
-                    ? "text-cyan-300"
-                    : ""
+              <div key={option.name} className="relative flex flex-col items-center">
+                <button
+                  onClick={() => handleNavClick(index, option.href)}
+                  className={cn(
+                    "px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300",
+                    pathname === option.href ||
+                      (option.href.startsWith("#") &&
+                        pathname === "/" &&
+                        window.location.hash === option.href)
+                      ? "text-cyan-300"
+                      : ""
+                  )}
+                >
+                  {option.name} ({option.shortcut})
+                </button>
+                {activeIndex === index && (
+                  <span className="block h-0.5 w-full bg-teal-400 rounded transition-all duration-300"></span>
                 )}
-              >
-                {option.name} ({option.shortcut})
-              </button>
+              </div>
             ))}
           </div>
 
