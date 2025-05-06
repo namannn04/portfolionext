@@ -177,7 +177,7 @@ export default function EventsPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              A showcase of major events I've attended, hackathons I've organized, and programs where I've served as a
+              A showcase of major events I have attended, hackathons I have organized, and programs where I have served as a
               mentor. Each experience has shaped my professional growth in the tech industry.
             </motion.p>
           </div>
