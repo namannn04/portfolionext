@@ -104,7 +104,7 @@ export default function Navbar() {
   const navOptions = [
     { name: "About", href: "#about", shortcut: "a" },
     { name: "Skills", href: "#skills", shortcut: "s" },
-    { name: "Projects", href: "#projects", shortcut: "p" },
+    { name: "Projects", href: "/projects", shortcut: "p" },
     { name: "Experience", href: "/experience", shortcut: "e" },
     { name: "Events", href: "/events", shortcut: "v" }, // new option
     { name: "Resume", href: "/resume", shortcut: "r" },
