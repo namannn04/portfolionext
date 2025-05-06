@@ -10,8 +10,6 @@ import {
   ExternalLink,
   ChevronRight,
   ChevronLeft,
-  Star,
-  Clock,
   Award,
   Briefcase,
 } from "lucide-react";
@@ -47,7 +45,6 @@ export default function ExperiencePage() {
   const [lineXValues, setLineXValues] = useState<number[]>([0, 0]);
   const particleYValues = Array(15).fill(0);
 
-
   useEffect(() => {
     scrollYProgress.onChange((value) => {
       setBackgroundYValue(Number.parseFloat((value * 100).toFixed(2)));
@@ -79,7 +76,7 @@ export default function ExperiencePage() {
         "Community Building",
         "Technical Mentorship",
         "Event Organization",
-        "Code Review"
+        "Code Review",
       ],
       color: "teal",
       image: "/experience/gdg.jpeg",
@@ -97,7 +94,7 @@ export default function ExperiencePage() {
         "Communication",
         "Problem Solving",
         "Technical Support",
-        "Community Building"
+        "Community Building",
       ],
       color: "cyan",
       image: "/experience/gr.jpg",
