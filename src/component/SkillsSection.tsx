@@ -49,7 +49,6 @@ const skills = {
     "Teamwork",
     "Leadership",
     "Adaptability",
-    "Time Management",
   ],
 };
 

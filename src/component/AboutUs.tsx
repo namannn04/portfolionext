@@ -113,11 +113,12 @@ export default function AboutSection() {
                     with team projects where I have had a leading role.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
-                    Outside of the world of code, I appreciate the quiet joys of
-                    music listening and refueling with some rest. I am always
-                    keen to learn and develop as a coder, welcoming new
-                    challenges and working to create meaningful digital
-                    solutions.
+                    Outside of the world of code, I absolutely love playing
+                    chess—even during boring college lectures, you’ll often find
+                    me engrossed in a game. I also enjoy the quiet pleasures of
+                    listening to music and taking time to recharge. I am always
+                    eager to learn and grow as a coder, welcoming new challenges
+                    and striving to create meaningful digital solutions.
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
