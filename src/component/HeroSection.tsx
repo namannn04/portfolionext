@@ -2,12 +2,12 @@
 
 import type React from "react";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function HeroSection() {
-  const [isHovered, setIsHovered] = useState(false);
+  // Remove the hover state since we're making effects permanent
 
   // Add this useEffect for smooth transitions
   useEffect(() => {
@@ -25,15 +25,14 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="flex min-h-[80vh] w-full items-center justify-center px-4 py-16">
+    <section className="flex min-h-[80vh] w-full items-center justify-center px-4 -mt-20 pb-16">
       <div className="container mx-auto flex flex-col items-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
           className="relative mx-auto w-full max-w-lg"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          // Removed hover handlers
           style={{
             perspective: "1000px",
           }}
@@ -41,9 +40,8 @@ export default function HeroSection() {
           <div
             className="relative"
             style={{
-              transform: isHovered
-                ? "perspective(1000px) rotateX(25deg) scaleY(0.9)"
-                : "perspective(1000px) rotateX(0deg) scaleY(1)",
+              // Always use the "hovered" effect
+              transform: "perspective(1000px) rotateX(25deg) scaleY(0.9)",
               transformOrigin: "bottom center",
               transformStyle: "preserve-3d",
               transition: "transform 0.5s ease-out",
@@ -130,10 +128,9 @@ export default function HeroSection() {
             style={{
               zIndex: 10,
               opacity: 1, // Always visible
-              transform: isHovered
-                ? "translateY(calc(25deg * 0.1 * 100%)) scale(1.05)"
-                : "scale(1)", // Adjust position based on tilt angle
-              transformOrigin: "bottom center", // Match the same origin as the tilting card
+              // Always use the "hovered" transform
+              transform: "translateY(calc(25deg * 0.1 * 100%)) scale(1.05)",
+              transformOrigin: "bottom center",
               transition: "transform 0.5s ease-out, box-shadow 0.5s ease-out",
             }}
           >
@@ -192,15 +189,15 @@ export default function HeroSection() {
             {[
               {
                 icon: "linkedin",
-                url: "https://linkedin.com",
+                url: "https://linkedin.com/in/namannn04",
                 label: "LinkedIn",
               },
-              { icon: "github", url: "https://github.com", label: "GitHub" },
+              { icon: "github", url: "https://github.com/namannn04", label: "GitHub" },
               { icon: "discord", url: "https://discord.com", label: "Discord" },
-              { icon: "twitter-x", url: "https://x.com", label: "X (Twitter)" },
+              { icon: "twitter-x", url: "https://x.com/namannn04", label: "X (Twitter)" },
               {
                 icon: "instagram",
-                url: "https://instagram.com",
+                url: "https://instagram.com/namannn04",
                 label: "Instagram",
               },
             ].map((social, index) => (
@@ -265,7 +262,7 @@ export default function HeroSection() {
                     stroke="currentColor"
                     className="text-teal-500 transition-colors duration-300 ease-in-out group-hover:text-[#5865F2]"
                   >
-                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8731.8914a.0766.0766 0 00-.0407.1067c.3606.698.7721 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.0204 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9746 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8731.8914.0766.0766 0 00-.0407.1067c.3606.698.7721 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.0204 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9746 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
                   </svg>
                 )}
                 {social.icon === "twitter-x" && (
@@ -302,32 +299,6 @@ export default function HeroSection() {
             ))}
           </motion.div>
         </motion.div>
-
-        {/* Floating decorative elements */}
-        <motion.div
-          className="absolute -bottom-10 left-1/4 h-20 w-1 border-l-2 border-cyan-500/30"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 80, opacity: 0.7 }}
-          transition={{ duration: 1, delay: 1.2 }}
-        />
-        <motion.div
-          className="absolute -bottom-5 right-1/4 h-10 w-1 border-l-2 border-teal-500/30"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 40, opacity: 0.7 }}
-          transition={{ duration: 0.8, delay: 1.4 }}
-        />
-        <motion.div
-          className="absolute top-10 left-10 h-16 w-16 border-t-2 border-l-2 border-cyan-500/20"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.5 }}
-          transition={{ duration: 0.8, delay: 1.6 }}
-        />
-        <motion.div
-          className="absolute top-20 right-20 h-10 w-10 border-t-2 border-r-2 border-teal-500/20"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.5 }}
-          transition={{ duration: 0.8, delay: 1.8 }}
-        />
       </div>
     </section>
   );
