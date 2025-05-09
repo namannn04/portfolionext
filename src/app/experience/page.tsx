@@ -4,7 +4,6 @@ import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import {
-  Code,
   ArrowLeft,
   ExternalLink,
   ChevronRight,
