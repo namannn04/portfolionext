@@ -192,9 +192,21 @@ export default function HeroSection() {
                 url: "https://linkedin.com/in/namannn04",
                 label: "LinkedIn",
               },
-              { icon: "github", url: "https://github.com/namannn04", label: "GitHub" },
-              { icon: "discord", url: "https://discord.com", label: "Discord" },
-              { icon: "twitter-x", url: "https://x.com/namannn04", label: "X (Twitter)" },
+              {
+                icon: "github",
+                url: "https://github.com/namannn04",
+                label: "GitHub",
+              },
+              {
+                icon: "discord",
+                url: "https://discord.com/users/736213483581866053",
+                label: "Discord",
+              },
+              {
+                icon: "twitter-x",
+                url: "https://x.com/namannn04",
+                label: "X (Twitter)",
+              },
               {
                 icon: "instagram",
                 url: "https://instagram.com/namannn04",
