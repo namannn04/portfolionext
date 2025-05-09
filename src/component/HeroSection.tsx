@@ -24,43 +24,6 @@ export default function HeroSection() {
     };
   }, []);
 
-  const [particles, setParticles] = useState<
-    { top: number; left: number; delay: number; moveY: number }[]
-  >([]);
-  const [glitchLines, setGlitchLines] = useState<
-    { top: number; height: number; delay: number }[]
-  >([]);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const newParticles = Array.from({ length: 15 }, () => ({
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      delay: Math.random() * 5,
-      moveY: Math.random() * 100 - 50,
-    }));
-    setParticles(newParticles);
-
-    // Create glitch lines
-    const lines = Array.from({ length: 20 }, () => ({
-      top: Math.random() * 100,
-      height: 1 + Math.random() * 5,
-      delay: Math.random() * 0.5,
-    }));
-    setGlitchLines(lines);
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageRef.current) return;
-
-    const rect = imageRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    setMousePosition({ x, y });
-  };
-
   return (
     <section className="flex min-h-[80vh] w-full items-center justify-center px-4 py-16">
       <div className="container mx-auto flex flex-col items-center">
