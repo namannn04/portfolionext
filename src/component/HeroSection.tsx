@@ -6,15 +6,15 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-// Add this at the beginning of your component
 export default function HeroSection() {
+  const [isHovered, setIsHovered] = useState(false);
+
   // Add this useEffect for smooth transitions
   useEffect(() => {
-    // Add a style element for smooth transitions
     const style = document.createElement("style");
     style.textContent = `
       .smooth-hover {
-        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, background 0.5s ease-in-out, border-color 0.5s ease-in-out !important;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, border-color 0.5s ease-in-out !important;
       }
     `;
     document.head.appendChild(style);
@@ -27,7 +27,6 @@ export default function HeroSection() {
   const [particles, setParticles] = useState<
     { top: number; left: number; delay: number; moveY: number }[]
   >([]);
-  const [isHovering, setIsHovering] = useState(false);
   const [glitchLines, setGlitchLines] = useState<
     { top: number; height: number; delay: number }[]
   >([]);
@@ -63,447 +62,145 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden sm:pt-10 px-4 sm:px-6 md:px-8">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(55,0,255,0.15),transparent_70%)]" />
-
-      {/* Diagonal lines */}
-      {/* <div className="absolute inset-0 overflow-hidden opacity-20">
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={`h-${i}`}
-            className="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-teal-500 to-transparent"
-            style={{ top: `${i * 10}%` }}
-            animate={{ x: ["-100%", "100%"] }}
-            transition={{
-              duration: 15 + i * 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
-          />
-        ))}
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={`v-${i}`}
-            className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500 to-transparent"
-            style={{ left: `${i * 10}%` }}
-            animate={{ y: ["-100%", "100%"] }}
-            transition={{
-              duration: 15 + i * 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div> */}
-
-      <div className="z-10 md:mt-5 flex flex-col items-center">
-        {/* Main image container with glow effect */}
+    <section className="flex min-h-[80vh] w-full items-center justify-center px-4 py-16">
+      <div className="container mx-auto flex flex-col items-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative mb-6 flex h-[50vh] sm:h-[70vh] md:h-[80vh] w-auto items-center justify-center smooth-hover"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          onMouseMove={handleMouseMove}
+          transition={{ duration: 0.7 }}
+          className="relative mx-auto w-full max-w-lg"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          style={{
+            perspective: "1000px",
+          }}
         >
-          {/* Outer glow that intensifies on hover */}
-          <motion.div
-            className="absolute -inset-4 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 opacity-30 blur-xl smooth-hover"
-            animate={
-              isHovering
-                ? {
-                    opacity: [0.3, 0.7, 0.3],
-                    scale: [1, 1.05, 1],
-                    background: [
-                      "radial-gradient(circle at center, rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.4))",
-                      "radial-gradient(circle at center, rgba(236, 72, 153, 0.5), rgba(34, 211, 238, 0.5))",
-                      "radial-gradient(circle at center, rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.4))",
-                    ],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 3,
-              repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
-              ease: "easeInOut",
-            }}
-          />
-
-          {/* Animated border elements */}
-          <motion.div
-            className="absolute -inset-1 rounded-xl border-2 border-teal-500/50 overflow-hidden smooth-hover"
-            animate={
-              isHovering
-                ? {
-                    borderColor: [
-                      "rgba(168, 85, 247, 0.5)",
-                      "rgba(236, 72, 153, 0.7)",
-                      "rgba(168, 85, 247, 0.5)",
-                    ],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 1.5,
-              repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
-              ease: "easeInOut",
+          <div
+            className="relative"
+            style={{
+              transform: isHovered
+                ? "perspective(1000px) rotateX(25deg) scaleY(0.9)"
+                : "perspective(1000px) rotateX(0deg) scaleY(1)",
+              transformOrigin: "bottom center",
+              transformStyle: "preserve-3d",
+              transition: "transform 0.5s ease-out",
             }}
           >
-            {/* Animated border light effect */}
             <motion.div
-              className="absolute h-full w-[30%] bg-gradient-to-r from-transparent via-white to-transparent opacity-30 smooth-hover"
-              initial={{ left: "-30%" }}
-              animate={{ left: "130%" }}
-              style={{ opacity: isHovering ? 1 : 0 }}
+              className="absolute -inset-4 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 opacity-30 blur-xl smooth-hover"
+              animate={{
+                opacity: [0.3, 0.7, 0.3],
+                scale: [1, 1.05, 1],
+                background: [
+                  "radial-gradient(circle at center, rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.4))",
+                  "radial-gradient(circle at center, rgba(236, 72, 153, 0.5), rgba(34, 211, 238, 0.5))",
+                  "radial-gradient(circle at center, rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.4))",
+                ],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
+            />
+
+            <motion.div
+              className="absolute -inset-1 rounded-xl border-2 border-teal-500/50 overflow-hidden smooth-hover"
+              animate={{
+                borderColor: [
+                  "rgba(168, 85, 247, 0.5)",
+                  "rgba(236, 72, 153, 0.7)",
+                  "rgba(168, 85, 247, 0.5)",
+                ],
+              }}
               transition={{
                 duration: 1.5,
                 repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 0.5,
+                ease: "easeInOut",
               }}
-            />
-          </motion.div>
-
-          <motion.div
-            className="absolute -inset-2 rounded-xl border border-cyan-500/30 smooth-hover"
-            animate={
-              isHovering
-                ? {
-                    borderColor: [
-                      "rgba(59, 130, 246, 0.3)",
-                      "rgba(34, 211, 238, 0.5)",
-                      "rgba(59, 130, 246, 0.3)",
-                    ],
-                    rotate: [0, 0.5, 0, -0.5, 0],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 3,
-              repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
-              ease: "easeInOut",
-            }}
-          />
-
-          {/* Corner elements with more dramatic animation */}
-          <motion.div
-            className="absolute -bottom-3 -left-3 h-16 w-16 sm:h-20 sm:w-20 border-b-2 border-l-2 border-teal-500 smooth-hover"
-            animate={
-              isHovering
-                ? {
-                    x: [0, -5, 0],
-                    y: [0, 5, 0],
-                    borderColor: [
-                      "rgb(168, 85, 247)",
-                      "rgb(59, 130, 246)",
-                      "rgb(168, 85, 247)",
-                    ],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 0.8,
-              repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.div
-            className="absolute -right-3 -top-3 h-16 w-16 sm:h-20 sm:w-20 border-r-2 border-t-2 border-cyan-500 smooth-hover"
-            animate={
-              isHovering
-                ? {
-                    x: [0, 5, 0],
-                    y: [0, -5, 0],
-                    borderColor: [
-                      "rgb(59, 130, 246)",
-                      "rgb(168, 85, 247)",
-                      "rgb(59, 130, 246)",
-                    ],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 0.8,
-              repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
-              ease: "easeInOut",
-            }}
-          />
-
-          {/* Main image */}
-          <div
-            ref={imageRef}
-            className="relative h-full w-auto overflow-hidden"
-          >
-            {/* Holographic overlay that follows mouse */}
-            <motion.div
-              className="absolute inset-0 z-20 bg-gradient-to-r from-cyan-500/10 via-teal-500/20 to-pink-500/10 smooth-hover"
-              style={{
-                background: isHovering
-                  ? `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.1), transparent 70%)`
-                  : undefined, // या कोई स्थिर डिफ़ॉल्ट बैकग्राउंड
-                mixBlendMode: "screen",
-                opacity: isHovering ? 1 : 0,
-              }}
-            />
-
-            {/* Digital noise effect */}
-            <motion.div
-              className="absolute inset-0 z-20 mix-blend-overlay opacity-20 smooth-hover"
-              style={{
-                backgroundImage:
-                  "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')",
-                backgroundSize: "cover",
-                opacity: isHovering ? 1 : 0,
-              }}
-              animate={{ opacity: isHovering ? [0.1, 0.3, 0.1] : 0 }}
-              transition={{ duration: 0.5, repeat: Number.POSITIVE_INFINITY }}
-            />
-
-            {/* Glitch lines that appear on hover */}
-            {glitchLines.map((line, index) => (
+            >
+              {/* Animated border light effect */}
               <motion.div
-                key={`glitch-${index}`}
-                className="absolute left-0 w-full bg-cyan-400 mix-blend-screen smooth-hover"
-                style={{
-                  top: `${line.top}%`,
-                  height: `${line.height}px`,
-                  opacity: isHovering ? 0 : 0,
-                }}
-                animate={{
-                  opacity: isHovering ? [0, 0.7, 0] : 0,
-                  x: ["-100%", "100%"],
-                  scaleY: [1, Math.random() * 3 + 1, 1],
-                }}
+                className="absolute h-full w-[30%] bg-gradient-to-r from-transparent via-white to-transparent opacity-30 smooth-hover"
+                initial={{ left: "-30%" }}
+                animate={{ left: "130%" }}
+                style={{ opacity: 1 }}
                 transition={{
-                  duration: 0.2 + Math.random() * 0.3,
+                  duration: 1.5,
                   repeat: Number.POSITIVE_INFINITY,
-                  repeatDelay: 1 + Math.random() * 2,
-                  delay: line.delay,
+                  repeatDelay: 0.5,
                 }}
               />
-            ))}
-
-            {/* Pixel sorting effect */}
-            <motion.div
-              className="absolute inset-0 z-10 smooth-hover"
+            </motion.div>
+            {/* Outer decorative container that transforms with the card */}
+            {/* Main container */}
+            <div
+              className="relative overflow-hidden rounded-xl border-2 border-cyan-500/50"
               style={{
-                backgroundImage:
-                  "linear-gradient(to bottom, transparent, transparent)",
-                backgroundSize: "100% 100%",
-                backgroundPosition: "0 0",
-                mixBlendMode: "difference",
-                opacity: isHovering ? 1 : 0,
+                transformStyle: "preserve-3d",
+                boxShadow:
+                  "0 30px 90px -5px rgba(20, 184, 166, 0.3), 0 0 15px rgba(6, 182, 212, 0.5)",
               }}
-              animate={{
-                backgroundImage: isHovering
-                  ? [
-                      "linear-gradient(to bottom, transparent, transparent)",
-                      "linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(255,255,255,0.2) 20.5%, rgba(0,0,0,0) 21%, rgba(0,0,0,0) 30%, rgba(255,255,255,0.2) 30.5%, rgba(0,0,0,0) 31%, rgba(0,0,0,0) 60%, rgba(255,255,255,0.2) 60.5%, rgba(0,0,0,0) 61%, rgba(0,0,0,0) 75%, rgba(255,255,255,0.2) 75.5%, rgba(0,0,0,0) 76%, rgba(0,0,0,0) 100%)",
-                      "linear-gradient(to bottom, transparent, transparent)",
-                    ]
-                  : "linear-gradient(to bottom, transparent, transparent)",
-              }}
-              transition={{
-                duration: 0.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 2,
-              }}
-            />
+            >
+              {/* Main image */}
+              <div className="relative aspect-[3/4] w-full">
+                <Image
+                  src="/profile.jpg"
+                  alt="Portfolio hero image"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
 
-            {/* RGB split effect on hover - more extreme */}
-            <motion.div
-              className="absolute inset-0 bg-red-500/40 mix-blend-screen smooth-hover"
-              style={{ opacity: isHovering ? 0 : 0 }}
-              animate={{
-                x: isHovering ? [0, -15, 0, -8, 0] : 0,
-                y: isHovering ? [0, 5, 0, -3, 0] : 0,
-                opacity: isHovering ? [0, 0.7, 0.3, 0.5, 0] : 0,
-              }}
-              transition={{
-                duration: 0.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 1.5,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute inset-0 bg-green-500/40 mix-blend-screen smooth-hover"
-              style={{ opacity: isHovering ? 0 : 0 }}
-              animate={{
-                x: isHovering ? [0, 5, 0, -5, 0] : 0,
-                y: isHovering ? [0, -5, 0, 5, 0] : 0,
-                opacity: isHovering ? [0, 0.7, 0.3, 0.5, 0] : 0,
-              }}
-              transition={{
-                duration: 0.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 1.5,
-                delay: 0.05,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute inset-0 bg-cyan-500/40 mix-blend-screen smooth-hover"
-              style={{ opacity: isHovering ? 0 : 0 }}
-              animate={{
-                x: isHovering ? [0, 15, 0, 8, 0] : 0,
-                y: isHovering ? [0, 3, 0, -5, 0] : 0,
-                opacity: isHovering ? [0, 0.7, 0.3, 0.5, 0] : 0,
-              }}
-              transition={{
-                duration: 0.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 1.5,
-                delay: 0.1,
-                ease: "easeInOut",
-              }}
-            />
-
-            {/* Image distortion effect */}
-            <motion.div
-              className="absolute inset-0 z-10 smooth-hover"
-              style={{
-                backdropFilter: "blur(0px)",
-                WebkitBackdropFilter: "blur(0px)",
-                opacity: isHovering ? 1 : 0,
-              }}
-              animate={{
-                backdropFilter: isHovering
-                  ? [
-                      "blur(0px) hue-rotate(0deg)",
-                      "blur(1px) hue-rotate(15deg)",
-                      "blur(0px) hue-rotate(0deg)",
-                      "blur(2px) hue-rotate(-15deg)",
-                      "blur(0px) hue-rotate(0deg)",
-                    ]
-                  : "blur(0px) hue-rotate(0deg)",
-                WebkitBackdropFilter: isHovering
-                  ? [
-                      "blur(0px) hue-rotate(0deg)",
-                      "blur(1px) hue-rotate(15deg)",
-                      "blur(0px) hue-rotate(0deg)",
-                      "blur(2px) hue-rotate(-15deg)",
-                      "blur(0px) hue-rotate(0deg)",
-                    ]
-                  : "blur(0px) hue-rotate(0deg)",
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            />
-
-            {/* Main image */}
-            <Image
-              src="/profile.jpg"
-              alt="Naman Dadhich"
-              width={600}
-              height={800}
-              className="h-full w-auto object-cover"
-              priority
-            />
-
-            {/* Scan line effect - enhanced for hover */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent smooth-hover"
-              animate={{
-                y: ["-100%", "200%"],
-                opacity: isHovering ? [0.1, 0.3, 0.1] : 0.1,
-              }}
-              transition={{
-                y: {
-                  duration: isHovering ? 2 : 4,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                },
-                opacity: {
-                  duration: 1,
-                  repeat: isHovering ? Number.POSITIVE_INFINITY : 0,
-                  ease: "easeInOut",
-                },
-              }}
-              style={{ height: "50%" }}
-            />
-
-            {/* VHS tracking lines effect */}
-            <motion.div
-              className="absolute inset-0 z-10 opacity-30 smooth-hover"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.5) 2px, rgba(0,0,0,0.5) 4px)",
-                backgroundSize: "100% 4px",
-                backgroundRepeat: "repeat",
-                mixBlendMode: "overlay",
-                opacity: isHovering ? 1 : 0,
-              }}
-              animate={{
-                backgroundPosition: ["0px 0px", "0px 100px"],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-            />
-
-            {/* Data corruption effect */}
-            <motion.div
-              className="absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-cyan-500/50 to-transparent z-20 mix-blend-screen smooth-hover"
-              style={{ opacity: isHovering ? 1 : 0 }}
-              animate={{
-                height: isHovering ? ["0%", "100%", "0%"] : "0%",
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 3,
-                ease: "easeInOut",
-              }}
-            />
+            {/* Decorative elements that are part of the 3D transform */}
+            <div className="absolute -bottom-4 -left-4 h-20 w-20 border-b-2 border-l-2 border-cyan-400" />
+            <div className="absolute -right-4 -top-4 h-20 w-20 border-r-2 border-t-2 border-cyan-400" />
+            <div className="absolute -bottom-2 right-10 h-6 w-20 border-b-2 border-teal-400 opacity-70" />
+            <div className="absolute -top-2 left-10 h-6 w-20 border-t-2 border-teal-400 opacity-70" />
           </div>
 
-          {/* Floating data particles that appear on hover */}
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={`data-particle-${i}`}
-              className="absolute rounded-full bg-white mix-blend-screen smooth-hover"
-              style={{ opacity: 0 }}
-              animate={{
-                width: isHovering ? Math.random() * 3 + 1 : 0,
-                height: isHovering ? Math.random() * 3 + 1 : 0,
-                left: isHovering
-                  ? `${Math.random() * 100}%`
-                  : `${Math.random() * 100}%`,
-                top: isHovering
-                  ? `${Math.random() * 100}%`
-                  : `${Math.random() * 100}%`,
-                y: isHovering ? [0, -(Math.random() * 100 + 50)] : 0,
-                opacity: isHovering ? [0, 0.8, 0] : 0,
-                scale: isHovering ? [0, 1, 0] : 0,
-              }}
-              transition={{
-                duration: 1 + Math.random() * 2,
-                repeat: Number.POSITIVE_INFINITY,
-                delay: Math.random() * 2,
-                ease: "easeOut",
-              }}
-            />
-          ))}
+          {/* Overlay image that is permanently visible */}
+          <div
+            className="absolute inset-0 overflow-hidden rounded-xl transition-all duration-500 ease-out"
+            style={{
+              zIndex: 10,
+              opacity: 1, // Always visible
+              transform: isHovered
+                ? "translateY(calc(25deg * 0.1 * 100%)) scale(1.05)"
+                : "scale(1)", // Adjust position based on tilt angle
+              transformOrigin: "bottom center", // Match the same origin as the tilting card
+              transition: "transform 0.5s ease-out, box-shadow 0.5s ease-out",
+            }}
+          >
+            <div className="relative aspect-[3/4] w-full">
+              <Image
+                src="/profileBG.png"
+                alt="Portfolio overlay image"
+                fill
+                className="object-cover shadow-xl"
+                priority
+              />
+            </div>
+          </div>
         </motion.div>
 
-        {/* Name with animation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="relative"
+          className="relative mt-16"
         >
           <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider text-white">
-            <span className="relative">
-              <span className="relative z-10 bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
-                Naman Dadhich
+            <motion.span
+              className="relative"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.7 }}
+            >
+              <span className="relative z-10 text-teal-400">
+                Naman <span className="text-cyan-400">Dadhich</span>
               </span>
               <motion.span
                 initial={{ width: 0 }}
@@ -511,7 +208,7 @@ export default function HeroSection() {
                 transition={{ duration: 1, delay: 0.8 }}
                 className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-teal-500 to-cyan-500"
               />
-            </span>
+            </motion.span>
           </h1>
 
           <motion.h2
@@ -543,14 +240,22 @@ export default function HeroSection() {
                 url: "https://instagram.com",
                 label: "Instagram",
               },
-            ].map((social) => (
-              <a
+            ].map((social, index) => (
+              <motion.a
                 key={social.icon}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative transition-transform duration-300 hover:scale-110"
                 aria-label={social.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.9 + index * 0.1 }}
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+                whileTap={{ scale: 0.9 }}
               >
                 {social.icon === "linkedin" && (
                   <svg
@@ -597,7 +302,7 @@ export default function HeroSection() {
                     stroke="currentColor"
                     className="text-teal-500 transition-colors duration-300 ease-in-out group-hover:text-[#5865F2]"
                   >
-                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8731.8914.0766.0766 0 00-.0407.1067c.3606.698.7721 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.0204 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9746 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8731.8914a.0766.0766 0 00-.0407.1067c.3606.698.7721 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.0204 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9746 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
                   </svg>
                 )}
                 {social.icon === "twitter-x" && (
@@ -630,35 +335,37 @@ export default function HeroSection() {
                     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                   </svg>
                 )}
-              </a>
+              </motion.a>
             ))}
           </motion.div>
         </motion.div>
-      </div>
 
-      {/* Floating particles */}
-      {particles.map((p, index) => (
+        {/* Floating decorative elements */}
         <motion.div
-          key={index}
-          className="absolute h-1 w-1 rounded-full bg-teal-500"
-          style={{
-            top: `${p.top}%`,
-            left: `${p.left}%`,
-          }}
-          animate={{
-            y: [0, p.moveY],
-            opacity: [0, 0.7, 0],
-            scale: [0, 1, 0],
-          }}
-          transition={{
-            duration: 5 + Math.random() * 5,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "loop",
-            ease: "easeInOut",
-            delay: p.delay,
-          }}
+          className="absolute -bottom-10 left-1/4 h-20 w-1 border-l-2 border-cyan-500/30"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 80, opacity: 0.7 }}
+          transition={{ duration: 1, delay: 1.2 }}
         />
-      ))}
+        <motion.div
+          className="absolute -bottom-5 right-1/4 h-10 w-1 border-l-2 border-teal-500/30"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 40, opacity: 0.7 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
+        />
+        <motion.div
+          className="absolute top-10 left-10 h-16 w-16 border-t-2 border-l-2 border-cyan-500/20"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+        />
+        <motion.div
+          className="absolute top-20 right-20 h-10 w-10 border-t-2 border-r-2 border-teal-500/20"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 0.8, delay: 1.8 }}
+        />
+      </div>
     </section>
   );
 }
