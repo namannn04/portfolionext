@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Calendar, Trophy, Users, Lightbulb, MapPin, Star } from "lucide-react"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Calendar, Trophy, Users, Lightbulb, MapPin, Star } from "lucide-react";
 import type { JSX } from "react";
 import Navbar from "@/component/Navbar";
 
@@ -59,7 +59,7 @@ const events: {
     image: "/events/codemanipal.jpg",
     type: "organized+attended",
   },
-]
+];
 
 // Icon mapping for event types
 const typeIcons: Record<EventType, JSX.Element> = {
@@ -72,7 +72,7 @@ const typeIcons: Record<EventType, JSX.Element> = {
       <Trophy className="w-4 h-4" />
     </div>
   ),
-}
+};
 
 // Label mapping for event types
 const typeLabels: Record<EventType, string> = {
@@ -80,7 +80,7 @@ const typeLabels: Record<EventType, string> = {
   organized: "Organized",
   mentored: "Mentored",
   "organized+attended": "Organized & Attended",
-}
+};
 
 // Color mapping for event types
 const typeColors: Record<EventType, string> = {
@@ -88,16 +88,16 @@ const typeColors: Record<EventType, string> = {
   organized: "from-cyan-500 to-cyan-400",
   mentored: "from-teal-400 to-cyan-500",
   "organized+attended": "from-teal-500 to-cyan-500",
-}
+};
 
 export default function EventsPage() {
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   return (
     <div className="sm:block sm:py-20 bg-black">
@@ -145,41 +145,25 @@ export default function EventsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-6xl font-bold mb-2 tracking-tight">
-                <span className="relative">
-                  <span className="absolute -inset-1 blur-xl bg-gradient-to-r from-teal-500/20 to-cyan-500/20 rounded-lg"></span>
-                  <span className="relative bg-gradient-to-r from-teal-400 via-cyan-300 to-teal-400 bg-clip-text text-transparent">
-                    Professional
-                  </span>
-                </span>
-                <br />
-                <span className="relative inline-block mt-1">
-                  <span className="absolute -inset-1 blur-md bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-lg"></span>
-                  <span className="relative bg-gradient-to-r from-cyan-400 to-teal-300 bg-clip-text text-transparent">
-                    Journey
-                  </span>
-                </span>
-              </h1>
+              <div className="mb-16 text-center">
+                <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 mt-5 mb-2 py-5">
+                  Professional Journey
+                </h1>
+                {/* <div className="h-1 w-24 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mx-auto mb-6"></div> */}
+                <motion.div
+                  className="h-1 w-32 mx-auto bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mb-4"
+                  initial={{ width: 0 }}
+                  animate={{ width: 128 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                />
+                <p className="text-zinc-400 max-w-2xl mx-auto">
+                  A showcase of major events I have attended, hackathons I have
+                  organized, and programs where I have served as a mentor. Each
+                  experience has shaped my professional growth in the tech
+                  industry.
+                </p>
+              </div>
             </motion.div>
-
-            {/* Animated underline */}
-            <motion.div
-              className="h-1 w-32 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mt-4"
-              initial={{ width: 0 }}
-              animate={{ width: 128 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            />
-
-            {/* Subtitle with enhanced styling */}
-            <motion.p
-              className="text-gray-400 mt-6 max-w-2xl text-lg relative z-10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              A showcase of major events I have attended, hackathons I have organized, and programs where I have served as a
-              mentor. Each experience has shaped my professional growth in the tech industry.
-            </motion.p>
           </div>
         </div>
 
@@ -212,7 +196,9 @@ export default function EventsPage() {
                     <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-teal-500/5 to-cyan-500/5 opacity-50 group-hover:opacity-80 transition-opacity duration-300" />
 
                     <div
-                      className={`w-16 h-16 rounded-full bg-gradient-to-r ${typeColors[event.type]} flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 transition-all duration-300 z-10`}
+                      className={`w-16 h-16 rounded-full bg-gradient-to-r ${
+                        typeColors[event.type]
+                      } flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 transition-all duration-300 z-10`}
                     >
                       {typeIcons[event.type]}
                     </div>
@@ -222,7 +208,9 @@ export default function EventsPage() {
                   <div className="md:w-2/3 p-6">
                     <div className="flex items-center mb-3">
                       <span
-                        className={`text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r ${typeColors[event.type]} text-black`}
+                        className={`text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r ${
+                          typeColors[event.type]
+                        } text-black`}
                       >
                         {typeLabels[event.type]}
                       </span>
@@ -244,7 +232,9 @@ export default function EventsPage() {
                       </div>
                     </div>
 
-                    <p className="text-gray-400 text-sm mb-4">{event.description}</p>
+                    <p className="text-gray-400 text-sm mb-4">
+                      {event.description}
+                    </p>
                   </div>
                 </div>
 
@@ -255,5 +245,5 @@ export default function EventsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
