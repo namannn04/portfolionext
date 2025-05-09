@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import {
@@ -529,27 +528,6 @@ export default function ExperiencePage() {
               </span>
             </motion.div>
           </div>
-
-          {/* Bottom navigation with premium styling */}
-          <motion.div
-            className="mt-24 flex justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <Link href="/roles">
-              <Button
-                variant="outline"
-                className="relative overflow-hidden group border-zinc-800 hover:border-cyan-500/50 bg-transparent"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-teal-400 flex items-center">
-                  View My Roles & Responsibilities
-                  <Code className="ml-2 h-4 w-4 text-cyan-400 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </Button>
-            </Link>
-          </motion.div>
         </div>
       </div>
     </div>
