@@ -139,7 +139,7 @@ export default function HeroSection() {
           >
             <div className="relative aspect-[3/4] w-full">
               <Image
-                src="/profileBG.png"
+                src="/profilebg.png"
                 alt="Portfolio image"
                 fill
                 className="object-cover shadow-xl"
