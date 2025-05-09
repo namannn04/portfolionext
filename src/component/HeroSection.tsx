@@ -140,7 +140,7 @@ export default function HeroSection() {
             <div className="relative aspect-[3/4] w-full">
               <Image
                 src="/profileBG.png"
-                alt="Portfolio overlay image"
+                alt="Portfolio image"
                 fill
                 className="object-cover shadow-xl"
                 priority
