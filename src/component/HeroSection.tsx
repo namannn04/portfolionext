@@ -37,6 +37,33 @@ export default function HeroSection() {
             perspective: "1000px",
           }}
         >
+          {/* Add the name text positioned above the image */}
+          <motion.div
+            className="hidden md:block absolute top-24 left-0 right-0 z-0 text-center"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider text-white">
+              <motion.span
+                className="relative"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.7 }}
+              >
+                <span className="relative z-0 text-teal-400">
+                  Naman <span className="text-cyan-400">Dadhich</span>
+                </span>
+                <motion.span
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1, delay: 0.8 }}
+                  className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-teal-500 to-cyan-500"
+                />
+              </motion.span>
+            </h1>
+          </motion.div>
+
           <div
             className="relative"
             style={{
@@ -152,7 +179,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="relative mt-16"
         >
-          <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider text-white">
+          <h1 className="block md:hidden text-center text-3xl sm:text-4xl font-black uppercase tracking-wider text-white">
             <motion.span
               className="relative"
               initial={{ x: -20, opacity: 0 }}
