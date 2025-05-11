@@ -6,6 +6,7 @@ import Navbar from "@/component/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import Footer from "@/component/Footer";
 
 interface Project {
   id: number;
@@ -549,6 +550,7 @@ export default function Page() {
             }}
           />
         </div>
+        <Footer />
       </div>
     </div>
   );

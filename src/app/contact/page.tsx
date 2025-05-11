@@ -1,61 +1,72 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { MessageSquare, User, Mail, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Alert, AlertDescription } from "@/components/ui/alert" 
-import Navbar from "@/component/Navbar"
+import { useState } from "react";
+import {
+  MessageSquare,
+  User,
+  Mail,
+  Send,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import Navbar from "@/component/Navbar";
+import Footer from "@/component/Footer";
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" })
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<{
-    type: "idle" | "loading" | "success" | "error"
-    message: string
-  }>({ type: "idle", message: "" })
+    type: "idle" | "loading" | "success" | "error";
+    message: string;
+  }>({ type: "idle", message: "" });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setForm((prevForm) => ({ ...prevForm, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setStatus({ type: "loading", message: "Sending your message..." })
+    e.preventDefault();
+    setStatus({ type: "loading", message: "Sending your message..." });
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
-      })
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (res.ok && data.success) {
         setStatus({
           type: "success",
           message: "Message sent successfully! We will get back to you soon.",
-        })
-        setForm({ name: "", email: "", message: "" })
+        });
+        setForm({ name: "", email: "", message: "" });
       } else {
         setStatus({
           type: "error",
           message: data.error || "Failed to send message. Please try again.",
-        })
+        });
       }
     } catch (error) {
-      console.error("Network error:", error)
+      console.error("Network error:", error);
       setStatus({
         type: "error",
         message: "Network error. Please check your connection and try again.",
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="sm:block sm:py-20 bg-black">
@@ -83,8 +94,9 @@ export default function Contact() {
             Get in Touch
           </h1>
           <p className="text-gray-400 mb-8 leading-relaxed">
-            I am always open to exploring new collaborations and exciting opportunities. Whether it is a project idea, a
-            job opportunity, or simply a chance to connect, feel free to reach out!
+            I am always open to exploring new collaborations and exciting
+            opportunities. Whether it is a project idea, a job opportunity, or
+            simply a chance to connect, feel free to reach out!
           </p>
 
           <motion.div
@@ -238,9 +250,15 @@ export default function Contact() {
                   } rounded-xl shadow-lg`}
                 >
                   <div className="flex items-center gap-3">
-                    {status.type === "loading" && <Loader2 className="h-5 w-5 text-cyan-400 animate-spin" />}
-                    {status.type === "success" && <CheckCircle className="h-5 w-5 text-teal-400" />}
-                    {status.type === "error" && <AlertCircle className="h-5 w-5 text-red-400" />}
+                    {status.type === "loading" && (
+                      <Loader2 className="h-5 w-5 text-cyan-400 animate-spin" />
+                    )}
+                    {status.type === "success" && (
+                      <CheckCircle className="h-5 w-5 text-teal-400" />
+                    )}
+                    {status.type === "error" && (
+                      <AlertCircle className="h-5 w-5 text-red-400" />
+                    )}
                     <AlertDescription
                       className={`font-medium ${
                         status.type === "success"
@@ -260,7 +278,10 @@ export default function Contact() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="transform transition-all duration-500 hover:translate-x-1">
-              <label htmlFor="name" className="block mb-2 text-cyan-300 font-medium">
+              <label
+                htmlFor="name"
+                className="block mb-2 text-cyan-300 font-medium"
+              >
                 Name
               </label>
               <div className="relative group">
@@ -279,7 +300,10 @@ export default function Contact() {
             </div>
 
             <div className="transform transition-all duration-500 hover:translate-x-1">
-              <label htmlFor="email" className="block mb-2 text-cyan-300 font-medium">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-cyan-300 font-medium"
+              >
                 Email
               </label>
               <div className="relative group">
@@ -299,7 +323,10 @@ export default function Contact() {
             </div>
 
             <div className="transform transition-all duration-500 hover:translate-x-1">
-              <label htmlFor="message" className="block mb-2 text-cyan-300 font-medium">
+              <label
+                htmlFor="message"
+                className="block mb-2 text-cyan-300 font-medium"
+              >
                 Message
               </label>
               <div className="relative group">
@@ -328,7 +355,8 @@ export default function Contact() {
                 </>
               ) : (
                 <>
-                  Send Message <Send className="ml-2 h-4 w-4 animate-pulse-slow" />
+                  Send Message{" "}
+                  <Send className="ml-2 h-4 w-4 animate-pulse-slow" />
                 </>
               )}
             </Button>
@@ -344,7 +372,8 @@ export default function Contact() {
             </p>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
-  )
+  );
 }

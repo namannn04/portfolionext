@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Calendar, Trophy, Users, Lightbulb, MapPin, Star } from "lucide-react";
 import type { JSX } from "react";
 import Navbar from "@/component/Navbar";
+import Footer from "@/component/Footer";
 
 // Define EventType type
 type EventType = "attended" | "organized" | "mentored" | "organized+attended";
@@ -243,6 +244,7 @@ export default function EventsPage() {
               </motion.div>
             ))}
         </div>
+        <Footer />
       </div>
     </div>
   );

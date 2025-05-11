@@ -1,4 +1,5 @@
 import AboutUs from "@/component/AboutUs";
+import Footer from "@/component/Footer";
 import GitHubContribution from "@/component/GitHubContribution";
 import HeroSection from "@/component/HeroSection";
 import Navbar from "@/component/Navbar";
@@ -22,6 +23,7 @@ export default function Home() {
               <AboutUs />
               <SkillsSection />
               <Projects />
+              <Footer />
             </div>
           </div>
         </div>

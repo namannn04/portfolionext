@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import Navbar from "@/component/Navbar";
+import Footer from "@/component/Footer";
 
 export default function ResumePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +28,7 @@ export default function ResumePage() {
   if (!mounted) return null;
 
   return (
-    <div className="sm:block sm:pt-20 bg-black min-h-screen text-white">
+    <div className="sm:block sm:pt-20 py-20 bg-black min-h-screen text-white">
       {/* Navbar section */}
       <div className="sm:max-w-[50%] mx-auto">
         <Navbar />
@@ -109,6 +110,7 @@ export default function ResumePage() {
             </div>
           )}
         </div>
+      <Footer />
       </div>
     </div>
   );

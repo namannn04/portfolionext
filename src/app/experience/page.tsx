@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/component/Navbar";
+import Footer from "@/component/Footer";
 
 interface Experience {
   id: number;
@@ -528,6 +529,7 @@ export default function ExperiencePage() {
             </motion.div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );
