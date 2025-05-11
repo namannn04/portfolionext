@@ -12,15 +12,27 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
 
   // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Add keyboard event listener
+  // Add keyboard event listener and check for active input elements
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger navigation shortcuts if user is typing in an input field
+      const activeElement = document.activeElement;
+      const isInputActive = 
+        activeElement instanceof HTMLInputElement || 
+        activeElement instanceof HTMLTextAreaElement || 
+        activeElement?.getAttribute('contenteditable') === 'true';
+      
+      if (isInputActive) {
+        return; // Exit early if user is typing in an input element
+      }
+
       const key = e.key.toLowerCase();
 
       // Find the navigation option with the matching shortcut
