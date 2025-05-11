@@ -1,10 +1,62 @@
-import { Github, Linkedin, MessageSquare, User, Mail, Send } from "lucide-react"
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { MessageSquare, User, Mail, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert" 
 import Navbar from "@/component/Navbar"
 
-export default function ContactPage() {
+export default function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" })
+  const [status, setStatus] = useState<{
+    type: "idle" | "loading" | "success" | "error"
+    message: string
+  }>({ type: "idle", message: "" })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setForm((prevForm) => ({ ...prevForm, [name]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setStatus({ type: "loading", message: "Sending your message..." })
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      })
+
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        setStatus({
+          type: "success",
+          message: "Message sent successfully! We'll get back to you soon.",
+        })
+        setForm({ name: "", email: "", message: "" })
+      } else {
+        setStatus({
+          type: "error",
+          message: data.error || "Failed to send message. Please try again.",
+        })
+      }
+    } catch (error) {
+      console.error("Network error:", error)
+      setStatus({
+        type: "error",
+        message: "Network error. Please check your connection and try again.",
+      })
+    }
+  }
+
   return (
     <div className="sm:block sm:py-20 bg-black">
       <div className="sm:max-w-[50%] mx-auto">
@@ -31,131 +83,182 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-gray-400 mb-8 leading-relaxed">
-            I'm always open to exploring new collaborations and exciting opportunities. Whether it's a project idea, a
+            I am always open to exploring new collaborations and exciting opportunities. Whether it's a project idea, a
             job opportunity, or simply a chance to connect, feel free to reach out!
           </p>
 
-          <div className="flex gap-6 mb-8 justify-center">
-            <a
-              href="#"
-              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
-            >
-              <Github size={24} />
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
-            >
-              <Linkedin size={24} />
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-4 flex justify-center space-x-5"
+          >
+            {[
+              {
+                icon: "linkedin",
+                url: "https://linkedin.com/in/namannn04",
+                label: "LinkedIn",
+              },
+              {
+                icon: "github",
+                url: "https://github.com/namannn04",
+                label: "GitHub",
+              },
+              {
+                icon: "discord",
+                url: "https://discord.com/users/736213483581866053",
+                label: "Discord",
+              },
+              {
+                icon: "twitter-x",
+                url: "https://x.com/namannn04",
+                label: "X (Twitter)",
+              },
+              {
+                icon: "instagram",
+                url: "https://instagram.com/namannn04",
+                label: "Instagram",
+              },
+            ].map((social, index) => (
+              <motion.a
+                key={social.icon}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative transition-transform duration-300 hover:scale-110"
+                aria-label={social.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.9 + index * 0.1 }}
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+                whileTap={{ scale: 0.9 }}
               >
-                <path
-                  d="M8.5 13.5L11 16.5L15.5 11"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M21 5.5C21 7.433 16.97 9 12 9C7.03 9 3 7.433 3 5.5C3 3.567 7.03 2 12 2C16.97 2 21 3.567 21 5.5Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M3 5.5V18.5C3 20.433 7.03 22 12 22C16.97 22 21 20.433 21 18.5V5.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-gray-400"
-              >
-                <path
-                  d="M22 4L12 14L2 4"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M2 4H22V18C22 18.5304 21.7893 19.0391 21.4142 19.4142C21.0391 19.7893 20.5304 20 20 20H4C3.46957 20 2.96086 19.7893 2.58579 19.4142C2.21071 19.0391 2 18.5304 2 18V4Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M12.5 12L20.5 19"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M3.5 19L11.5 12"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-gray-400"
-              >
-                <path
-                  d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M9 22V12H15V22"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-          </div>
+                {social.icon === "linkedin" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-teal-500 transition-colors duration-300 ease-in-out group-hover:text-[#0A66C2]"
+                  >
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                )}
+                {social.icon === "github" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-cyan-500 transition-colors duration-300 ease-in-out group-hover:text-[#424141]"
+                  >
+                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                    <path d="M9 18c-4.51 2-5-2-7-2" />
+                  </svg>
+                )}
+                {social.icon === "discord" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    className="text-teal-500 transition-colors duration-300 ease-in-out group-hover:text-[#5865F2]"
+                  >
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8731.8914.0766.0766 0 00-.0407.1067c.3606.698.7721 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.0204 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9746 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+                  </svg>
+                )}
+                {social.icon === "twitter-x" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="text-cyan-500 transition-colors duration-300 ease-in-out group-hover:text-[#424141]"
+                  >
+                    <path d="M13.6823 10.6218L20.2391 3H18.6854L12.9921 9.61788L8.44486 3H3.2002L10.0765 13.0074L3.2002 21H4.75404L10.7663 14.0113L15.5685 21H20.8131L13.6819 10.6218H13.6823ZM11.5541 13.0956L10.8574 12.0991L5.31391 4.16971H7.70053L12.1742 10.5689L12.8709 11.5655L18.6861 19.8835H16.2995L11.5541 13.096V13.0956Z" />
+                  </svg>
+                )}
+                {social.icon === "instagram" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-teal-500 transition-colors duration-300 ease-in-out group-hover:text-[#E4405F]"
+                  >
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                  </svg>
+                )}
+              </motion.a>
+            ))}
+          </motion.div>
 
-          <form className="space-y-5">
+          {/* Status message */}
+          <AnimatePresence mode="wait">
+            {status.type !== "idle" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="my-4"
+              >
+                <Alert
+                  className={`border ${
+                    status.type === "success"
+                      ? "border-teal-500/50 bg-teal-500/10"
+                      : status.type === "error"
+                        ? "border-red-500/50 bg-red-500/10"
+                        : "border-cyan-500/50 bg-cyan-500/10"
+                  } rounded-xl shadow-lg`}
+                >
+                  <div className="flex items-center gap-3">
+                    {status.type === "loading" && <Loader2 className="h-5 w-5 text-cyan-400 animate-spin" />}
+                    {status.type === "success" && <CheckCircle className="h-5 w-5 text-teal-400" />}
+                    {status.type === "error" && <AlertCircle className="h-5 w-5 text-red-400" />}
+                    <AlertDescription
+                      className={`font-medium ${
+                        status.type === "success"
+                          ? "text-teal-400"
+                          : status.type === "error"
+                            ? "text-red-400"
+                            : "text-cyan-400"
+                      }`}
+                    >
+                      {status.message}
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="transform transition-all duration-500 hover:translate-x-1">
               <label htmlFor="name" className="block mb-2 text-cyan-300 font-medium">
                 Name
@@ -164,8 +267,12 @@ export default function ContactPage() {
                 <User className="absolute left-3 top-3 h-5 w-5 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" />
                 <Input
                   id="name"
+                  name="name"
                   placeholder="John Doe"
+                  value={form.name}
+                  onChange={handleChange}
                   className="pl-10 bg-black/50 border-teal-500/30 text-white h-12 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
+                  required
                 />
                 <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-cyan-400 to-teal-400 group-hover:w-full transition-all duration-500"></div>
               </div>
@@ -179,9 +286,13 @@ export default function ContactPage() {
                 <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" />
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="john@example.com"
+                  value={form.email}
+                  onChange={handleChange}
                   className="pl-10 bg-black/50 border-teal-500/30 text-white h-12 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
+                  required
                 />
                 <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-cyan-400 to-teal-400 group-hover:w-full transition-all duration-500"></div>
               </div>
@@ -195,15 +306,31 @@ export default function ContactPage() {
                 <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-gray-400 group-hover:text-cyan-400 transition-colors duration-300" />
                 <Textarea
                   id="message"
+                  name="message"
                   placeholder="Your message here..."
+                  value={form.message}
+                  onChange={handleChange}
                   className="pl-10 bg-black/50 border-teal-500/30 text-white min-h-[150px] rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
+                  required
                 />
                 <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-cyan-400 to-teal-400 group-hover:w-full transition-all duration-500"></div>
               </div>
             </div>
 
-            <Button className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white rounded-xl transition-all duration-500 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transform hover:translate-y-[-2px] hover:scale-[1.01]">
-              Send Message <Send className="ml-2 h-4 w-4 animate-pulse-slow" />
+            <Button
+              type="submit"
+              disabled={status.type === "loading"}
+              className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white rounded-xl transition-all duration-500 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transform hover:translate-y-[-2px] hover:scale-[1.01] disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {status.type === "loading" ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...
+                </>
+              ) : (
+                <>
+                  Send Message <Send className="ml-2 h-4 w-4 animate-pulse-slow" />
+                </>
+              )}
             </Button>
           </form>
 
