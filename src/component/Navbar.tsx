@@ -12,7 +12,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isTyping, setIsTyping] = useState(false);
 
   // Prevent hydration mismatch
   useEffect(() => {

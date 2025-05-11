@@ -39,7 +39,7 @@ export default function Contact() {
       if (res.ok && data.success) {
         setStatus({
           type: "success",
-          message: "Message sent successfully! We'll get back to you soon.",
+          message: "Message sent successfully! We will get back to you soon.",
         })
         setForm({ name: "", email: "", message: "" })
       } else {
@@ -83,7 +83,7 @@ export default function Contact() {
             Get in Touch
           </h1>
           <p className="text-gray-400 mb-8 leading-relaxed">
-            I am always open to exploring new collaborations and exciting opportunities. Whether it's a project idea, a
+            I am always open to exploring new collaborations and exciting opportunities. Whether it is a project idea, a
             job opportunity, or simply a chance to connect, feel free to reach out!
           </p>
 
