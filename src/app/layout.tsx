@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ScrollToTop from "@/component/ScrollToTop";
-import NotificationBanner from "@/component/NotificationBanner";
+import ScrollToTop from "@/components/ScrollToTop";
+import NotificationBanner from "@/components/NotificationBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

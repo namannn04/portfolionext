@@ -6,7 +6,7 @@ import { Briefcase, ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import Navbar from "@/component/Navbar";
+import Navbar from "@/components/Navbar";
 
 interface Role {
   id: number;

@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Trophy, Users, Lightbulb, MapPin, Star } from "lucide-react";
 import type { JSX } from "react";
-import Navbar from "@/component/Navbar";
-import Footer from "@/component/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // Define EventType type
 type EventType = "attended" | "organized" | "mentored" | "organized+attended";

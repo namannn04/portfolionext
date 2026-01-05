@@ -1,10 +1,10 @@
-import AboutUs from "@/component/AboutUs";
-import Footer from "@/component/Footer";
-import GitHubContribution from "@/component/GitHubContribution";
-import HeroSection from "@/component/HeroSection";
-import Navbar from "@/component/Navbar";
-import Projects from "@/component/Projects";
-import SkillsSection from "@/component/SkillsSection";
+import AboutUs from "@/components/AboutUs";
+import Footer from "@/components/Footer";
+import GitHubContribution from "@/components/GitHubContribution";
+import HeroSection from "@/components/HeroSection";
+import Navbar from "@/components/Navbar";
+import Projects from "@/components/Projects";
+import SkillsSection from "@/components/SkillsSection";
 
 export default function Home() {
   return (

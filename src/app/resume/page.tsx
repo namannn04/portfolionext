@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import Navbar from "@/component/Navbar";
-import Footer from "@/component/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function ResumePage() {
   const [isLoading, setIsLoading] = useState(true);
