@@ -143,15 +143,15 @@ export default function AboutSection() {
                   </div>
                 </div>
 
-                <div className="flex justify-between mt-8 pt-6 border-t border-zinc-700/50">
-                  <Link href="/resume">
-                    <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
+                <div className="flex flex-col sm:flex-row gap-4 sm:justify-between mt-8 pt-6 border-t border-zinc-700/50">
+                  <Link href="/resume" className="w-full sm:w-auto">
+                    <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
                       Download Resume
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
-                  <Link href="/contact">
-                    <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
+                  <Link href="/contact" className="w-full sm:w-auto">
+                    <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
                       Contact
                       <UserRound className="ml-2 h-4 w-4" />
                     </Button>
