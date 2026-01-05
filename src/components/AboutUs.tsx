@@ -6,18 +6,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function AboutSection() {
-  const [contentHeight, setContentHeight] = useState(0);
   const aboutContentRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isExpanded, setIsExpanded] = useState(false);
-
-  // Update content height when expanded state changes
-  useEffect(() => {
-    if (aboutContentRef.current) {
-      setContentHeight(aboutContentRef.current.scrollHeight);
-    }
-  }, [isExpanded]);
 
   // Handle mouse movement for the header animation
   useEffect(() => {

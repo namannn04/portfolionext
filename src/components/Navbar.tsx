@@ -1,10 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const navOptions = [
+  { name: "About", href: "#about", shortcut: "a" },
+  { name: "Skills", href: "#skills", shortcut: "s" },
+  { name: "Projects", href: "/projects", shortcut: "p" },
+  { name: "Experience", href: "/experience", shortcut: "e" },
+  { name: "Events", href: "/events", shortcut: "v" },
+  { name: "Resume", href: "/resume", shortcut: "r" },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,6 +26,40 @@ export default function Navbar() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const scrollToElement = useCallback((element: HTMLElement) => {
+    window.scrollTo({
+      top: element.offsetTop - 80, // Adjust offset as needed
+      behavior: "smooth",
+    });
+  }, []);
+
+  const handleNavigation = useCallback((href: string) => {
+    if (href.startsWith("#")) {
+      // If we're not on the home page, first navigate to home
+      if (pathname !== "/") {
+        router.push("/");
+        // After navigation, scroll to the element
+        setTimeout(() => {
+          const id = href.substring(1);
+          const element = document.getElementById(id);
+          if (element) {
+            scrollToElement(element);
+          }
+        }, 300); // Allow time for page transition
+      } else {
+        // We're already on the home page, just scroll
+        const id = href.substring(1);
+        const element = document.getElementById(id);
+        if (element) {
+          scrollToElement(element);
+        }
+      }
+    } else {
+      // For non-hash links, just navigate normally
+      router.push(href);
+    }
+  }, [pathname, router, scrollToElement]);
 
   // Add keyboard event listener and check for active input elements
   useEffect(() => {
@@ -43,7 +86,7 @@ export default function Navbar() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [pathname]);
+  }, [handleNavigation]);
 
   // Set active index based on current path
   useEffect(() => {
@@ -72,54 +115,11 @@ export default function Navbar() {
         }
       }, 100);
     }
-  }, [pathname]);
-
-  const scrollToElement = (element: HTMLElement) => {
-    window.scrollTo({
-      top: element.offsetTop - 80, // Adjust offset as needed
-      behavior: "smooth",
-    });
-  };
-
-  const handleNavigation = (href: string) => {
-    if (href.startsWith("#")) {
-      // If we're not on the home page, first navigate to home
-      if (pathname !== "/") {
-        router.push("/");
-        // After navigation, scroll to the element
-        setTimeout(() => {
-          const id = href.substring(1);
-          const element = document.getElementById(id);
-          if (element) {
-            scrollToElement(element);
-          }
-        }, 300); // Allow time for page transition
-      } else {
-        // We're already on the home page, just scroll
-        const id = href.substring(1);
-        const element = document.getElementById(id);
-        if (element) {
-          scrollToElement(element);
-        }
-      }
-    } else {
-      // For non-hash links, just navigate normally
-      router.push(href);
-    }
-  };
+  }, [pathname, scrollToElement]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const navOptions = [
-    { name: "About", href: "#about", shortcut: "a" },
-    { name: "Skills", href: "#skills", shortcut: "s" },
-    { name: "Projects", href: "/projects", shortcut: "p" },
-    { name: "Experience", href: "/experience", shortcut: "e" },
-    { name: "Events", href: "/events", shortcut: "v" }, // new option
-    { name: "Resume", href: "/resume", shortcut: "r" },
-  ];
 
   const handleNavClick = (index: number, href: string) => {
     setActiveIndex(index);
