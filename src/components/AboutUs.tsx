@@ -10,13 +10,14 @@ export default function AboutSection() {
   const aboutContentRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // Set the content height based on the About sections natural height
+  // Update content height when expanded state changes
   useEffect(() => {
     if (aboutContentRef.current) {
       setContentHeight(aboutContentRef.current.scrollHeight);
     }
-  }, []);
+  }, [isExpanded]);
 
   // Handle mouse movement for the header animation
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function AboutSection() {
         <div className="lg:col-span-8">
           <div className="bg-black backdrop-blur-sm rounded-2xl border border-zinc-700/50 shadow-xl h-full overflow-hidden">
             {/* Content */}
-            <div className="p-6" style={{ minHeight: `${contentHeight}px` }}>
+            <div className="p-6">
               <div
                 ref={aboutContentRef}
                 className="space-y-6 animate-in fade-in duration-300"
@@ -88,8 +89,8 @@ export default function AboutSection() {
                 <div className="space-y-4">
                   <p className="text-zinc-300 leading-relaxed">
                     Hello! myself Naman Dadhich, a Full Stack Developer with a
-                    passion for coding and currently in my second year, fourth
-                    semester. I have more than a year of hands-on experience and
+                    passion for coding and currently in my third year, sixth
+                    semester. I have more than two years of hands-on experience and
                     specialize in developing solid web applications. My
                     technology stack is mostly the MERN framework, and I often
                     use the strength of Next.js and TypeScript to develop
@@ -97,6 +98,14 @@ export default function AboutSection() {
                     stylish, clean, and responsive user interfaces that offer
                     great user experiences.
                   </p>
+                  
+                  {/* Expandable Content */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      isExpanded ? "max-h-[2000px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="space-y-4">
                   <p className="text-zinc-300 leading-relaxed">
                     My path into the field of web development was ignited in my
                     second semester. Although my first projects during the third
@@ -105,12 +114,10 @@ export default function AboutSection() {
                     spearheaded the development of a website for a hackathon as
                     a project organizer. This one changed how I approached the
                     work, focusing on collaborative work and enabling me to
-                    contribute more profoundly. Being the Head of the
-                    Development Department in the Google Developer Group (GDG),
-                    previously GDSC, on my campus, I have led website
-                    development initiatives for several projects. While my own
-                    project list may be limited, I have extensive experience
-                    with team projects where I have had a leading role.
+                    contribute more profoundly. I currently serve as the Head of the Development Department at the Geek Room Community, MSIT, where I lead and oversee development initiatives across multiple projects. Previously, I held the role of Head of Development at the Google Developer Group (GDG), formerly GDSC, MSIT chapter, and continue to contribute to the community as its Chief Advisor. Through these roles, I have gained extensive experience leading team-based projects, mentoring developers, and driving impactful technical solutions.
+                  </p>
+                  <p className="text-zinc-300 leading-relaxed">
+                    Beyond development leadership, I have been actively involved in organizing hackathons and ideathons, ranging from MLH-backed national-level to a global-level hackathon. I have also contributed as a mentor in multiple hackathons, supporting teams with technical guidance and strategic direction.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
                     Outside of the world of code, I absolutely love playing
@@ -120,13 +127,41 @@ export default function AboutSection() {
                     eager to learn and grow as a coder, welcoming new challenges
                     and striving to create meaningful digital solutions.
                   </p>
+                    </div>
+                  </div>
+
+                  {/* Show More/Less Button */}
+                  <div className="flex justify-center my-6">
+                    <Button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      variant="outline"
+                      className="bg-zinc-800/50 hover:bg-zinc-700/50 border-zinc-700 text-teal-400 hover:text-teal-300 transition-all duration-300"
+                    >
+                      {isExpanded ? "Show Less" : "Read Full About"}
+                      <svg
+                        className={`ml-2 h-4 w-4 transition-transform duration-300 ${
+                          isExpanded ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </Button>
+                  </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
                     <div className="bg-zinc-700/30 p-4 rounded-lg border border-zinc-700/50">
                       <h4 className="text-white font-semibold mb-2">
                         Education
                       </h4>
-                      <p className="text-zinc-300">Bachelor of Technology</p>
+                      <p className="text-zinc-300">Bachelor of Technology (Computer Science and Engineering)</p>
                       <p className="text-zinc-400 text-sm">
                         Maharaja Surajmal Institute of Technology, 2027
                       </p>
