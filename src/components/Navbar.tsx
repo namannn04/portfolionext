@@ -276,7 +276,7 @@ export default function Navbar() {
       {/* Floating Bottom Navbar */}
       <div
         className={cn(
-          "fixed left-1/2 bottom-10 z-50 w-[90vw] max-w-3xl -translate-x-1/2 bg-black text-white rounded-full shadow-lg transition-all duration-700 flex items-center justify-between h-16 px-4 border border-cyan-400 hidden md:flex",
+          "fixed left-1/2 bottom-10 z-50 w-[90vw] max-w-3xl -translate-x-1/2 bg-black text-white rounded-full shadow-lg transition-all duration-700 items-center justify-between h-16 px-4 border border-cyan-400 hidden md:flex",
           showFloating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
         style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.2)" }}
