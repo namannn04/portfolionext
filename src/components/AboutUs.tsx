@@ -80,15 +80,11 @@ export default function AboutSection() {
               >
                 <div className="space-y-4">
                   <p className="text-zinc-300 leading-relaxed">
-                    Hello! myself Naman Dadhich, a Full Stack Developer with a
+                    Hello! I'm Naman Dadhich, a Full Stack Developer with a
                     passion for coding and currently in my third year, sixth
                     semester. I have more than two years of hands-on experience and
-                    specialize in developing solid web applications. My
-                    technology stack is mostly the MERN framework, and I often
-                    use the strength of Next.js and TypeScript to develop
-                    scalable and efficient solutions. I am committed to building
-                    stylish, clean, and responsive user interfaces that offer
-                    great user experiences.
+                    specialize in developing solid web applications. I also have 3 months of experience as an SDE at Zelosify, where I learned a lot from senior developers and contributed to building a complete end-to-end vendor and contract management system. My
+                    I started my journey with the MERN stack and now I primarily build projects using Next.js and TypeScript, focusing on scalable and efficient solutions. I am committed to building stylish, clean, and responsive user interfaces as well as robust, scalable backend systems that together deliver great user experiences.
                   </p>
                   
                   {/* Expandable Content */}
@@ -106,10 +102,22 @@ export default function AboutSection() {
                     spearheaded the development of a website for a hackathon as
                     a project organizer. This one changed how I approached the
                     work, focusing on collaborative work and enabling me to
-                    contribute more profoundly. I currently serve as the Head of the Development Department at the Geek Room Community, MSIT, where I lead and oversee development initiatives across multiple projects. Previously, I held the role of Head of Development at the Google Developer Group (GDG), formerly GDSC, MSIT chapter, and continue to contribute to the community as its Chief Advisor. Through these roles, I have gained extensive experience leading team-based projects, mentoring developers, and driving impactful technical solutions.
+                    contribute more profoundly. I currently serve as the Head of 
+                    the Development Department at the Geek Room Community, MSIT, 
+                    where I lead and oversee development initiatives across multiple 
+                    projects. Previously, I held the role of Head of Development at 
+                    the Google Developer Group (GDG), formerly GDSC, MSIT chapter, 
+                    and continue to contribute to the community as its Chief Advisor. 
+                    Through these roles, I have gained extensive experience leading 
+                    team-based projects, mentoring developers, and driving impactful 
+                    technical solutions.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
-                    Beyond development leadership, I have been actively involved in organizing hackathons and ideathons, ranging from MLH-backed national-level to a global-level hackathon. I have also contributed as a mentor in multiple hackathons, supporting teams with technical guidance and strategic direction.
+                    Beyond development leadership, I have been actively involved in 
+                    organizing hackathons and ideathons, ranging from MLH-backed 
+                    national-level to a global-level hackathon. I have also contributed 
+                    as a mentor in multiple hackathons, supporting teams with technical 
+                    guidance and strategic direction.
                   </p>
                   <p className="text-zinc-300 leading-relaxed">
                     Outside of the world of code, I absolutely love playing
