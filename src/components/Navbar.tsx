@@ -21,11 +21,38 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showFloating, setShowFloating] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Show floating navbar when scrolled more than half the page, hide when scrolling up or near top
+  useEffect(() => {
+    if (!mounted) return;
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const halfPage = window.innerHeight / 2;
+          const scrollingDown = scrollY > lastScrollY;
+          setLastScrollY(scrollY);
+          if (scrollY > halfPage && scrollingDown) {
+            setShowFloating(true);
+          } else if (scrollY < halfPage || !scrollingDown) {
+            setShowFloating(false);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [mounted, lastScrollY]);
 
   const scrollToElement = useCallback((element: HTMLElement) => {
     window.scrollTo({
@@ -129,116 +156,154 @@ export default function Navbar() {
   if (!mounted) return null;
 
   return (
-    <nav className="mb-5 z-50 bg-black text-white relative">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Hamburger menu for mobile */}
-          <div className="flex md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="text-teal-400 hover:text-teal-300 focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? (
-                <></>
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </button>
-          </div>
-
-          {/* Desktop navigation with underline indicator */}
-          <div className="hidden md:flex relative">
-            {navOptions.map((option, index) => (
-              <div key={option.name} className="relative flex flex-col items-center">
-                <button
-                  onClick={() => handleNavClick(index, option.href)}
-                  className={cn(
-                    "px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300",
-                    pathname === option.href ||
-                      (option.href.startsWith("#") &&
-                        pathname === "/" &&
-                        window.location.hash === option.href)
-                      ? "text-cyan-300"
-                      : ""
-                  )}
-                >
-                  {option.name} ({option.shortcut})
-                </button>
-                {activeIndex === index && (
-                  <span className="block h-0.5 w-full bg-teal-400 rounded transition-all duration-300"></span>
+    <>
+      {/* Original Navbar at top */}
+      <nav className="mb-5 z-50 bg-black text-white relative">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Hamburger menu for mobile */}
+            <div className="flex md:hidden">
+              <button
+                onClick={toggleMenu}
+                className="text-teal-400 hover:text-teal-300 focus:outline-none"
+                aria-label="Toggle menu"
+              >
+                {isOpen ? (
+                  <></>
+                ) : (
+                  <Menu className="h-6 w-6" />
                 )}
-              </div>
-            ))}
-          </div>
+              </button>
+            </div>
 
-          {/* Logo/Brand on the right */}
-          <div className="text-cyan-400 font-bold text-xl">
-            <Link href="/">.dadhich</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 z-40 bg-opacity-90 md:hidden">
-          {/* Close button */}
-          <div className="absolute top-4 left-4">
-            <button
-              onClick={toggleMenu}
-              className="text-teal-400 hover:text-teal-300 focus:outline-none"
-              aria-label="Close menu"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-
-          {/* Menu items with staggered animation */}
-          <div className="pt-20 px-4">
-            <div className="w-full space-y-3">
+            {/* Desktop navigation with underline indicator */}
+            <div className="hidden md:flex relative">
               {navOptions.map((option, index) => (
-                <div
-                  key={option.name}
-                  className="menu-item"
-                  style={{
-                    animation: `slideIn 300ms forwards ${index * 100}ms`,
-                    opacity: 0,
-                    transform: "translateX(-100%)",
-                  }}
-                >
+                <div key={option.name} className="relative flex flex-col items-center">
                   <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      handleNavClick(index, option.href);
-                    }}
-                    className="inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
+                    onClick={() => handleNavClick(index, option.href)}
+                    className={cn(
+                      "px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300",
+                      pathname === option.href ||
+                        (option.href.startsWith("#") &&
+                          pathname === "/" &&
+                          window.location.hash === option.href)
+                        ? "text-cyan-300"
+                        : ""
+                    )}
                   >
                     {option.name} ({option.shortcut})
                   </button>
+                  <span
+                    className={cn(
+                      "absolute left-0 bottom-0 h-0.5 w-full bg-teal-400 rounded origin-left transition-transform duration-300",
+                      activeIndex === index ? "scale-x-100" : "scale-x-0"
+                    )}
+                  ></span>
                 </div>
               ))}
             </div>
+
+            {/* Logo/Brand on the right */}
+            <div className="text-cyan-400 font-bold text-xl">
+              <Link href="/">.dadhich</Link>
+            </div>
           </div>
         </div>
-      )}
 
-      {/* CSS Animation KeyFrames */}
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateX(-100%);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
+        {/* Mobile menu overlay */}
+        {isOpen && (
+          <div className="fixed inset-0 z-40 bg-opacity-90 md:hidden">
+            {/* Close button */}
+            <div className="absolute top-4 left-4">
+              <button
+                onClick={toggleMenu}
+                className="text-teal-400 hover:text-teal-300 focus:outline-none"
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
 
-        .menu-item {
-          animation-fill-mode: forwards;
-        }
-      `}</style>
-    </nav>
+            {/* Menu items with staggered animation */}
+            <div className="pt-20 px-4">
+              <div className="w-full space-y-3">
+                {navOptions.map((option, index) => (
+                  <div
+                    key={option.name}
+                    className="menu-item"
+                    style={{
+                      animation: `slideIn 300ms forwards ${index * 100}ms`,
+                      opacity: 0,
+                      transform: "translateX(-100%)",
+                    }}
+                  >
+                    <button
+                      onClick={() => {
+                        setIsOpen(false);
+                        handleNavClick(index, option.href);
+                      }}
+                      className="inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
+                    >
+                      {option.name} ({option.shortcut})
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CSS Animation KeyFrames */}
+        <style jsx>{`
+          @keyframes slideIn {
+            from {
+              opacity: 0;
+              transform: translateX(-100%);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+
+          .menu-item {
+            animation-fill-mode: forwards;
+          }
+        `}</style>
+      </nav>
+
+      {/* Floating Bottom Navbar */}
+      <div
+        className={cn(
+          "fixed left-1/2 bottom-10 z-50 w-[90vw] max-w-3xl -translate-x-1/2 bg-black text-white rounded-full shadow-lg transition-all duration-700 flex items-center justify-between h-16 px-4 border border-cyan-400 hidden md:flex",
+          showFloating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+        style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.2)" }}
+      >
+        {/* Floating nav options with underline effect */}
+        <div className="flex w-full justify-between gap-1 md:gap-2 lg:gap-4">
+          {navOptions.map((option, index) => (
+            <div key={option.name} className="relative flex flex-col items-center w-full">
+              <button
+                onClick={() => handleNavClick(index, option.href)}
+                className={cn(
+                  "px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300 flex flex-row items-center whitespace-nowrap",
+                  activeIndex === index ? "text-cyan-300" : ""
+                )}
+              >
+                <span className="whitespace-nowrap flex flex-row items-center">{option.name} <span className={cn("ml-1 text-sm", activeIndex === index ? "text-cyan-400" : "text-gray-400")}>({option.shortcut})</span></span>
+              </button>
+              <span
+                className={cn(
+                  "absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-1/2 bg-teal-400 rounded origin-center transition-transform duration-300",
+                  activeIndex === index ? "scale-x-100" : "scale-x-0"
+                )}
+              ></span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
