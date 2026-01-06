@@ -80,7 +80,7 @@ export default function AboutSection() {
               >
                 <div className="space-y-4">
                   <p className="text-zinc-300 leading-relaxed">
-                    Hello! I'm Naman Dadhich, a Full Stack Developer with a
+                    Hello! I&apos;m Naman Dadhich, a Full Stack Developer with a
                     passion for coding and currently in my third year, sixth
                     semester. I have more than two years of hands-on experience and
                     specialize in developing solid web applications. I also have 3 months of experience as an SDE at Zelosify, where I learned a lot from senior developers and contributed to building a complete end-to-end vendor and contract management system. My
