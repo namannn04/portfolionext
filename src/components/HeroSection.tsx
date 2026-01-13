@@ -76,6 +76,7 @@ export default function HeroSection() {
           >
             <motion.div
               className="absolute -inset-4 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 opacity-30 blur-xl smooth-hover"
+              style={{ willChange: 'opacity, transform', contain: 'layout' }}
               animate={{
                 opacity: [0.3, 0.7, 0.3],
                 scale: [1, 1.05, 1],
@@ -94,6 +95,7 @@ export default function HeroSection() {
 
             <motion.div
               className="absolute -inset-1 rounded-xl border-2 border-teal-500/50 overflow-hidden smooth-hover"
+              style={{ willChange: 'border-color', contain: 'layout' }}
               animate={{
                 borderColor: [
                   "rgba(168, 85, 247, 0.5)",
@@ -138,6 +140,8 @@ export default function HeroSection() {
                   fill
                   className="object-cover"
                   priority
+                  quality={85}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </div>
@@ -168,6 +172,8 @@ export default function HeroSection() {
                 fill
                 className="object-cover shadow-xl"
                 priority
+                quality={85}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           </div>

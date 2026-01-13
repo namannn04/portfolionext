@@ -28,6 +28,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/NLogo.png" type="image/png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/profile.jpg" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

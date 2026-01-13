@@ -295,6 +295,8 @@ export default function Page() {
             src={project.image || "/placeholder.svg?height=1080&width=1920"}
             alt={project.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={85}
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
         )}
@@ -387,6 +389,8 @@ export default function Page() {
             src={project.image || "/placeholder.svg?height=1080&width=1920"}
             alt={project.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={85}
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
         )}

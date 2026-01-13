@@ -209,6 +209,8 @@ export default function RolesPage() {
                           src={role.image || "/placeholder.svg"}
                           alt={role.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          quality={85}
                           className="object-cover mix-blend-luminosity opacity-70 transition-transform duration-700 group-hover:scale-110"
                         />
                       )}
