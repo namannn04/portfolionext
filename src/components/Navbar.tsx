@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navOptions = [
   { name: "About", href: "#about", shortcut: "a" },
@@ -24,12 +25,10 @@ export default function Navbar() {
   const [showFloating, setShowFloating] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Show floating navbar when scrolled more than half the page, hide when scrolling up or near top
   useEffect(() => {
     if (!mounted) return;
     let ticking = false;
@@ -56,26 +55,23 @@ export default function Navbar() {
 
   const scrollToElement = useCallback((element: HTMLElement) => {
     window.scrollTo({
-      top: element.offsetTop - 80, // Adjust offset as needed
+      top: element.offsetTop - 80,
       behavior: "smooth",
     });
   }, []);
 
   const handleNavigation = useCallback((href: string) => {
     if (href.startsWith("#")) {
-      // If we're not on the home page, first navigate to home
       if (pathname !== "/") {
         router.push("/");
-        // After navigation, scroll to the element
         setTimeout(() => {
           const id = href.substring(1);
           const element = document.getElementById(id);
           if (element) {
             scrollToElement(element);
           }
-        }, 300); // Allow time for page transition
+        }, 300);
       } else {
-        // We're already on the home page, just scroll
         const id = href.substring(1);
         const element = document.getElementById(id);
         if (element) {
@@ -83,28 +79,21 @@ export default function Navbar() {
         }
       }
     } else {
-      // For non-hash links, just navigate normally
       router.push(href);
     }
   }, [pathname, router, scrollToElement]);
 
-  // Add keyboard event listener and check for active input elements
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger navigation shortcuts if user is typing in an input field
       const activeElement = document.activeElement;
       const isInputActive =
         activeElement instanceof HTMLInputElement ||
         activeElement instanceof HTMLTextAreaElement ||
         activeElement?.getAttribute('contenteditable') === 'true';
 
-      if (isInputActive) {
-        return; // Exit early if user is typing in an input element
-      }
+      if (isInputActive) return;
 
       const key = e.key.toLowerCase();
-
-      // Find the navigation option with the matching shortcut
       const option = navOptions.find((opt) => opt.shortcut === key);
       if (option) {
         handleNavigation(option.href);
@@ -115,25 +104,20 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleNavigation]);
 
-  // Set active index based on current path
   useEffect(() => {
     const index = navOptions.findIndex((option) => {
-      // Check if the current path matches the route or if it's the home page with the hash
       if (option.href.startsWith("#")) {
         return pathname === "/" && window.location.hash === option.href;
       }
       return option.href === pathname;
     });
-
     if (index !== -1) {
       setActiveIndex(index);
     }
   }, [pathname]);
 
-  // Handle scroll to hash on page load
   useEffect(() => {
     if (window.location.hash) {
-      // Delay to ensure DOM is ready
       setTimeout(() => {
         const id = window.location.hash.substring(1);
         const element = document.getElementById(id);
@@ -158,14 +142,14 @@ export default function Navbar() {
   return (
     <>
       {/* Original Navbar at top */}
-      <nav className="mb-5 z-50 bg-black text-white relative">
+      <nav className="mb-5 z-50 bg-t-bg text-t-text relative">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Hamburger menu for mobile */}
             <div className="flex md:hidden">
               <button
                 onClick={toggleMenu}
-                className="text-teal-400 hover:text-teal-300 focus:outline-none"
+                className="text-teal-400 hover:text-teal-300 focus:outline-none cursor-pointer"
                 aria-label="Toggle menu"
               >
                 {isOpen ? (
@@ -183,7 +167,7 @@ export default function Navbar() {
                   <button
                     onClick={() => handleNavClick(index, option.href)}
                     className={cn(
-                      "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300",
+                      "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-t-text hover:text-cyan-300",
                       pathname === option.href ||
                         (option.href.startsWith("#") &&
                           pathname === "/" &&
@@ -204,21 +188,24 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Logo/Brand on the right */}
-            <div className="text-cyan-400 font-bold text-xl">
-              <Link href="/">.dadhich</Link>
+            {/* Logo + Theme Toggle */}
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <div className="text-cyan-400 font-bold text-xl">
+                <Link href="/">.dadhich</Link>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Mobile menu overlay */}
         {isOpen && (
-          <div className="fixed inset-0 z-40 bg-opacity-90 md:hidden">
+          <div className="fixed inset-0 z-40 bg-t-bg/95 backdrop-blur-sm md:hidden">
             {/* Close button */}
             <div className="absolute top-4 left-4">
               <button
                 onClick={toggleMenu}
-                className="text-teal-400 hover:text-teal-300 focus:outline-none"
+                className="text-teal-400 hover:text-teal-300 focus:outline-none cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" />
@@ -249,6 +236,17 @@ export default function Navbar() {
                     </button>
                   </div>
                 ))}
+                {/* Theme toggle in mobile */}
+                <div
+                  className="menu-item pt-4"
+                  style={{
+                    animation: `slideIn 300ms forwards ${navOptions.length * 100}ms`,
+                    opacity: 0,
+                    transform: "translateX(-100%)",
+                  }}
+                >
+                  <ThemeToggle />
+                </div>
               </div>
             </div>
           </div>
@@ -276,23 +274,23 @@ export default function Navbar() {
       {/* Floating Bottom Navbar */}
       <div
         className={cn(
-          "fixed left-1/2 bottom-10 z-50 w-[90vw] max-w-3xl -translate-x-1/2 bg-black text-white rounded-full shadow-lg transition-all duration-700 items-center justify-between h-16 px-4 border border-cyan-400 hidden md:flex",
+          "fixed left-1/2 bottom-10 z-50 w-[90vw] max-w-3xl -translate-x-1/2 bg-t-bg text-t-text rounded-full shadow-lg transition-all duration-700 items-center justify-between h-16 px-4 border border-cyan-400 hidden md:flex",
           showFloating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
-        style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.2)" }}
+        style={{ boxShadow: "0 4px 24px var(--t-shadow-color)" }}
       >
         {/* Floating nav options with underline effect */}
-        <div className="flex w-full justify-between gap-1 md:gap-2 lg:gap-4">
+        <div className="flex w-full justify-between gap-1 md:gap-2 lg:gap-4 items-center">
           {navOptions.map((option, index) => (
             <div key={option.name} className="relative flex flex-col items-center w-full">
               <button
                 onClick={() => handleNavClick(index, option.href)}
                 className={cn(
-                  "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300 flex flex-row items-center whitespace-nowrap",
+                  "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-t-text hover:text-cyan-300 flex flex-row items-center whitespace-nowrap",
                   activeIndex === index ? "text-cyan-300" : ""
                 )}
               >
-                <span className="whitespace-nowrap flex flex-row items-center">{option.name} <span className={cn("ml-1 text-sm", activeIndex === index ? "text-cyan-400" : "text-gray-400")}>({option.shortcut})</span></span>
+                <span className="whitespace-nowrap flex flex-row items-center">{option.name} <span className={cn("ml-1 text-sm", activeIndex === index ? "text-cyan-400" : "text-t-dim")}>({option.shortcut})</span></span>
               </button>
               <span
                 className={cn(
@@ -302,6 +300,10 @@ export default function Navbar() {
               ></span>
             </div>
           ))}
+          {/* Theme toggle in floating nav */}
+          <div className="flex-shrink-0 ml-2">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </>

@@ -11,23 +11,20 @@ export default function NotificationBanner() {
   const router = useRouter()
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Animation timing configuration - you can adjust these values
-  const animationDuration = 0.85 // seconds (increased from 0.45)
-  const animationDelay = 100 // milliseconds (increased from 10)
+  const animationDuration = 0.85
+  const animationDelay = 100
 
-  // Mount par enter animation
   useEffect(() => {
     const t = setTimeout(() => setShow(true), animationDelay)
     return () => clearTimeout(t)
   }, [])
 
-  // Dismiss handler
   const handleDismiss = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setShow(false)
     timeoutRef.current = setTimeout(() => {
       setIsVisible(false)
-    }, animationDuration * 1000) // Automatically convert seconds to milliseconds
+    }, animationDuration * 1000)
   }
 
   const handleBannerClick = () => {
@@ -36,13 +33,11 @@ export default function NotificationBanner() {
 
   if (!isVisible) return null
 
-  // Animation styles
   const animationStyles: React.CSSProperties = {
     transform: show ? "translateY(0)" : "translateY(-100%)",
     opacity: show ? 1 : 0,
-    transition: `transform ${animationDuration}s cubic-bezier(0.16, 1, 0.3, 1), opacity ${animationDuration}s cubic-bezier(0.16, 1, 0.3, 1)`, // Smoother easing
+    transition: `transform ${animationDuration}s cubic-bezier(0.16, 1, 0.3, 1), opacity ${animationDuration}s cubic-bezier(0.16, 1, 0.3, 1)`,
     zIndex: 50,
-    // Enhanced shadow with more prominence at the bottom
     boxShadow: "0 2px 20px 0 rgba(20,184,166,0.3), 0 2px 12px 0 rgba(34,211,238,0.25), 0 4px 16px 2px rgba(45,212,191,0.2)",
   }
 
@@ -57,7 +52,7 @@ export default function NotificationBanner() {
         left: 0,
         right: 0,
         width: "100%",
-        background: "linear-gradient(90deg, rgba(0,0,0,0.97) 0%, rgba(0,0,0,1) 100%)",
+        background: "var(--t-notification-bg)",
         borderBottom: "1px solid rgba(45,212,191,0.3)",
         cursor: "pointer",
         padding: "0.75rem 1rem",
@@ -92,7 +87,7 @@ export default function NotificationBanner() {
           <button
             onClick={handleDismiss}
             style={{
-              color: "#9ca3af",
+              color: "var(--t-dim)",
               padding: "0.25rem",
               transition: "color 0.3s",
               background: "none",
@@ -101,7 +96,7 @@ export default function NotificationBanner() {
             }}
             aria-label="Dismiss notification"
             onMouseEnter={e => (e.currentTarget.style.color = "#2dd4bf")}
-            onMouseLeave={e => (e.currentTarget.style.color = "#9ca3af")}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--t-dim)")}
           >
             <X size={18} />
           </button>
