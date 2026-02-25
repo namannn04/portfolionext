@@ -189,7 +189,7 @@ export default function Navbar() {
             </div>
 
             {/* Logo + Theme Toggle */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-8">
               <ThemeToggle />
               <div className="text-cyan-400 font-bold text-xl">
                 <Link href="/">.dadhich</Link>

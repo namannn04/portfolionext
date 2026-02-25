@@ -126,7 +126,7 @@ export default function HeroSection() {
             >
               <div className="relative aspect-[3/4] w-full">
                 <Image
-                  src="/profile.jpg"
+                  src="/profileWithoutMe.jpg"
                   alt="Portfolio hero image"
                   fill
                   className="object-cover"
