@@ -1,6 +1,6 @@
 import AboutUs from "@/components/AboutUs";
 import Footer from "@/components/Footer";
-import GitHubContribution from "@/components/GitHubContribution";
+// import GitHubContribution from "@/components/GitHubContribution";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
