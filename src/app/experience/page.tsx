@@ -72,7 +72,6 @@ export default function ExperiencePage() {
             <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500"></div>
             <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-teal-500 to-cyan-500"></div>
             <div className="absolute top-0 right-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-teal-500 to-cyan-500"></div>
-            <Link href="/" className="inline-flex items-center text-t-muted hover:text-cyan-400 transition-colors z-20 mb-4"><ArrowLeft className="mr-2 h-4 w-4" />Back to Home</Link>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
                 <h1 className="text-5xl md:text-7xl font-bold leading-tight"><span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400">My Experience</span></h1>
