@@ -93,11 +93,11 @@ export default function Navbar() {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't trigger navigation shortcuts if user is typing in an input field
       const activeElement = document.activeElement;
-      const isInputActive = 
-        activeElement instanceof HTMLInputElement || 
-        activeElement instanceof HTMLTextAreaElement || 
+      const isInputActive =
+        activeElement instanceof HTMLInputElement ||
+        activeElement instanceof HTMLTextAreaElement ||
         activeElement?.getAttribute('contenteditable') === 'true';
-      
+
       if (isInputActive) {
         return; // Exit early if user is typing in an input element
       }
@@ -183,7 +183,7 @@ export default function Navbar() {
                   <button
                     onClick={() => handleNavClick(index, option.href)}
                     className={cn(
-                      "px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300",
+                      "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300",
                       pathname === option.href ||
                         (option.href.startsWith("#") &&
                           pathname === "/" &&
@@ -243,7 +243,7 @@ export default function Navbar() {
                         setIsOpen(false);
                         handleNavClick(index, option.href);
                       }}
-                      className="inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
+                      className="cursor-pointer inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
                     >
                       {option.name} ({option.shortcut})
                     </button>
@@ -288,7 +288,7 @@ export default function Navbar() {
               <button
                 onClick={() => handleNavClick(index, option.href)}
                 className={cn(
-                  "px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300 flex flex-row items-center whitespace-nowrap",
+                  "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-white hover:text-cyan-300 flex flex-row items-center whitespace-nowrap",
                   activeIndex === index ? "text-cyan-300" : ""
                 )}
               >
