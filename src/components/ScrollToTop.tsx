@@ -23,10 +23,15 @@ const ScrollToTop = () => {
     isVisible && (
       <button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-tr from-teal-500/30 to-cyan-400/20 backdrop-blur-md border border-cyan-300/40 shadow-[0_0_25px_rgba(6,182,212,0.3)] hover:shadow-[0_0_45px_rgba(6,182,212,0.6)] transition-all duration-500 ease-in-out flex items-center justify-center text-cyan-200 hover:text-t-text hover:scale-110 animate-fadein cursor-pointer"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 flex items-center justify-center text-t-text hover:text-mc-grass transition-all duration-200 cursor-pointer hover:scale-110 active:scale-95"
         aria-label="Scroll to top"
+        style={{
+          background: 'var(--t-surface)',
+          border: '2px solid var(--t-border)',
+          boxShadow: 'inset 1px 1px 0 rgba(255,255,255,0.1), inset -1px -1px 0 rgba(0,0,0,0.25), 2px 2px 0 rgba(0,0,0,0.3)',
+        }}
       >
-        <ChevronUp className="w-6 h-6 animate-bounce-slow" strokeWidth={2.6} />
+        <ChevronUp className="w-5 h-5" strokeWidth={2.6} />
       </button>
     )
   );

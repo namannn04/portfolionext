@@ -8,12 +8,12 @@ import { cn } from "@/lib/utils";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const navOptions = [
-  { name: "About", href: "#about", shortcut: "a" },
-  { name: "Skills", href: "#skills", shortcut: "s" },
-  { name: "Projects", href: "/projects", shortcut: "p" },
-  { name: "Experience", href: "/experience", shortcut: "e" },
-  { name: "Events", href: "/events", shortcut: "v" },
-  { name: "Resume", href: "/resume", shortcut: "r" },
+  { name: "About", href: "#about", shortcut: "a", icon: "📖" },
+  { name: "Skills", href: "#skills", shortcut: "s", icon: "⚔️" },
+  { name: "Projects", href: "/projects", shortcut: "p", icon: "🏗️" },
+  { name: "Experience", href: "/experience", shortcut: "e", icon: "⭐" },
+  { name: "Events", href: "/events", shortcut: "v", icon: "🎪" },
+  { name: "Resume", href: "/resume", shortcut: "r", icon: "📜" },
 ];
 
 export default function Navbar() {
@@ -60,28 +60,31 @@ export default function Navbar() {
     });
   }, []);
 
-  const handleNavigation = useCallback((href: string) => {
-    if (href.startsWith("#")) {
-      if (pathname !== "/") {
-        router.push("/");
-        setTimeout(() => {
+  const handleNavigation = useCallback(
+    (href: string) => {
+      if (href.startsWith("#")) {
+        if (pathname !== "/") {
+          router.push("/");
+          setTimeout(() => {
+            const id = href.substring(1);
+            const element = document.getElementById(id);
+            if (element) {
+              scrollToElement(element);
+            }
+          }, 300);
+        } else {
           const id = href.substring(1);
           const element = document.getElementById(id);
           if (element) {
             scrollToElement(element);
           }
-        }, 300);
-      } else {
-        const id = href.substring(1);
-        const element = document.getElementById(id);
-        if (element) {
-          scrollToElement(element);
         }
+      } else {
+        router.push(href);
       }
-    } else {
-      router.push(href);
-    }
-  }, [pathname, router, scrollToElement]);
+    },
+    [pathname, router, scrollToElement]
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -89,7 +92,7 @@ export default function Navbar() {
       const isInputActive =
         activeElement instanceof HTMLInputElement ||
         activeElement instanceof HTMLTextAreaElement ||
-        activeElement?.getAttribute('contenteditable') === 'true';
+        activeElement?.getAttribute("contenteditable") === "true";
 
       if (isInputActive) return;
 
@@ -141,58 +144,81 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Original Navbar at top */}
+      {/* === TOP NAVBAR - Minecraft Hotbar Style === */}
       <nav className="mb-5 z-50 bg-t-bg text-t-text relative">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Hamburger menu for mobile */}
+            {/* Mobile hamburger */}
             <div className="flex md:hidden">
               <button
                 onClick={toggleMenu}
-                className="text-teal-400 hover:text-teal-300 focus:outline-none cursor-pointer"
+                className="text-mc-grass hover:text-mc-emerald focus:outline-none cursor-pointer transition-colors"
                 aria-label="Toggle menu"
               >
-                {isOpen ? (
-                  <></>
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
+                {isOpen ? <></> : <Menu className="h-6 w-6" />}
               </button>
             </div>
 
-            {/* Desktop navigation with underline indicator */}
-            <div className="hidden md:flex relative">
+            {/* Desktop nav - Hotbar slots */}
+            <div
+              className="hidden md:flex items-center gap-1 p-1.5"
+              style={{
+                background: "var(--t-surface)",
+                border: "2px solid var(--t-border)",
+                boxShadow:
+                  "inset 1px 1px 0 rgba(255,255,255,0.08), inset -1px -1px 0 rgba(0,0,0,0.25)",
+              }}
+            >
               {navOptions.map((option, index) => (
-                <div key={option.name} className="relative flex flex-col items-center">
-                  <button
-                    onClick={() => handleNavClick(index, option.href)}
-                    className={cn(
-                      "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-t-text hover:text-cyan-300",
-                      pathname === option.href ||
-                        (option.href.startsWith("#") &&
-                          pathname === "/" &&
-                          window.location.hash === option.href)
-                        ? "text-cyan-300"
-                        : ""
-                    )}
-                  >
-                    {option.name} ({option.shortcut})
-                  </button>
+                <button
+                  key={option.name}
+                  onClick={() => handleNavClick(index, option.href)}
+                  className={cn(
+                    "relative cursor-pointer px-3 py-2 text-sm transition-all duration-200 flex items-center gap-1.5",
+                    activeIndex === index
+                      ? "bg-mc-grass text-white"
+                      : "hover:bg-t-hover text-t-text2"
+                  )}
+                  style={
+                    activeIndex === index
+                      ? {
+                        boxShadow:
+                          "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 0 0 10px rgba(92,184,92,0.3)",
+                      }
+                      : {
+                        boxShadow:
+                          "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.15)",
+                      }
+                  }
+                >
+                  <span className="text-xs">{option.icon}</span>
+                  <span>{option.name}</span>
                   <span
                     className={cn(
-                      "absolute left-0 bottom-0 h-0.5 w-full bg-teal-400 rounded origin-left transition-transform duration-300",
-                      activeIndex === index ? "scale-x-100" : "scale-x-0"
+                      "text-xs",
+                      activeIndex === index
+                        ? "text-white/60"
+                        : "text-t-dim"
                     )}
-                  ></span>
-                </div>
+                  >
+                    ({option.shortcut})
+                  </span>
+                </button>
               ))}
             </div>
 
             {/* Logo + Theme Toggle */}
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-6">
               <ThemeToggle />
-              <div className="text-cyan-400 font-bold text-xl">
-                <Link href="/">.dadhich</Link>
+              <div
+                className="text-mc-grass font-bold text-xl"
+                style={{
+                  textShadow: "1px 1px 0 rgba(0,0,0,0.5)",
+                }}
+              >
+                <Link href="/" className="hover:text-mc-emerald transition-colors">
+                  .dadhich
+                </Link>
               </div>
             </div>
           </div>
@@ -200,27 +226,27 @@ export default function Navbar() {
 
         {/* Mobile menu overlay */}
         {isOpen && (
-          <div className="fixed inset-0 z-40 bg-t-bg/95 backdrop-blur-sm md:hidden">
+          <div className="fixed inset-0 z-40 bg-t-bg/97 backdrop-blur-sm md:hidden">
             {/* Close button */}
             <div className="absolute top-4 left-4">
               <button
                 onClick={toggleMenu}
-                className="text-teal-400 hover:text-teal-300 focus:outline-none cursor-pointer"
+                className="text-mc-grass hover:text-mc-emerald focus:outline-none cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" />
               </button>
             </div>
 
-            {/* Menu items with staggered animation */}
+            {/* Menu items - inventory grid */}
             <div className="pt-20 px-4">
-              <div className="w-full space-y-3">
+              <div className="w-full space-y-2">
                 {navOptions.map((option, index) => (
                   <div
                     key={option.name}
                     className="menu-item"
                     style={{
-                      animation: `slideIn 300ms forwards ${index * 100}ms`,
+                      animation: `slideIn 300ms forwards ${index * 80}ms`,
                       opacity: 0,
                       transform: "translateX(-100%)",
                     }}
@@ -230,9 +256,15 @@ export default function Navbar() {
                         setIsOpen(false);
                         handleNavClick(index, option.href);
                       }}
-                      className="cursor-pointer inline-block px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white hover:text-cyan-300 transition-all duration-300"
+                      className="mc-slot cursor-pointer w-full text-left px-4 py-3 flex items-center gap-3 text-t-text hover:text-mc-grass transition-all"
                     >
-                      {option.name} ({option.shortcut})
+                      <span className="text-lg">{option.icon}</span>
+                      <span className="font-medium">
+                        {option.name}
+                      </span>
+                      <span className="text-t-dim text-xs ml-auto">
+                        [{option.shortcut}]
+                      </span>
                     </button>
                   </div>
                 ))}
@@ -240,7 +272,7 @@ export default function Navbar() {
                 <div
                   className="menu-item pt-4"
                   style={{
-                    animation: `slideIn 300ms forwards ${navOptions.length * 100}ms`,
+                    animation: `slideIn 300ms forwards ${navOptions.length * 80}ms`,
                     opacity: 0,
                     transform: "translateX(-100%)",
                   }}
@@ -251,57 +283,61 @@ export default function Navbar() {
             </div>
           </div>
         )}
-
-        {/* CSS Animation KeyFrames */}
-        <style jsx>{`
-          @keyframes slideIn {
-            from {
-              opacity: 0;
-              transform: translateX(-100%);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          .menu-item {
-            animation-fill-mode: forwards;
-          }
-        `}</style>
       </nav>
 
-      {/* Floating Bottom Navbar */}
+      {/* === FLOATING BOTTOM NAVBAR - Hotbar === */}
       <div
         className={cn(
-          "fixed left-1/2 bottom-10 z-50 w-[90vw] max-w-3xl -translate-x-1/2 bg-t-bg text-t-text rounded-full shadow-lg transition-all duration-700 items-center justify-between h-16 px-4 border border-cyan-400 hidden md:flex",
-          showFloating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          "fixed left-1/2 bottom-8 z-50 -translate-x-1/2 transition-all duration-500 hidden md:flex items-center",
+          showFloating
+            ? "opacity-100 pointer-events-auto translate-y-0"
+            : "opacity-0 pointer-events-none translate-y-4"
         )}
-        style={{ boxShadow: "0 4px 24px var(--t-shadow-color)" }}
       >
-        {/* Floating nav options with underline effect */}
-        <div className="flex w-full justify-between gap-1 md:gap-2 lg:gap-4 items-center">
+        <div
+          className="flex items-center gap-1 p-1.5"
+          style={{
+            background: "var(--t-bg)",
+            border: "3px solid var(--t-border)",
+            boxShadow:
+              "inset 2px 2px 0 rgba(255,255,255,0.08), inset -2px -2px 0 rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.5)",
+          }}
+        >
           {navOptions.map((option, index) => (
-            <div key={option.name} className="relative flex flex-col items-center w-full">
-              <button
-                onClick={() => handleNavClick(index, option.href)}
-                className={cn(
-                  "cursor-pointer px-3 py-2 mx-1 transition-all duration-300 text-sm text-t-text hover:text-cyan-300 flex flex-row items-center whitespace-nowrap",
-                  activeIndex === index ? "text-cyan-300" : ""
-                )}
-              >
-                <span className="whitespace-nowrap flex flex-row items-center">{option.name} <span className={cn("ml-1 text-sm", activeIndex === index ? "text-cyan-400" : "text-t-dim")}>({option.shortcut})</span></span>
-              </button>
+            <button
+              key={option.name}
+              onClick={() => handleNavClick(index, option.href)}
+              className={cn(
+                "relative cursor-pointer px-3 py-2 text-sm transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap",
+                activeIndex === index
+                  ? "bg-mc-grass text-white"
+                  : "hover:bg-t-hover text-t-text2"
+              )}
+              style={
+                activeIndex === index
+                  ? {
+                    boxShadow:
+                      "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 0 0 10px rgba(92,184,92,0.3)",
+                  }
+                  : {
+                    boxShadow:
+                      "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.15)",
+                  }
+              }
+            >
+              <span className="text-xs">{option.icon}</span>
+              <span>{option.name}</span>
               <span
                 className={cn(
-                  "absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-1/2 bg-teal-400 rounded origin-center transition-transform duration-300",
-                  activeIndex === index ? "scale-x-100" : "scale-x-0"
+                  "text-xs",
+                  activeIndex === index ? "text-white/60" : "text-t-dim"
                 )}
-              ></span>
-            </div>
+              >
+                ({option.shortcut})
+              </span>
+            </button>
           ))}
-          {/* Theme toggle in floating nav */}
-          <div className="flex-shrink-0 ml-2">
+          <div className="flex-shrink-0 ml-1">
             <ThemeToggle />
           </div>
         </div>

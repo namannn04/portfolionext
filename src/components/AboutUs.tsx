@@ -7,54 +7,75 @@ import { Button } from "@/components/ui/button";
 
 export default function AboutSection() {
   const aboutContentRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
+  // Intersection observer for scroll-triggered reveal
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (headerRef.current) {
-        const rect = headerRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: (e.clientX - rect.left) / rect.width,
-          y: (e.clientY - rect.top) / rect.height,
-        });
-      }
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="about"
       className="relative bg-t-bg w-full py-16 px-4 md:px-8 lg:px-2"
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full opacity-5">
-          <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-teal-500 blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-teal-500 blur-3xl"></div>
-        </div>
-      </div>
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
       <div className="container mx-auto max-w-6xl relative z-10">
-        {/* Enhanced Header */}
+        {/* Header - Crafting Table Style */}
         <div
-          ref={headerRef}
-          className="mb-16 relative overflow-hidden rounded-2xl border border-t-border2 bg-t-glass backdrop-blur-sm p-8 md:p-12"
+          className={`mb-16 relative overflow-hidden p-8 md:p-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100
-              }%, rgba(20,184,166,0.15), rgba(8,145,178,0.1), transparent)`,
+            background: "var(--t-surface)",
+            border: "3px solid var(--t-border)",
+            boxShadow:
+              "inset 2px 2px 0 rgba(255,255,255,0.1), inset -2px -2px 0 rgba(0,0,0,0.25), 4px 4px 0 rgba(0,0,0,0.3)",
           }}
         >
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500"></div>
-          <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500"></div>
-          <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-teal-500 via-cyan-500 to-teal-500"></div>
-          <div className="absolute top-0 right-0 h-full w-1 bg-gradient-to-b from-teal-500 via-cyan-500 to-teal-500"></div>
+          {/* Top accent bar */}
+          <div
+            className="absolute top-0 left-0 w-full h-1"
+            style={{ background: "var(--mc-grass)" }}
+          />
 
-          <h2 className="text-5xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 animate-pulse-slow">
+          {/* Corner decorations */}
+          <div className="absolute top-2 left-2 w-3 h-3 bg-mc-grass opacity-60" />
+          <div className="absolute top-2 right-2 w-3 h-3 bg-mc-grass opacity-60" />
+          <div className="absolute bottom-2 left-2 w-3 h-3 bg-mc-diamond opacity-60" />
+          <div className="absolute bottom-2 right-2 w-3 h-3 bg-mc-diamond opacity-60" />
+
+          <h2
+            className="text-4xl md:text-6xl font-black mb-4 text-mc-grass uppercase tracking-wide"
+            style={{
+              textShadow:
+                "2px 2px 0 rgba(0,0,0,0.5), 4px 4px 0 rgba(0,0,0,0.15)",
+            }}
+          >
             About Me
           </h2>
           <p className="text-t-muted max-w-2xl text-lg">
@@ -62,81 +83,113 @@ export default function AboutSection() {
             creativity. Explore my journey, skills, and the path that led me
             here.
           </p>
-
-          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-teal-500/10 blur-xl"></div>
-          <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-cyan-500/10 blur-xl"></div>
         </div>
 
-        {/* Right column - Content */}
-        <div className="lg:col-span-8">
-          <div className="bg-t-bg backdrop-blur-sm rounded-2xl border border-t-border shadow-xl h-full overflow-hidden">
-            {/* Content */}
+        {/* Content - Inventory Panel */}
+        <div
+          className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+        >
+          <div
+            style={{
+              background: "var(--t-surface)",
+              border: "3px solid var(--t-border)",
+              boxShadow:
+                "inset 2px 2px 0 rgba(255,255,255,0.08), inset -2px -2px 0 rgba(0,0,0,0.25), 4px 4px 0 rgba(0,0,0,0.3)",
+            }}
+          >
+            {/* Title bar */}
+            <div
+              className="px-6 py-3 flex items-center gap-3"
+              style={{
+                background: "var(--t-bg2)",
+                borderBottom: "2px solid var(--t-border)",
+              }}
+            >
+              <div className="w-2 h-2 bg-mc-redstone" />
+              <div className="w-2 h-2 bg-mc-gold" />
+              <div className="w-2 h-2 bg-mc-grass" />
+              <span className="text-t-muted text-sm ml-2 uppercase tracking-wider font-medium">
+                Player Info
+              </span>
+            </div>
+
             <div className="p-6">
-              <div
-                ref={aboutContentRef}
-                className="space-y-6 animate-in fade-in duration-300"
-              >
+              <div ref={aboutContentRef} className="space-y-6">
                 <div className="space-y-4">
                   <p className="text-t-text2 leading-relaxed">
                     Hello! I&apos;m Naman Dadhich, a Full Stack Developer with a
                     passion for coding and currently in my third year, sixth
-                    semester. I have more than two years of hands-on experience and
-                    specialize in developing solid web applications. I also have 3 months of experience as an SDE at Zelosify, where I learned a lot from senior developers and contributed to building a complete end-to-end vendor and contract management system. My
-                    I started my journey with the MERN stack and now I primarily build projects using Next.js and TypeScript, focusing on scalable and efficient solutions. I am committed to building stylish, clean, and responsive user interfaces as well as robust, scalable backend systems that together deliver great user experiences.
+                    semester. I have more than two years of hands-on experience
+                    and specialize in developing solid web applications. I also
+                    have 3 months of experience as an SDE at Zelosify, where I
+                    learned a lot from senior developers and contributed to
+                    building a complete end-to-end vendor and contract management
+                    system. I started my journey with the MERN stack and now I
+                    primarily build projects using Next.js and TypeScript,
+                    focusing on scalable and efficient solutions. I am committed
+                    to building stylish, clean, and responsive user interfaces as
+                    well as robust, scalable backend systems that together deliver
+                    great user experiences.
                   </p>
 
                   {/* Expandable Content */}
                   <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? "max-h-[2000px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded
+                        ? "max-h-[2000px] opacity-100 mt-4"
+                        : "max-h-0 opacity-0"
                       }`}
                   >
                     <div className="space-y-4">
                       <p className="text-t-text2 leading-relaxed">
-                        My path into the field of web development was ignited in my
-                        second semester. Although my first projects during the third
-                        semester were learning bases in nature (as you can observe
-                        in my projects section), a real chance materialized when I
-                        spearheaded the development of a website for a hackathon as
-                        a project organizer. This one changed how I approached the
-                        work, focusing on collaborative work and enabling me to
-                        contribute more profoundly. I currently serve as the Head of
-                        the Development Department at the Geek Room Community, MSIT,
-                        where I lead and oversee development initiatives across multiple
-                        projects. Previously, I held the role of Head of Development at
-                        the Google Developer Group (GDG), formerly GDSC, MSIT chapter,
-                        and continue to contribute to the community as its Chief Advisor.
-                        Through these roles, I have gained extensive experience leading
-                        team-based projects, mentoring developers, and driving impactful
+                        My path into the field of web development was ignited in
+                        my second semester. Although my first projects during the
+                        third semester were learning bases in nature (as you can
+                        observe in my projects section), a real chance
+                        materialized when I spearheaded the development of a
+                        website for a hackathon as a project organizer. This one
+                        changed how I approached the work, focusing on
+                        collaborative work and enabling me to contribute more
+                        profoundly. I currently serve as the Head of the
+                        Development Department at the Geek Room Community, MSIT,
+                        where I lead and oversee development initiatives across
+                        multiple projects. Previously, I held the role of Head of
+                        Development at the Google Developer Group (GDG), formerly
+                        GDSC, MSIT chapter, and continue to contribute to the
+                        community as its Chief Advisor. Through these roles, I
+                        have gained extensive experience leading team-based
+                        projects, mentoring developers, and driving impactful
                         technical solutions.
                       </p>
                       <p className="text-t-text2 leading-relaxed">
-                        Beyond development leadership, I have been actively involved in
-                        organizing hackathons and ideathons, ranging from MLH-backed
-                        national-level to a global-level hackathon. I have also contributed
-                        as a mentor in multiple hackathons, supporting teams with technical
-                        guidance and strategic direction.
+                        Beyond development leadership, I have been actively
+                        involved in organizing hackathons and ideathons, ranging
+                        from MLH-backed national-level to a global-level
+                        hackathon. I have also contributed as a mentor in multiple
+                        hackathons, supporting teams with technical guidance and
+                        strategic direction.
                       </p>
                       <p className="text-t-text2 leading-relaxed">
                         Outside of the world of code, I absolutely love playing
-                        chess—even during boring college lectures, you&apos;ll often find
-                        me engrossed in a game. I also enjoy the quiet pleasures of
-                        listening to music and taking time to recharge. I am always
-                        eager to learn and grow as a coder, welcoming new challenges
-                        and striving to create meaningful digital solutions.
+                        chess—even during boring college lectures, you&apos;ll
+                        often find me engrossed in a game. I also enjoy the quiet
+                        pleasures of listening to music and taking time to
+                        recharge. I am always eager to learn and grow as a coder,
+                        welcoming new challenges and striving to create meaningful
+                        digital solutions.
                       </p>
                     </div>
                   </div>
 
-                  {/* Show More/Less Button */}
+                  {/* Show More/Less */}
                   <div className="flex justify-center my-6">
-                    <Button
+                    <button
                       onClick={() => setIsExpanded(!isExpanded)}
-                      variant="outline"
-                      className="bg-t-elevated hover:bg-t-hover border-t-border text-teal-400 hover:text-teal-300 transition-all duration-300"
+                      className="mc-slot cursor-pointer px-6 py-2.5 flex items-center gap-2 text-mc-grass hover:text-mc-emerald transition-all text-sm font-medium"
                     >
-                      {isExpanded ? "Show Less" : "Read Full About"}
+                      {isExpanded ? "Show Less" : "Read Full Story"}
                       <svg
-                        className={`ml-2 h-4 w-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""
+                        className={`h-4 w-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""
                           }`}
                         fill="none"
                         stroke="currentColor"
@@ -149,21 +202,44 @@ export default function AboutSection() {
                           d="M19 9l-7 7-7-7"
                         />
                       </svg>
-                    </Button>
+                    </button>
                   </div>
 
+                  {/* Stats grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                    <div className="bg-t-hover p-4 rounded-lg border border-t-border">
-                      <h4 className="text-t-text font-semibold mb-2">
+                    <div
+                      className="p-4"
+                      style={{
+                        background: "var(--t-bg2)",
+                        border: "2px solid var(--t-border)",
+                        borderLeft: "4px solid var(--mc-grass)",
+                        boxShadow:
+                          "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.2)",
+                      }}
+                    >
+                      <h4 className="text-t-text font-bold mb-2 flex items-center gap-2">
+                        <span className="text-mc-gold">🎓</span>
                         Education
                       </h4>
-                      <p className="text-t-text2">Bachelor of Technology (Computer Science and Engineering)</p>
+                      <p className="text-t-text2">
+                        Bachelor of Technology (Computer Science and Engineering)
+                      </p>
                       <p className="text-t-muted text-sm">
                         Maharaja Surajmal Institute of Technology, 2027
                       </p>
                     </div>
-                    <div className="bg-t-hover p-4 rounded-lg border border-t-border">
-                      <h4 className="text-t-text font-semibold mb-2">
+                    <div
+                      className="p-4"
+                      style={{
+                        background: "var(--t-bg2)",
+                        border: "2px solid var(--t-border)",
+                        borderLeft: "4px solid var(--mc-diamond)",
+                        boxShadow:
+                          "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.2)",
+                      }}
+                    >
+                      <h4 className="text-t-text font-bold mb-2 flex items-center gap-2">
+                        <span className="text-mc-diamond">📍</span>
                         Location
                       </h4>
                       <p className="text-t-text2">New Delhi, India</p>
@@ -174,15 +250,34 @@ export default function AboutSection() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 sm:justify-between mt-8 pt-6 border-t border-t-border">
+                {/* Action buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 sm:justify-between mt-8 pt-6 border-t-2 border-t-border">
                   <Link href="/resume" className="w-full sm:w-auto">
-                    <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
+                    <Button
+                      className="w-full cursor-pointer text-white font-medium"
+                      style={{
+                        background: "var(--mc-grass)",
+                        border: "2px solid rgba(0,0,0,0.2)",
+                        boxShadow:
+                          "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 2px 2px 0 rgba(0,0,0,0.3)",
+                        borderRadius: "0",
+                      }}
+                    >
                       Download Resume
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/contact" className="w-full sm:w-auto">
-                    <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white">
+                    <Button
+                      className="w-full cursor-pointer text-white font-medium"
+                      style={{
+                        background: "var(--mc-diamond)",
+                        border: "2px solid rgba(0,0,0,0.2)",
+                        boxShadow:
+                          "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 2px 2px 0 rgba(0,0,0,0.3)",
+                        borderRadius: "0",
+                      }}
+                    >
                       Contact
                       <UserRound className="ml-2 h-4 w-4" />
                     </Button>

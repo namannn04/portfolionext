@@ -1,104 +1,76 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useTheme } from "@/context/ThemeContext";
+
+interface Particle {
+  top: number;
+  left: number;
+  delay: number;
+  size: number;
+  color: string;
+  duration: number;
+}
+
+const BLOCK_COLORS = [
+  "var(--mc-grass)",
+  "var(--mc-dirt)",
+  "var(--mc-stone)",
+  "var(--mc-diamond)",
+  "var(--mc-gold)",
+  "var(--mc-wood)",
+];
 
 export default function Background() {
-  const { theme } = useTheme();
-  const [particles, setParticles] = useState<
-    { top: number; left: number; delay: number; moveY: number }[]
-  >([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
-    const newParticles = Array.from({ length: 15 }, () => ({
+    const newParticles = Array.from({ length: 20 }, () => ({
       top: Math.random() * 100,
       left: Math.random() * 100,
-      delay: Math.random() * 5,
-      moveY: Math.random() * 100 - 50,
+      delay: Math.random() * 8,
+      size: 3 + Math.random() * 5,
+      color: BLOCK_COLORS[Math.floor(Math.random() * BLOCK_COLORS.length)],
+      duration: 6 + Math.random() * 8,
     }));
     setParticles(newParticles);
   }, []);
 
   return (
     <div className="fixed inset-0 -z-10 bg-t-bg overflow-hidden">
-      {/* Radial background */}
+      {/* Grid background */}
+      <div
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+
+      {/* Subtle vignette */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            theme === "dark"
-              ? "radial-gradient(circle at center, rgba(55,0,255,0.15), transparent 70%)"
-              : "radial-gradient(circle at center, rgba(20,184,166,0.08), transparent 70%)",
+            "radial-gradient(ellipse at center, transparent 0%, var(--t-bg) 80%)",
+          opacity: 0.4,
         }}
       />
 
-      {/* Diagonal lines */}
-      <div className="absolute inset-0 opacity-20">
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={`h-${i}`}
-            className="absolute h-[1px] w-full"
-            style={{
-              top: `${i * 10}%`,
-              background:
-                theme === "dark"
-                  ? "linear-gradient(to right, transparent, rgba(168,85,247,0.5), transparent)"
-                  : "linear-gradient(to right, transparent, rgba(20,184,166,0.3), transparent)",
-            }}
-            animate={{ x: ["-100%", "100%"] }}
-            transition={{
-              duration: 15 + i * 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={`v-${i}`}
-            className="absolute h-full w-[1px]"
-            style={{
-              left: `${i * 10}%`,
-              background:
-                theme === "dark"
-                  ? "linear-gradient(to bottom, transparent, rgba(59,130,246,0.5), transparent)"
-                  : "linear-gradient(to bottom, transparent, rgba(8,145,178,0.3), transparent)",
-            }}
-            animate={{ y: ["-100%", "100%"] }}
-            transition={{
-              duration: 15 + i * 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Floating particles */}
+      {/* Floating block particles */}
       {particles.map((p, index) => (
-        <motion.div
+        <div
           key={index}
-          className="absolute h-1 w-1 rounded-full"
+          className="absolute"
           style={{
             top: `${p.top}%`,
             left: `${p.left}%`,
-            background:
-              theme === "dark"
-                ? "rgba(168,85,247,0.7)"
-                : "rgba(20,184,166,0.5)",
-          }}
-          animate={{
-            y: [0, p.moveY],
-            opacity: [0, 0.7, 0],
-            scale: [0, 1, 0],
-          }}
-          transition={{
-            duration: 5 + Math.random() * 5,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "easeInOut",
-            delay: p.delay,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            backgroundColor: p.color,
+            opacity: 0,
+            boxShadow: `inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3)`,
+            animation: `xpOrb ${p.duration}s ease-in-out ${p.delay}s infinite`,
           }}
         />
       ))}

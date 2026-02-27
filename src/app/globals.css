@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import 'animate.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -42,7 +41,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* ===== Custom Theme Colors ===== */
+  /* ===== Minecraft Theme Colors ===== */
   --color-t-bg: var(--t-bg);
   --color-t-bg2: var(--t-bg2);
   --color-t-surface: var(--t-surface);
@@ -59,140 +58,185 @@
   --color-t-hover: var(--t-hover);
   --color-t-input: var(--t-input);
   --color-t-glass-border: var(--t-glass-border);
+
+  /* Minecraft block colors */
+  --color-mc-grass: var(--mc-grass);
+  --color-mc-dirt: var(--mc-dirt);
+  --color-mc-stone: var(--mc-stone);
+  --color-mc-diamond: var(--mc-diamond);
+  --color-mc-gold: var(--mc-gold);
+  --color-mc-redstone: var(--mc-redstone);
+  --color-mc-emerald: var(--mc-emerald);
+  --color-mc-obsidian: var(--mc-obsidian);
+  --color-mc-bedrock: var(--mc-bedrock);
+  --color-mc-wood: var(--mc-wood);
+  --color-mc-lapis: var(--mc-lapis);
+  --color-mc-iron: var(--mc-iron);
+  --color-mc-netherite: var(--mc-netherite);
+  --color-mc-xp: var(--mc-xp);
 }
 
-/* ===== Default = Dark Theme ===== */
+/* ===== Minecraft Dark Theme ===== */
 :root {
-  --radius: 0.625rem;
+  --radius: 0.25rem;
 
   /* shadcn dark */
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --background: #1a1a2e;
+  --foreground: #e8e8e8;
+  --card: #1e1e32;
+  --card-foreground: #e8e8e8;
+  --popover: #1e1e32;
+  --popover-foreground: #e8e8e8;
+  --primary: #5cb85c;
+  --primary-foreground: #1a1a2e;
+  --secondary: #2a2a40;
+  --secondary-foreground: #e8e8e8;
+  --muted: #2a2a40;
+  --muted-foreground: #8b8ba0;
+  --accent: #2a2a40;
+  --accent-foreground: #e8e8e8;
+  --destructive: #c0392b;
+  --border: #3a3a55;
+  --input: #2a2a40;
+  --ring: #5cb85c;
+  --chart-1: #5cb85c;
+  --chart-2: #55b2d4;
+  --chart-3: #f0c040;
+  --chart-4: #c0392b;
+  --chart-5: #2ecc71;
+  --sidebar: #1e1e32;
+  --sidebar-foreground: #e8e8e8;
+  --sidebar-primary: #5cb85c;
+  --sidebar-primary-foreground: #e8e8e8;
+  --sidebar-accent: #2a2a40;
+  --sidebar-accent-foreground: #e8e8e8;
+  --sidebar-border: #3a3a55;
+  --sidebar-ring: #5cb85c;
 
-  /* Custom theme: dark */
-  --t-bg: #000000;
-  --t-bg2: #050505;
-  --t-surface: #18181b;
-  --t-surface-hover: #27272a;
-  --t-text: #ffffff;
-  --t-text2: #d4d4d8;
-  --t-muted: #a1a1aa;
-  --t-dim: #71717a;
-  --t-border: #3f3f46;
-  --t-border2: #27272a;
-  --t-card: rgba(24, 24, 27, 0.4);
-  --t-glass: rgba(24, 24, 27, 0.3);
-  --t-elevated: rgba(39, 39, 42, 0.5);
-  --t-hover: rgba(63, 63, 70, 0.3);
-  --t-input: rgba(0, 0, 0, 0.5);
-  --t-glass-border: rgba(63, 63, 70, 0.5);
+  /* Minecraft theme tokens */
+  --t-bg: #0d0d15;
+  --t-bg2: #111122;
+  --t-surface: #1a1a2e;
+  --t-surface-hover: #242440;
+  --t-text: #e8e8e8;
+  --t-text2: #b8b8cc;
+  --t-muted: #7a7a94;
+  --t-dim: #5a5a74;
+  --t-border: #3a3a55;
+  --t-border2: #2a2a40;
+  --t-card: rgba(26, 26, 46, 0.85);
+  --t-glass: rgba(26, 26, 46, 0.6);
+  --t-elevated: rgba(42, 42, 64, 0.7);
+  --t-hover: rgba(58, 58, 85, 0.4);
+  --t-input: rgba(13, 13, 21, 0.7);
+  --t-glass-border: rgba(58, 58, 85, 0.6);
 
   /* Notification & overlay */
-  --t-notification-bg: rgba(0, 0, 0, 0.97);
-  --t-overlay: rgba(0, 0, 0, 0.5);
-  --t-shadow-color: rgba(0, 0, 0, 0.3);
-  --t-gradient-card-from: #0f0f0f;
-  --t-gradient-card-to: #0a0a0a;
+  --t-notification-bg: rgba(13, 13, 21, 0.97);
+  --t-overlay: rgba(0, 0, 0, 0.6);
+  --t-shadow-color: rgba(0, 0, 0, 0.4);
+  --t-gradient-card-from: #0f0f1a;
+  --t-gradient-card-to: #0a0a12;
+
+  /* Minecraft block palette */
+  --mc-grass: #5cb85c;
+  --mc-dirt: #8b6914;
+  --mc-stone: #7a7a7a;
+  --mc-diamond: #55b2d4;
+  --mc-gold: #f0c040;
+  --mc-redstone: #c0392b;
+  --mc-emerald: #2ecc71;
+  --mc-obsidian: #1a0a2e;
+  --mc-bedrock: #3a3a3a;
+  --mc-wood: #9c6b30;
+  --mc-lapis: #1e3a8a;
+  --mc-iron: #c4c4c4;
+  --mc-netherite: #3d3535;
+  --mc-xp: #80ea27;
 }
 
-/* ===== Light Theme ===== */
+/* ===== Minecraft Light Theme ===== */
 [data-theme="light"] {
-  /* shadcn light */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --background: #f5f0e8;
+  --foreground: #2d1f0e;
+  --card: #efe8d8;
+  --card-foreground: #2d1f0e;
+  --popover: #efe8d8;
+  --popover-foreground: #2d1f0e;
+  --primary: #4a9e4a;
+  --primary-foreground: #ffffff;
+  --secondary: #e8dcc8;
+  --secondary-foreground: #2d1f0e;
+  --muted: #e0d4be;
+  --muted-foreground: #6b5a42;
+  --accent: #e0d4be;
+  --accent-foreground: #2d1f0e;
+  --destructive: #c0392b;
+  --border: #c8b898;
+  --input: #e8dcc8;
+  --ring: #4a9e4a;
+  --chart-1: #4a9e4a;
+  --chart-2: #3a8ab4;
+  --chart-3: #d4a830;
+  --chart-4: #c0392b;
+  --chart-5: #27ae60;
+  --sidebar: #f0e8d8;
+  --sidebar-foreground: #2d1f0e;
+  --sidebar-primary: #4a9e4a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e0d4be;
+  --sidebar-accent-foreground: #2d1f0e;
+  --sidebar-border: #c8b898;
+  --sidebar-ring: #4a9e4a;
 
-  /* Custom theme: light */
-  --t-bg: #ffffff;
-  --t-bg2: #f8fafc;
-  --t-surface: #f1f5f9;
-  --t-surface-hover: #e2e8f0;
-  --t-text: #0f172a;
-  --t-text2: #334155;
-  --t-muted: #64748b;
-  --t-dim: #94a3b8;
-  --t-border: #cbd5e1;
-  --t-border2: #e2e8f0;
-  --t-card: rgba(255, 255, 255, 0.7);
-  --t-glass: rgba(255, 255, 255, 0.5);
-  --t-elevated: rgba(241, 245, 249, 0.7);
-  --t-hover: rgba(226, 232, 240, 0.5);
-  --t-input: rgba(255, 255, 255, 0.8);
-  --t-glass-border: rgba(203, 213, 225, 0.5);
+  /* Minecraft light tokens */
+  --t-bg: #f5f0e8;
+  --t-bg2: #efe8d8;
+  --t-surface: #e8dcc8;
+  --t-surface-hover: #ddd0b8;
+  --t-text: #2d1f0e;
+  --t-text2: #4a3a24;
+  --t-muted: #7a6a4e;
+  --t-dim: #9a8a6e;
+  --t-border: #c8b898;
+  --t-border2: #d8ccb0;
+  --t-card: rgba(239, 232, 216, 0.85);
+  --t-glass: rgba(239, 232, 216, 0.6);
+  --t-elevated: rgba(232, 220, 200, 0.8);
+  --t-hover: rgba(221, 208, 184, 0.5);
+  --t-input: rgba(245, 240, 232, 0.8);
+  --t-glass-border: rgba(200, 184, 152, 0.5);
 
-  --t-notification-bg: rgba(255, 255, 255, 0.97);
-  --t-overlay: rgba(255, 255, 255, 0.7);
-  --t-shadow-color: rgba(0, 0, 0, 0.08);
-  --t-gradient-card-from: #ffffff;
-  --t-gradient-card-to: #f8fafc;
+  --t-notification-bg: rgba(245, 240, 232, 0.97);
+  --t-overlay: rgba(245, 240, 232, 0.7);
+  --t-shadow-color: rgba(45, 31, 14, 0.1);
+  --t-gradient-card-from: #f5f0e8;
+  --t-gradient-card-to: #efe8d8;
+
+  /* Minecraft light block palette */
+  --mc-grass: #4a9e4a;
+  --mc-dirt: #7a5a14;
+  --mc-stone: #6a6a6a;
+  --mc-diamond: #3a8ab4;
+  --mc-gold: #d4a830;
+  --mc-redstone: #a83025;
+  --mc-emerald: #27ae60;
+  --mc-obsidian: #2a1a40;
+  --mc-bedrock: #4a4a4a;
+  --mc-wood: #8a5a28;
+  --mc-lapis: #1a3070;
+  --mc-iron: #a0a0a0;
+  --mc-netherite: #302828;
+  --mc-xp: #60c020;
 }
 
-/* ===== Theme Transition Animation ===== */
+/* ===== Theme Transition ===== */
 html.theme-transition,
 html.theme-transition * {
-  transition: background-color 0.6s ease,
-    color 0.4s ease,
-    border-color 0.4s ease,
-    box-shadow 0.5s ease,
-    fill 0.4s ease,
-    stroke 0.4s ease !important;
+  transition: background-color 0.5s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.4s ease !important;
   transition-delay: 0s !important;
 }
 
@@ -202,27 +246,245 @@ html.theme-transition * {
   }
   body {
     @apply bg-t-bg text-t-text;
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
   }
 }
 
+/* ===== Minecraft Pixel Border Utility ===== */
+.mc-border {
+  border: 3px solid var(--mc-stone);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.15),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    3px 3px 0 rgba(0,0,0,0.3);
+}
+
+.mc-border-light {
+  border: 2px solid var(--t-border);
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.1),
+    inset -1px -1px 0 rgba(0,0,0,0.2);
+}
+
+/* ===== Minecraft Inventory Slot Style ===== */
+.mc-slot {
+  background: var(--t-surface);
+  border: 2px solid var(--t-border);
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.08),
+    inset -1px -1px 0 rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+}
+
+.mc-slot:hover {
+  background: var(--t-surface-hover);
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.12),
+    inset -1px -1px 0 rgba(0,0,0,0.3),
+    0 0 12px rgba(92, 184, 92, 0.3);
+}
+
+/* ===== Block Break Animation ===== */
+@keyframes blockBreak {
+  0% { transform: scale(1); opacity: 1; }
+  15% { transform: scale(1.05); }
+  30% { transform: scale(0.95); }
+  50% { transform: scale(1.02); opacity: 0.9; }
+  70% { transform: scale(0.98); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes blockPlace {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+  70% { transform: scale(0.95) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes pixelFadeIn {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes floatBlock {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(1deg); }
+  75% { transform: translateY(4px) rotate(-0.5deg); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes xpOrb {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.8) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translateY(-20px);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* ===== Block Crack Overlay ===== */
+@keyframes crackProgress {
+  0% { opacity: 0; background-size: 0% 100%; }
+  100% { opacity: 0.2; background-size: 100% 100%; }
+}
+
+.mc-crack-hover:hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(0,0,0,0.1) 4px,
+      rgba(0,0,0,0.1) 5px
+    );
+  animation: crackProgress 0.6s ease forwards;
+  pointer-events: none;
+}
+
+/* ===== Scrollbar ===== */
 .scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: var(--t-surface);
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  @apply bg-purple-500/20 rounded-full;
+  background: var(--mc-stone);
+  border: 1px solid var(--t-border);
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  @apply bg-purple-500/40;
+  background: var(--mc-grass);
 }
 
-/* GitHub calendar custom styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--t-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--t-border);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mc-grass);
+}
+
+/* ===== Minecraft XP Bar ===== */
+.mc-xp-bar {
+  height: 4px;
+  background: var(--t-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-xp-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--xp-width, 0%);
+  background: var(--mc-xp);
+  box-shadow: 0 0 8px var(--mc-xp);
+  transition: width 1s ease;
+}
+
+/* ===== Tooltip ===== */
+.mc-tooltip {
+  position: relative;
+}
+
+.mc-tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 6px 12px;
+  background: var(--t-bg);
+  border: 2px solid var(--mc-stone);
+  color: var(--t-text);
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 100;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.1),
+    inset -1px -1px 0 rgba(0,0,0,0.3),
+    2px 2px 0 rgba(0,0,0,0.4);
+}
+
+.mc-tooltip:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ===== Mobile menu animation ===== */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item {
+  animation-fill-mode: forwards;
+}
+
+/* ===== Particle grid background ===== */
+.mc-grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ===== GitHub calendar ===== */
 .react-github-calendar__chart {
   @apply mx-auto;
 }
@@ -230,4 +492,21 @@ html.theme-transition * {
 .react-github-calendar__chart text {
   @apply text-xs;
   fill: var(--t-muted);
+}
+
+/* ===== Selection color ===== */
+::selection {
+  background: var(--mc-grass);
+  color: white;
+}
+
+/* ===== Responsive helpers ===== */
+@media (max-width: 640px) {
+  .mc-border {
+    border-width: 2px;
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.15),
+      inset -1px -1px 0 rgba(0,0,0,0.3),
+      2px 2px 0 rgba(0,0,0,0.3);
+  }
 }

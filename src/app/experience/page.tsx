@@ -2,9 +2,8 @@
 
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ExternalLink, ChevronRight, ChevronLeft, Award, Briefcase } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion } from "framer-motion";
+import { ExternalLink, ChevronRight, ChevronLeft, Award, Briefcase } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
@@ -17,90 +16,30 @@ interface Experience {
 export default function ExperiencePage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeExperience, setActiveExperience] = useState<number>(1);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
-  const [backgroundYValue, setBackgroundYValue] = useState<number>(0);
-  const [parallaxYValue, setParallaxYValue] = useState<number>(0);
-  const [lineYValues, setLineYValues] = useState<number[]>([0, 0, 0]);
-  const [lineXValues, setLineXValues] = useState<number[]>([0, 0]);
-  const particleYValues = Array(15).fill(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    scrollYProgress.onChange((value) => {
-      setBackgroundYValue(Number.parseFloat((value * 100).toFixed(2)));
-      setParallaxYValue(Number.parseFloat((value * 30).toFixed(2)));
-      setLineYValues([Number.parseFloat((value * 10 * 0).toFixed(2)), Number.parseFloat((value * 10 * -1).toFixed(2)), Number.parseFloat((value * 10 * 0).toFixed(2))]);
-      setLineXValues([Number.parseFloat((value * 10 * 0).toFixed(2)), Number.parseFloat((value * 10 * -1).toFixed(2))]);
-    });
-  }, [scrollYProgress]);
+  useEffect(() => { setTimeout(() => setIsVisible(true), 200); }, []);
 
   const experiences: Experience[] = [
     {
-      id: 1,
-      title: "SDE Intern",
-      company: "Zelosify",
-      period: "Jul 2025 - Sept 2025",
-      description:
-        "Zelosify is a growing technology company focused on simplifying Vendor and Contract Management for large enterprises. The company provides a platform where organizations can manage their entire vendor ecosystem — from contract creation and approvals to onboarding, workflow tracking, and compliance management in a secure and automated way. As a Software Development Engineer, I built responsive landing pages and role-based dashboards while maintaining CI/CD pipelines. I also implemented secure multi-user authentication via Keycloak and managed cloud storage using AWS S3.",
-      skills: [
-        "Next.js",
-        "Typescript",
-        "Keycloak",
-        "Node.js",
-        "PostgreSQL with Prisma ORM",
-        "Docker",
-        "AWS S3",
-        "Postman",
-      ],
-      color: "teal",
-      image: "/experience/zelosify.jpg",
-      icon: <Briefcase className="h-5 w-5" />,
+      id: 1, title: "SDE Intern", company: "Zelosify", period: "Jul 2025 - Sept 2025",
+      description: "Zelosify is a growing technology company focused on simplifying Vendor and Contract Management for large enterprises. The company provides a platform where organizations can manage their entire vendor ecosystem — from contract creation and approvals to onboarding, workflow tracking, and compliance management in a secure and automated way. As a Software Development Engineer, I built responsive landing pages and role-based dashboards while maintaining CI/CD pipelines. I also implemented secure multi-user authentication via Keycloak and managed cloud storage using AWS S3.",
+      skills: ["Next.js", "Typescript", "Keycloak", "Node.js", "PostgreSQL with Prisma ORM", "Docker", "AWS S3", "Postman"],
+      color: "var(--mc-diamond)", image: "/experience/zelosify.jpg", icon: <Briefcase className="h-5 w-5" />,
     },
     {
-      id: 2,
-      title: "Development Head",
-      company: "Google Developers Group on Campus - MSIT",
-      period: "2024 - Present",
-      description:
-        "As Development Head at GDGOC MSIT, I actively promoted skill upliftment by organizing regular progress updates and providing growth opportunities. Initiated LinkedIn and GitHub profile challenges, assigned tasks, and facilitated hands-on projects to boost members' professional presence. Collaborated closely with the design team to guide developers in building the club website, ensuring smooth coordination and successful project delivery. Oversaw team activities, encouraged continuous learning, and fostered a culture of accountability and innovation.",
-      skills: [
-        "Full Stack Development",
-        "Team Leadership",
-        "Project Management",
-        "Community Building",
-        "Technical Mentorship",
-        "Event Organization",
-        "Code Review",
-      ],
-      color: "teal",
-      image: "/experience/gdg.jpeg",
-      icon: <Briefcase className="h-5 w-5" />,
+      id: 2, title: "Development Head", company: "Google Developers Group on Campus - MSIT", period: "2024 - Present",
+      description: "As Development Head at GDGOC MSIT, I actively promoted skill upliftment by organizing regular progress updates and providing growth opportunities. Initiated LinkedIn and GitHub profile challenges, assigned tasks, and facilitated hands-on projects to boost members' professional presence. Collaborated closely with the design team to guide developers in building the club website, ensuring smooth coordination and successful project delivery.",
+      skills: ["Full Stack Development", "Team Leadership", "Project Management", "Community Building", "Technical Mentorship", "Event Organization", "Code Review"],
+      color: "var(--mc-grass)", image: "/experience/gdg.jpeg", icon: <Briefcase className="h-5 w-5" />,
     },
     {
-      id: 3,
-      title: "Development Deputy Head",
-      company: "Geek Room",
-      period: "2025 - Present",
-      description:
-        "Recently appointed as Development Deputy Head at Geek Room, where I am supporting ongoing technical initiatives and collaborating with the team on new projects. Assisting in team coordination, skill development, and focusing on helping members improve their professional profiles. Contributing to a positive and productive environment as we work on upcoming projects.",
-      skills: [
-        "Team Collaboration",
-        "Communication",
-        "Problem Solving",
-        "Technical Support",
-        "Community Building",
-      ],
-      color: "cyan",
-      image: "/experience/gr.jpg",
-      icon: <Award className="h-5 w-5" />,
+      id: 3, title: "Development Deputy Head", company: "Geek Room", period: "2025 - Present",
+      description: "Recently appointed as Development Deputy Head at Geek Room, where I am supporting ongoing technical initiatives and collaborating with the team on new projects. Assisting in team coordination, skill development, and focusing on helping members improve their professional profiles. Contributing to a positive and productive environment as we work on upcoming projects.",
+      skills: ["Team Collaboration", "Communication", "Problem Solving", "Technical Support", "Community Building"],
+      color: "var(--mc-gold)", image: "/experience/gr.jpg", icon: <Award className="h-5 w-5" />,
     },
   ];
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => { setMousePosition({ x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }); };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   const nextExperience = () => setActiveExperience((prev) => (prev === experiences.length ? 1 : prev + 1));
   const prevExperience = () => setActiveExperience((prev) => (prev === 1 ? experiences.length : prev - 1));
@@ -109,101 +48,210 @@ export default function ExperiencePage() {
   return (
     <div className="sm:block sm:py-20 bg-t-bg">
       <div className="sm:max-w-[50%] mx-auto"><Navbar /></div>
-      <div className="relative overflow-hidden min-h-screen sm:max-w-[50%] mx-auto sm:border sm:border-teal-500 rounded-xl p-6">
-        {/* Animated background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-t-bg2"></div>
-          <motion.div className="absolute inset-0 opacity-30" style={{ background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(20,184,166,0.15), rgba(8,145,178,0.1), rgba(0,0,0,0))`, y: `${backgroundYValue}%` }} />
-          <div className="absolute inset-0">
-            {[...Array(3)].map((_, i) => (<motion.div key={`h-line-${i}`} className="absolute h-[1px] w-full" style={{ background: `linear-gradient(90deg, transparent 0%, ${i % 2 === 0 ? "rgba(20,184,166,0.3)" : "rgba(8,145,178,0.3)"} 50%, transparent 100%)`, top: `${20 + i * 30}%`, opacity: 0.4, y: lineYValues[i] }} />))}
-            {[...Array(2)].map((_, i) => (<motion.div key={`v-line-${i}`} className="absolute w-[1px] h-full" style={{ background: `linear-gradient(0deg, transparent 0%, ${i % 2 === 0 ? "rgba(20,184,166,0.3)" : "rgba(8,145,178,0.3)"} 50%, transparent 100%)`, left: `${30 + i * 40}%`, opacity: 0.4, x: lineXValues[i] }} />))}
-          </div>
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(15)].map((_, i) => (<motion.div key={`particle-${i}`} className="absolute rounded-full" style={{ width: `${Math.random() * 4 + 1}px`, height: `${Math.random() * 4 + 1}px`, background: i % 2 === 0 ? "rgba(20,184,166,0.6)" : "rgba(8,145,178,0.6)", left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, boxShadow: i % 2 === 0 ? "0 0 10px rgba(20,184,166,0.6)" : "0 0 10px rgba(8,145,178,0.6)", opacity: Math.random() * 0.5 + 0.2, filter: "blur(1px)", y: particleYValues[i] }} />))}
-          </div>
-        </div>
+      <div className="relative overflow-hidden min-h-screen sm:max-w-[50%] mx-auto p-6">
+        {/* MC Grid */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+        <div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ border: "3px solid var(--t-border)", boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)" }} />
 
-        <div className="container mx-auto px-4 py-16 relative z-10">
-          <div className="mb-16 relative overflow-hidden rounded-2xl border border-t-border2 bg-t-glass backdrop-blur-sm p-8 md:p-12">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500"></div>
-            <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500"></div>
-            <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-teal-500 to-cyan-500"></div>
-            <div className="absolute top-0 right-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-teal-500 to-cyan-500"></div>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div>
-                <h1 className="text-5xl md:text-7xl font-bold leading-tight"><span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400">My Experience</span></h1>
-                <div className="h-1 w-24 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mt-4"></div>
-                <p className="text-t-muted mt-6 max-w-2xl text-lg">A journey through my professional career, showcasing the projects and roles that have shaped my expertise in web development.</p>
+        <div className="relative z-10 py-10">
+          {/* Header Panel */}
+          <div
+            className={`mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            <div
+              className="p-6 md:p-8"
+              style={{
+                background: "var(--t-surface)",
+                border: "3px solid var(--t-border)",
+                boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.08), inset -2px -2px 0 rgba(0,0,0,0.25), 4px 4px 0 rgba(0,0,0,0.3)",
+              }}
+            >
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <span className="text-mc-xp text-xs font-medium tracking-[0.3em] uppercase" style={{ textShadow: "0 0 10px var(--mc-xp)" }}>
+                    🛡️ Battle Log
+                  </span>
+                  <h1
+                    className="text-4xl md:text-5xl font-black text-mc-grass uppercase tracking-wider mt-2"
+                    style={{ textShadow: "2px 2px 0 rgba(0,0,0,0.5), 4px 4px 0 rgba(0,0,0,0.15)" }}
+                  >
+                    My Experience
+                  </h1>
+                  <div className="flex gap-1 mt-3">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-5 h-1" style={{ background: "var(--mc-grass)", boxShadow: "0 0 4px var(--mc-grass)" }} />
+                    ))}
+                  </div>
+                  <p className="text-t-muted mt-4 max-w-2xl">
+                    A journey through my professional career, showcasing the projects and roles that have shaped my expertise in web development.
+                  </p>
+                </div>
+                <Link href="/resume">
+                  <button
+                    className="cursor-pointer px-5 py-2.5 text-white font-bold uppercase text-sm tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    style={{
+                      background: "var(--mc-grass)",
+                      border: "2px solid rgba(0,0,0,0.2)",
+                      boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.2), inset -2px -2px 0 rgba(0,0,0,0.3), 3px 3px 0 rgba(0,0,0,0.3)",
+                    }}
+                  >
+                    <span className="flex items-center gap-2">Download Resume <ExternalLink className="h-4 w-4" /></span>
+                  </button>
+                </Link>
               </div>
-              <motion.div className="mt-6 md:mt-0" whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                <Link href="/resume"><Button className="relative overflow-hidden group"><span className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 transition-all duration-300 group-hover:opacity-90"></span><span className="relative z-10 flex items-center text-white font-medium">Download Resume<ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" /></span></Button></Link>
-              </motion.div>
             </div>
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-cyan-500/10 blur-xl"></div>
-            <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-teal-500/10 blur-xl"></div>
           </div>
 
-          <div ref={containerRef} className="relative mt-20">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="flex justify-center mb-16">
-              <div className="relative w-full max-w-3xl h-[2px] bg-gradient-to-r from-transparent via-t-border to-transparent rounded-full overflow-hidden">
-                <motion.div className="absolute top-0 left-0 h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(20,184,166,0.8) 0%, rgba(8,145,178,0.8) 100%)", boxShadow: "0 0 20px rgba(20,184,166,0.6)", width: `${(activeExperience / experiences.length) * 100}%` }} initial={{ width: 0 }} animate={{ width: `${(activeExperience / experiences.length) * 100}%` }} transition={{ duration: 0.5, ease: "easeInOut" }}></motion.div>
-                {experiences.map((exp) => (
-                  <motion.button key={exp.id} onClick={() => setActiveExperience(exp.id)} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer" style={{ left: `calc(${((exp.id - 1) / (experiences.length - 1)) * 100}%)`, zIndex: 20 }} aria-label={`View ${exp.title} experience`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 z-10 ${activeExperience === exp.id ? "bg-gradient-to-r from-teal-500 to-cyan-500 shadow-[0_0_15px_rgba(20,184,166,0.7)]" : "bg-t-surface border border-t-border hover:border-teal-500/50"}`}>
-                      <div className={`text-t-text ${activeExperience === exp.id ? "opacity-100" : "opacity-70"}`}>{exp.icon}</div>
-                    </div>
-                    <div className={`absolute -bottom-8 whitespace-nowrap text-sm font-medium transition-all duration-300 ${activeExperience === exp.id ? "text-teal-400" : "text-t-dim"}`}>{exp.period.split(" - ")[0]}</div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
+          {/* Timeline Progress Bar */}
+          <div className={`flex justify-center mb-12 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <div
+              className="relative w-full max-w-3xl h-[3px] overflow-hidden"
+              style={{ background: "var(--t-border)" }}
+            >
+              <div
+                className="absolute top-0 left-0 h-full transition-all duration-500"
+                style={{
+                  width: `${(activeExperience / experiences.length) * 100}%`,
+                  background: "var(--mc-xp)",
+                  boxShadow: "0 0 10px var(--mc-xp)",
+                }}
+              />
+              {experiences.map((exp) => (
+                <button
+                  key={exp.id}
+                  onClick={() => setActiveExperience(exp.id)}
+                  className="absolute top-1/2 -translate-y-1/2 cursor-pointer z-10"
+                  style={{ left: `calc(${((exp.id - 1) / (experiences.length - 1)) * 100}%)` }}
+                  aria-label={`View ${exp.title}`}
+                >
+                  <div
+                    className="w-10 h-10 flex items-center justify-center text-t-text transition-all duration-300"
+                    style={{
+                      background: activeExperience === exp.id ? exp.color : "var(--t-surface)",
+                      border: `2px solid ${activeExperience === exp.id ? exp.color : "var(--t-border)"}`,
+                      boxShadow: activeExperience === exp.id
+                        ? `inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 0 0 15px ${exp.color}60`
+                        : "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    {exp.icon}
+                  </div>
+                  <div className={`absolute -bottom-8 whitespace-nowrap text-xs font-medium ${activeExperience === exp.id ? "text-mc-grass" : "text-t-dim"}`}>
+                    {exp.period.split(" - ")[0]}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
 
-            <div className="relative mx-auto max-w-5xl perspective-1000">
-              <AnimatePresence mode="wait">
-                <motion.div key={activeExperience} initial={{ opacity: 0, rotateX: 10, y: 20 }} animate={{ opacity: 1, rotateX: 0, y: 0 }} exit={{ opacity: 0, rotateX: -10, y: -20 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="backdrop-blur-xl rounded-2xl overflow-hidden" style={{ background: "var(--t-gradient-card-from)", border: "1px solid rgba(20,184,166,0.1)", boxShadow: "0 20px 80px -10px rgba(8,145,178,0.2)" }}>
-                  <div className="flex flex-col">
-                    <div className="relative w-full h-56 md:h-72 overflow-hidden rounded-t-xl">
-                      <motion.div className="absolute inset-0 z-0" style={{ y: parallaxYValue }}>
-                        {currentExperience.image && <Image src={currentExperience.image || "/placeholder.svg"} alt={currentExperience.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" quality={85} className="object-cover mix-blend-luminosity opacity-60" />}
-                      </motion.div>
-                      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 z-1 mix-blend-overlay"></div>
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-t-bg/30 to-t-bg z-2"></div>
-                      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-teal-500/30 to-transparent"></div>
-                      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent"></div>
-                      <motion.div className="absolute top-6 right-6 z-20" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
-                        <div className="px-4 py-2 backdrop-blur-md rounded-lg border border-teal-500/20 inline-block" style={{ background: "var(--t-overlay)" }}><p className="text-teal-400 font-medium">{currentExperience.period}</p></div>
-                      </motion.div>
-                      <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                          <h3 className="text-3xl font-bold mb-2"><span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-400">{currentExperience.title}</span></h3>
-                          <p className="text-cyan-400 text-lg flex items-center"><span className="inline-block w-4 h-[2px] bg-cyan-500 mr-3"></span>{currentExperience.company}</p>
-                        </motion.div>
-                      </div>
+          {/* Experience Card */}
+          <div ref={containerRef} className="relative mx-auto max-w-5xl mt-16">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeExperience}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div
+                  style={{
+                    background: "var(--t-surface)",
+                    border: "3px solid var(--t-border)",
+                    boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.08), inset -2px -2px 0 rgba(0,0,0,0.25), 4px 4px 0 rgba(0,0,0,0.3)",
+                  }}
+                >
+                  {/* Image area */}
+                  <div className="relative w-full h-56 md:h-72 overflow-hidden">
+                    {currentExperience.image && (
+                      <Image src={currentExperience.image} alt={currentExperience.title} fill sizes="100vw" quality={85} className="object-cover opacity-60" />
+                    )}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 30%, var(--t-surface) 100%)" }} />
+                    {/* Period badge */}
+                    <div className="absolute top-4 right-4 z-20">
+                      <span
+                        className="px-3 py-1.5 text-sm font-bold uppercase"
+                        style={{
+                          background: "var(--t-bg)",
+                          border: "2px solid var(--t-border)",
+                          color: "var(--mc-xp)",
+                          boxShadow: "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.2), 2px 2px 0 rgba(0,0,0,0.3)",
+                        }}
+                      >
+                        {currentExperience.period}
+                      </span>
                     </div>
-                    <div className="p-8">
-                      <motion.p className="text-t-text2 mb-8 leading-relaxed" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>{currentExperience.description}</motion.p>
-                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
-                        <h4 className="text-t-text font-semibold mb-3 flex items-center"><span className="inline-block w-4 h-[2px] bg-teal-500 mr-3"></span>Skills & Technologies</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {currentExperience.skills.map((skill, i) => (
-                            <motion.span key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, delay: 0.3 + i * 0.05, ease: "easeOut" }} whileHover={{ scale: 1.05, backgroundColor: "rgba(20,184,166,0.1)", borderColor: "rgba(20,184,166,0.3)" }} className="px-3 py-1 bg-t-elevated rounded-md text-t-text2 text-sm border border-t-border transition-all duration-300">{skill}</motion.span>
-                          ))}
-                        </div>
-                      </motion.div>
+                    {/* Title overlay */}
+                    <div className="absolute bottom-0 left-0 w-full p-6 z-10">
+                      <h3
+                        className="text-3xl font-black text-mc-grass uppercase"
+                        style={{ textShadow: "2px 2px 0 rgba(0,0,0,0.5)" }}
+                      >
+                        {currentExperience.title}
+                      </h3>
+                      <p className="text-mc-diamond text-lg flex items-center mt-1">
+                        <span className="inline-block w-4 h-[2px] bg-mc-diamond mr-3" />
+                        {currentExperience.company}
+                      </p>
                     </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
 
-              <motion.button onClick={prevExperience} whileHover={{ scale: 1.1, x: -5 }} whileTap={{ scale: 0.9 }} className="absolute top-1/2 -translate-y-1/2 -left-5 md:-left-8 w-12 h-12 rounded-full backdrop-blur-md flex items-center justify-center text-t-text2 transition-all z-20 cursor-pointer" style={{ background: "var(--t-overlay)", border: "1px solid rgba(20,184,166,0.2)" }} aria-label="Previous experience"><ChevronLeft className="w-5 h-5 text-teal-400" /></motion.button>
-              <motion.button onClick={nextExperience} whileHover={{ scale: 1.1, x: 5 }} whileTap={{ scale: 0.9 }} className="absolute top-1/2 -translate-y-1/2 -right-5 md:-right-8 w-12 h-12 rounded-full backdrop-blur-md flex items-center justify-center text-t-text2 transition-all z-20 cursor-pointer" style={{ background: "var(--t-overlay)", border: "1px solid rgba(20,184,166,0.2)" }} aria-label="Next experience"><ChevronRight className="w-5 h-5 text-teal-400" /></motion.button>
-            </div>
+                  {/* Content */}
+                  <div className="p-6 md:p-8">
+                    <p className="text-t-text2 mb-6 leading-relaxed">{currentExperience.description}</p>
 
-            <motion.div className="text-center mt-8 text-t-muted font-mono tracking-wider" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.4 }}>
-              <span className="text-teal-400 font-medium">{activeExperience.toString().padStart(2, "0")}</span>
+                    <h4 className="text-t-text font-bold mb-3 flex items-center uppercase text-sm tracking-wider">
+                      <span className="inline-block w-4 h-[2px] bg-mc-grass mr-3" />
+                      Skills & Technologies
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {currentExperience.skills.map((skill, i) => (
+                        <span
+                          key={i}
+                          className="mc-slot px-3 py-1.5 text-t-text2 text-sm font-medium"
+                          style={{ animationDelay: `${i * 0.05}s` }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Nav buttons */}
+            <button
+              onClick={prevExperience}
+              className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-6 w-10 h-10 flex items-center justify-center text-t-text transition-all hover:scale-110 cursor-pointer z-20"
+              style={{
+                background: "var(--t-surface)",
+                border: "2px solid var(--t-border)",
+                boxShadow: "inset 1px 1px 0 rgba(255,255,255,0.08), inset -1px -1px 0 rgba(0,0,0,0.25), 2px 2px 0 rgba(0,0,0,0.3)",
+              }}
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-5 h-5 text-mc-grass" />
+            </button>
+            <button
+              onClick={nextExperience}
+              className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-6 w-10 h-10 flex items-center justify-center text-t-text transition-all hover:scale-110 cursor-pointer z-20"
+              style={{
+                background: "var(--t-surface)",
+                border: "2px solid var(--t-border)",
+                boxShadow: "inset 1px 1px 0 rgba(255,255,255,0.08), inset -1px -1px 0 rgba(0,0,0,0.25), 2px 2px 0 rgba(0,0,0,0.3)",
+              }}
+              aria-label="Next"
+            >
+              <ChevronRight className="w-5 h-5 text-mc-grass" />
+            </button>
+
+            {/* Counter */}
+            <div className="text-center mt-6 font-mono tracking-wider">
+              <span className="text-mc-xp font-bold">{activeExperience.toString().padStart(2, "0")}</span>
               <span className="mx-2 text-t-dim">/</span>
               <span className="text-t-dim">{experiences.length.toString().padStart(2, "0")}</span>
-            </motion.div>
+            </div>
           </div>
         </div>
         <Footer />
