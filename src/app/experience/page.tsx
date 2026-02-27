@@ -35,8 +35,65 @@ export default function ExperiencePage() {
   }, [scrollYProgress]);
 
   const experiences: Experience[] = [
-    { id: 1, title: "Development Head", company: "Google Developers Group on Campus - MSIT", period: "2024 - Present", description: "As Development Head at GDGOC MSIT, I actively promoted skill upliftment by organizing regular progress updates and providing growth opportunities. Initiated LinkedIn and GitHub profile challenges, assigned tasks, and facilitated hands-on projects to boost members' professional presence. Collaborated closely with the design team to guide developers in building the club website, ensuring smooth coordination and successful project delivery. Oversaw team activities, encouraged continuous learning, and fostered a culture of accountability and innovation.", skills: ["Full Stack Development", "Team Leadership", "Project Management", "Community Building", "Technical Mentorship", "Event Organization", "Code Review"], color: "teal", image: "/experience/gdg.jpeg", icon: <Briefcase className="h-5 w-5" /> },
-    { id: 2, title: "Development Deputy Head", company: "Geek Room", period: "2025 - Present", description: "Recently appointed as Development Deputy Head at Geek Room, where I am supporting ongoing technical initiatives and collaborating with the team on new projects. Assisting in team coordination, skill development, and focusing on helping members improve their professional profiles. Contributing to a positive and productive environment as we work on upcoming projects.", skills: ["Team Collaboration", "Communication", "Problem Solving", "Technical Support", "Community Building"], color: "cyan", image: "/experience/gr.jpg", icon: <Award className="h-5 w-5" /> },
+    {
+      id: 1,
+      title: "SDE Intern",
+      company: "Zelosify",
+      period: "Jul 2025 - Sept 2025",
+      description:
+        "Zelosify is a growing technology company focused on simplifying Vendor and Contract Management for large enterprises. The company provides a platform where organizations can manage their entire vendor ecosystem — from contract creation and approvals to onboarding, workflow tracking, and compliance management in a secure and automated way. As a Software Development Engineer, I built responsive landing pages and role-based dashboards while maintaining CI/CD pipelines. I also implemented secure multi-user authentication via Keycloak and managed cloud storage using AWS S3.",
+      skills: [
+        "Next.js",
+        "Typescript",
+        "Keycloak",
+        "Node.js",
+        "PostgreSQL with Prisma ORM",
+        "Docker",
+        "AWS S3",
+        "Postman",
+      ],
+      color: "teal",
+      image: "/experience/zelosify.jpg",
+      icon: <Briefcase className="h-5 w-5" />,
+    },
+    {
+      id: 2,
+      title: "Development Head",
+      company: "Google Developers Group on Campus - MSIT",
+      period: "2024 - Present",
+      description:
+        "As Development Head at GDGOC MSIT, I actively promoted skill upliftment by organizing regular progress updates and providing growth opportunities. Initiated LinkedIn and GitHub profile challenges, assigned tasks, and facilitated hands-on projects to boost members' professional presence. Collaborated closely with the design team to guide developers in building the club website, ensuring smooth coordination and successful project delivery. Oversaw team activities, encouraged continuous learning, and fostered a culture of accountability and innovation.",
+      skills: [
+        "Full Stack Development",
+        "Team Leadership",
+        "Project Management",
+        "Community Building",
+        "Technical Mentorship",
+        "Event Organization",
+        "Code Review",
+      ],
+      color: "teal",
+      image: "/experience/gdg.jpeg",
+      icon: <Briefcase className="h-5 w-5" />,
+    },
+    {
+      id: 3,
+      title: "Development Deputy Head",
+      company: "Geek Room",
+      period: "2025 - Present",
+      description:
+        "Recently appointed as Development Deputy Head at Geek Room, where I am supporting ongoing technical initiatives and collaborating with the team on new projects. Assisting in team coordination, skill development, and focusing on helping members improve their professional profiles. Contributing to a positive and productive environment as we work on upcoming projects.",
+      skills: [
+        "Team Collaboration",
+        "Communication",
+        "Problem Solving",
+        "Technical Support",
+        "Community Building",
+      ],
+      color: "cyan",
+      image: "/experience/gr.jpg",
+      icon: <Award className="h-5 w-5" />,
+    },
   ];
 
   useEffect(() => {
