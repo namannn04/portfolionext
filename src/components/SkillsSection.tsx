@@ -8,9 +8,9 @@ import { Card } from "@/components/ui/card";
 
 const skills = {
   languages: ["JavaScript", "TypeScript", "Python", "Java", "C", "C++", "HTML", "CSS", "SQL", "DOM"],
-  frameworks: ["React", "Next.js", "Node.js", "Express.js", "TailwindCSS", "Redux", "Rest API", "Framer Motion", "Mongoose ODM", "Bootstrap"],
-  databases: ["MongoDB", "MySQL", "Firebase"],
-  tools: ["Git", "AWS", "Vercel", "Netlify", "Render", "Figma", "VS Code", "Postman", "GitHub Actions"],
+  frameworks: ["React", "Next.js", "Node.js", "Express.js", "TailwindCSS", "Redux", "Rest API", "Framer Motion", "Mongoose ODM", "Bootstrap", "Prisma", "shadcn/ui", "JWT", "Bcrypt", "Material-UI"],
+  databases: ["MongoDB", "MySQL", "Firebase", "PostgreSQL"],
+  tools: ["Git", "AWS", "Vercel", "Netlify", "Render", "Figma", "VS Code", "Postman", "GitHub Actions", "Cloudinary"],
   softSkills: ["Problem Solving", "Teamwork", "Leadership", "Adaptability"],
 };
 
@@ -61,8 +61,8 @@ export default function SkillsSection() {
               key={category}
               onClick={() => setActiveCategory(category as keyof typeof skills)}
               className={`p-4 rounded-lg flex items-center justify-center gap-3 transition-all duration-300 backdrop-blur-sm cursor-pointer ${activeCategory === category
-                  ? "bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/20"
-                  : "bg-t-surface hover:bg-t-surface-hover border border-t-border"
+                ? "bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/20"
+                : "bg-t-surface hover:bg-t-surface-hover border border-t-border"
                 }`}
             >
               <div className={`${activeCategory === category ? "text-white" : "text-teal-400"}`}>
