@@ -219,16 +219,6 @@ export default function HeroSection() {
                   />
                 </div>
 
-                {/* Enchantment glint */}
-                <div
-                  className="absolute inset-0 pointer-events-none z-5"
-                  style={{
-                    background: "linear-gradient(135deg, transparent 30%, rgba(92,184,92,0.08) 40%, rgba(85,178,212,0.08) 50%, transparent 60%)",
-                    animation: "enchantGlint 3s ease-in-out infinite",
-                    backgroundSize: "200% 200%",
-                  }}
-                />
-
                 {/* Scanlines */}
                 <div
                   className="absolute inset-0 pointer-events-none opacity-[0.03]"

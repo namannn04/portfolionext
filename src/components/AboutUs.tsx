@@ -78,11 +78,6 @@ export default function AboutSection() {
           >
             About Me
           </h2>
-          <p className="text-t-muted max-w-2xl text-lg">
-            Passionate developer crafting digital experiences with code and
-            creativity. Explore my journey, skills, and the path that led me
-            here.
-          </p>
         </div>
 
         {/* Content - Inventory Panel */}
