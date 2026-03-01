@@ -244,26 +244,50 @@ html.theme-transition * {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-t-bg text-t-text;
     font-family: var(--font-geist-sans), system-ui, sans-serif;
   }
+
+  /* ===== Minecraft Pixel Font — applied to UI elements, NOT paragraphs ===== */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-mc), var(--font-geist-sans), system-ui, sans-serif;
+  }
+
+  label,
+  button,
+  [role="button"],
+  .mc-font {
+    font-family: var(--font-mc), var(--font-geist-sans), system-ui, sans-serif;
+  }
+}
+
+/* Override to remove MC font from specific elements and all children */
+.no-mc-font,
+.no-mc-font * {
+  font-family: var(--font-geist-sans), system-ui, sans-serif !important;
 }
 
 /* ===== Minecraft Pixel Border Utility ===== */
 .mc-border {
   border: 3px solid var(--mc-stone);
   box-shadow:
-    inset 2px 2px 0 rgba(255,255,255,0.15),
-    inset -2px -2px 0 rgba(0,0,0,0.3),
-    3px 3px 0 rgba(0,0,0,0.3);
+    inset 2px 2px 0 rgba(255, 255, 255, 0.15),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.3),
+    3px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
 .mc-border-light {
   border: 2px solid var(--t-border);
   box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,0.1),
-    inset -1px -1px 0 rgba(0,0,0,0.2);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.1),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* ===== Minecraft Inventory Slot Style ===== */
@@ -271,34 +295,68 @@ html.theme-transition * {
   background: var(--t-surface);
   border: 2px solid var(--t-border);
   box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,0.08),
-    inset -1px -1px 0 rgba(0,0,0,0.25);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.08),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.25);
   transition: all 0.2s ease;
 }
 
 .mc-slot:hover {
   background: var(--t-surface-hover);
   box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,0.12),
-    inset -1px -1px 0 rgba(0,0,0,0.3),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.12),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
     0 0 12px rgba(92, 184, 92, 0.3);
 }
 
 /* ===== Block Break Animation ===== */
 @keyframes blockBreak {
-  0% { transform: scale(1); opacity: 1; }
-  15% { transform: scale(1.05); }
-  30% { transform: scale(0.95); }
-  50% { transform: scale(1.02); opacity: 0.9; }
-  70% { transform: scale(0.98); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  15% {
+    transform: scale(1.05);
+  }
+
+  30% {
+    transform: scale(0.95);
+  }
+
+  50% {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+
+  70% {
+    transform: scale(0.98);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes blockPlace {
-  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
-  50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
-  70% { transform: scale(0.95) rotate(-1deg); }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  0% {
+    transform: scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.1) rotate(2deg);
+    opacity: 1;
+  }
+
+  70% {
+    transform: scale(0.95) rotate(-1deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 @keyframes pixelFadeIn {
@@ -306,6 +364,7 @@ html.theme-transition * {
     clip-path: inset(0 0 100% 0);
     opacity: 0;
   }
+
   100% {
     clip-path: inset(0 0 0 0);
     opacity: 1;
@@ -317,6 +376,7 @@ html.theme-transition * {
     transform: translateY(40px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -324,21 +384,39 @@ html.theme-transition * {
 }
 
 @keyframes floatBlock {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-8px) rotate(1deg); }
-  75% { transform: translateY(4px) rotate(-0.5deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+
+  75% {
+    transform: translateY(4px) rotate(-0.5deg);
+  }
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 @keyframes xpOrb {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(0.8) translateY(0);
   }
+
   50% {
     opacity: 1;
     transform: scale(1) translateY(-20px);
@@ -346,14 +424,28 @@ html.theme-transition * {
 }
 
 @keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
 }
 
 /* ===== Block Crack Overlay ===== */
 @keyframes crackProgress {
-  0% { opacity: 0; background-size: 0% 100%; }
-  100% { opacity: 0.2; background-size: 100% 100%; }
+  0% {
+    opacity: 0;
+    background-size: 0% 100%;
+  }
+
+  100% {
+    opacity: 0.2;
+    background-size: 100% 100%;
+  }
 }
 
 .mc-crack-hover:hover::after {
@@ -361,13 +453,11 @@ html.theme-transition * {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(
-      45deg,
+    repeating-linear-gradient(45deg,
       transparent,
       transparent 4px,
-      rgba(0,0,0,0.1) 4px,
-      rgba(0,0,0,0.1) 5px
-    );
+      rgba(0, 0, 0, 0.1) 4px,
+      rgba(0, 0, 0, 0.1) 5px);
   animation: crackProgress 0.6s ease forwards;
   pointer-events: none;
 }
@@ -450,9 +540,9 @@ html.theme-transition * {
   transition: all 0.2s ease;
   z-index: 100;
   box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,0.1),
-    inset -1px -1px 0 rgba(0,0,0,0.3),
-    2px 2px 0 rgba(0,0,0,0.4);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.1),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
+    2px 2px 0 rgba(0, 0, 0, 0.4);
 }
 
 .mc-tooltip:hover::before {
@@ -466,6 +556,7 @@ html.theme-transition * {
     opacity: 0;
     transform: translateX(-100%);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -479,8 +570,8 @@ html.theme-transition * {
 /* ===== Particle grid background ===== */
 .mc-grid-bg {
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -505,8 +596,8 @@ html.theme-transition * {
   .mc-border {
     border-width: 2px;
     box-shadow:
-      inset 1px 1px 0 rgba(255,255,255,0.15),
-      inset -1px -1px 0 rgba(0,0,0,0.3),
-      2px 2px 0 rgba(0,0,0,0.3);
+      inset 1px 1px 0 rgba(255, 255, 255, 0.15),
+      inset -1px -1px 0 rgba(0, 0, 0, 0.3),
+      2px 2px 0 rgba(0, 0, 0, 0.3);
   }
 }

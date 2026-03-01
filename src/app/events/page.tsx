@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { Calendar, Trophy, Users, Lightbulb, MapPin } from "lucide-react";
 import type { JSX } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 type EventType = "attended" | "organized" | "mentored" | "organized+attended";
 
@@ -34,9 +34,9 @@ export default function EventsPage() {
 
   return (
     <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[50%] mx-auto"><Navbar /></div>
+      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
       <div
-        className="relative overflow-hidden min-h-screen sm:max-w-[50%] mx-auto p-6"
+        className="relative overflow-hidden min-h-screen sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6"
       >
         {/* MC Grid */}
         <div

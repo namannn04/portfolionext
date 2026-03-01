@@ -6,8 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, ChevronRight, ChevronLeft, Award, Briefcase } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 interface Experience {
   id: number; title: string; company: string; period: string; description: string; skills: string[]; color: string; image?: string; icon: React.ReactNode;
@@ -47,8 +47,8 @@ export default function ExperiencePage() {
 
   return (
     <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[50%] mx-auto"><Navbar /></div>
-      <div className="relative overflow-hidden min-h-screen sm:max-w-[50%] mx-auto p-6">
+      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
+      <div className="relative overflow-hidden min-h-screen sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6">
         {/* MC Grid */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
         <div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ border: "3px solid var(--t-border)", boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)" }} />

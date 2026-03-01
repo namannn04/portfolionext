@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 interface FallingBlock {
@@ -17,20 +17,11 @@ const BLOCK_COLORS = [
   "var(--mc-diamond)", "var(--mc-gold)", "var(--mc-emerald)", "var(--mc-wood)",
 ];
 
-// Minecraft-style achievement names
-const ACHIEVEMENTS = [
-  { title: "Getting Started!", desc: "Welcome to Naman's world" },
-  { title: "Full Stack Unlocked!", desc: "Master of MERN + Next.js" },
-  { title: "Open Source Hero!", desc: "Contributed to the community" },
-];
-
 export default function HeroSection() {
   const [blocks, setBlocks] = useState<FallingBlock[]>([]);
   const [showContent, setShowContent] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
-  const [showAchievement, setShowAchievement] = useState(false);
-  const [currentAchievement, setCurrentAchievement] = useState(0);
   const [xpOrbPositions, setXpOrbPositions] = useState<{ x: number; y: number; delay: number; size: number }[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const fullText = "Web Developer | Open Source Contributor";
@@ -81,27 +72,7 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  // Achievement popup cycle
-  const cycleAchievements = useCallback(() => {
-    setShowAchievement(true);
-    setTimeout(() => {
-      setShowAchievement(false);
-      setTimeout(() => {
-        setCurrentAchievement((p) => (p + 1) % ACHIEVEMENTS.length);
-      }, 500);
-    }, 3500);
-  }, []);
 
-  useEffect(() => {
-    const firstTimeout = setTimeout(cycleAchievements, 2000);
-    const interval = setInterval(cycleAchievements, 8000);
-    return () => {
-      clearTimeout(firstTimeout);
-      clearInterval(interval);
-    };
-  }, [cycleAchievements]);
-
-  const achievement = ACHIEVEMENTS[currentAchievement];
 
   return (
     <section
@@ -156,40 +127,7 @@ export default function HeroSection() {
       />
 
       <div className="container mx-auto flex flex-col items-center relative z-10">
-        {/* ===== ACHIEVEMENT TOAST (Bottom Right) ===== */}
-        <div
-          className={`fixed bottom-20 right-4 sm:right-8 z-50 transition-all duration-500 ${showAchievement
-            ? "opacity-100 translate-y-0 scale-100"
-            : "opacity-0 translate-y-4 scale-95"
-            }`}
-        >
-          <div
-            className="flex items-center gap-3 px-5 py-3 min-w-[260px] sm:min-w-[300px]"
-            style={{
-              background: "var(--t-bg)",
-              border: "3px solid var(--mc-gold)",
-              boxShadow:
-                "inset 2px 2px 0 rgba(255,255,255,0.1), inset -2px -2px 0 rgba(0,0,0,0.3), 4px 4px 0 rgba(0,0,0,0.4), 0 0 20px rgba(240,192,64,0.3)",
-            }}
-          >
-            <div
-              className="w-10 h-10 flex items-center justify-center flex-shrink-0 text-lg"
-              style={{
-                background: "var(--mc-gold)",
-                boxShadow: "inset 1px 1px 0 rgba(255,255,255,0.3), inset -1px -1px 0 rgba(0,0,0,0.3)",
-              }}
-            >
-              🏆
-            </div>
-            <div>
-              <p className="text-mc-gold text-xs font-bold uppercase tracking-wider">
-                Achievement Unlocked!
-              </p>
-              <p className="text-t-text font-bold text-sm">{achievement.title}</p>
-              <p className="text-t-muted text-xs">{achievement.desc}</p>
-            </div>
-          </div>
-        </div>
+
 
         {/* ===== PROFILE IMAGE AREA ===== */}
         <div className="relative mx-auto w-full max-w-md">

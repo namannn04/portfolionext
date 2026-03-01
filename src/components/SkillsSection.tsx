@@ -108,14 +108,8 @@ export default function SkillsSection() {
           className={`flex flex-col items-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
-          <span
-            className="text-mc-xp text-sm font-medium tracking-[0.3em] uppercase mb-3"
-            style={{ textShadow: "0 0 10px var(--mc-xp)" }}
-          >
-            ⚔️ Professional Expertise ⚔️
-          </span>
           <h2
-            className="text-4xl md:text-5xl font-black text-center text-mc-grass uppercase tracking-wider"
+            className="text-4xl md:text-6xl font-black text-center text-mc-grass uppercase tracking-wider"
             style={{
               textShadow:
                 "2px 2px 0 rgba(0,0,0,0.5), 4px 4px 0 rgba(0,0,0,0.15)",

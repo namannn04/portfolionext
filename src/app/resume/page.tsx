@@ -6,8 +6,8 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { DownloadCloud, FileText } from "lucide-react";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function ResumePage() {
@@ -26,8 +26,8 @@ export default function ResumePage() {
 
   return (
     <div className="sm:block sm:pt-20 py-20 bg-t-bg min-h-screen text-t-text">
-      <div className="sm:max-w-[50%] mx-auto"><Navbar /></div>
-      <div className="relative overflow-hidden sm:max-w-[50%] mx-auto p-4 sm:p-6 mt-6">
+      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
+      <div className="relative overflow-hidden sm:max-w-[90%] lg:max-w-[50%] mx-auto p-4 sm:p-6 mt-6">
         {/* MC Grid */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.03]"

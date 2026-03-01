@@ -145,7 +145,7 @@ export default function Navbar() {
   return (
     <>
       {/* === TOP NAVBAR - Minecraft Hotbar Style === */}
-      <nav className="mb-5 z-50 bg-t-bg text-t-text relative">
+      <nav className="mb-5 z-50 bg-t-bg text-t-text relative no-mc-font">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Mobile hamburger */}
@@ -216,7 +216,7 @@ export default function Navbar() {
                   textShadow: "1px 1px 0 rgba(0,0,0,0.5)",
                 }}
               >
-                <Link href="/" className="hover:text-mc-emerald transition-colors">
+                <Link href="/" className="hover:text-mc-emerald transition-colors no-mc-font">
                   .dadhich
                 </Link>
               </div>
@@ -288,7 +288,7 @@ export default function Navbar() {
       {/* === FLOATING BOTTOM NAVBAR - Hotbar === */}
       <div
         className={cn(
-          "fixed left-1/2 bottom-8 z-50 -translate-x-1/2 transition-all duration-500 hidden md:flex items-center",
+          "fixed left-1/2 bottom-8 z-50 -translate-x-1/2 transition-all duration-500 hidden md:flex items-center no-mc-font",
           showFloating
             ? "opacity-100 pointer-events-auto translate-y-0"
             : "opacity-0 pointer-events-none translate-y-4"

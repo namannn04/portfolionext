@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -40,9 +40,9 @@ export default function Contact() {
 
   return (
     <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[50%] mx-auto"><Navbar /></div>
+      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
       <div
-        className="relative overflow-hidden min-h-screen sm:max-w-[50%] mx-auto p-6"
+        className="relative overflow-hidden min-h-screen sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6"
         style={{
           border: "none",
         }}
