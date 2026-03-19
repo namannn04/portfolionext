@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Silkscreen } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
 import NotificationBanner from "@/components/NotificationBanner";
+import CelestialBody from "@/components/CelestialBody";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 const geistSans = Geist({
@@ -68,6 +69,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} antialiased`}
       >
         <ThemeProvider>
+          <CelestialBody />
           <NotificationBanner />
           {children}
           <ScrollToTop />

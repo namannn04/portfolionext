@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 
 type Theme = "dark" | "light";
 
@@ -17,6 +17,7 @@ const ThemeContext = createContext<ThemeContextType>({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useState<Theme>("light");
     const [mounted, setMounted] = useState(false);
+    const transitionTimerRef = useRef<number | null>(null);
 
     useEffect(() => {
         const stored = localStorage.getItem("theme") as Theme | null;
@@ -32,15 +33,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const toggleTheme = useCallback(() => {
         document.documentElement.classList.add("theme-transition");
 
-        const newTheme = theme === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
+        setTheme((prevTheme) => {
+            const newTheme = prevTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            return newTheme;
+        });
 
-        setTimeout(() => {
+        if (transitionTimerRef.current) {
+            window.clearTimeout(transitionTimerRef.current);
+        }
+
+        transitionTimerRef.current = window.setTimeout(() => {
             document.documentElement.classList.remove("theme-transition");
-        }, 800);
-    }, [theme]);
+        }, 380);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            if (transitionTimerRef.current) {
+                window.clearTimeout(transitionTimerRef.current);
+            }
+        };
+    }, []);
 
     if (!mounted) {
         return <div style={{ visibility: "hidden" }}>{children}</div>;
