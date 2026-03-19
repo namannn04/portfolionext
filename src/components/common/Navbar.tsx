@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -23,7 +23,7 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showFloating, setShowFloating] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     setMounted(true);
@@ -37,11 +37,16 @@ export default function Navbar() {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           const halfPage = window.innerHeight / 2;
-          const scrollingDown = scrollY > lastScrollY;
-          setLastScrollY(scrollY);
-          if (scrollY > halfPage && scrollingDown) {
+          const previousScrollY = lastScrollYRef.current;
+          const scrollingDown = scrollY > previousScrollY;
+          const scrollDelta = Math.abs(scrollY - previousScrollY);
+          lastScrollYRef.current = scrollY;
+
+          if (scrollY > halfPage + 24) {
             setShowFloating(true);
-          } else if (scrollY < halfPage || !scrollingDown) {
+          } else if (scrollY < halfPage - 24) {
+            setShowFloating(false);
+          } else if (!scrollingDown && scrollDelta > 80) {
             setShowFloating(false);
           }
           ticking = false;
@@ -51,7 +56,7 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [mounted, lastScrollY]);
+  }, [mounted]);
 
   const scrollToElement = useCallback((element: HTMLElement) => {
     window.scrollTo({
@@ -145,7 +150,7 @@ export default function Navbar() {
   return (
     <>
       {/* === TOP NAVBAR - Minecraft Hotbar Style === */}
-      <nav className="mb-5 z-50 bg-t-bg text-t-text relative no-mc-font">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-t-bg text-t-text md:relative md:mb-5 no-mc-font">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Mobile hamburger */}
@@ -284,6 +289,8 @@ export default function Navbar() {
           </div>
         )}
       </nav>
+
+      <div className="h-16 md:hidden" aria-hidden="true" />
 
       {/* === FLOATING BOTTOM NAVBAR - Hotbar === */}
       <div
