@@ -229,7 +229,7 @@ export default function Contact() {
             <p className="text-t-muted">
               or mail me at{" "}
               <span className="text-mc-diamond hover:text-mc-grass transition-colors font-medium">
-                namandadhich15592@gmail.com
+                reachout2naman@gmail.com
               </span>
             </p>
           </div>
