@@ -75,10 +75,6 @@ function makeCastle(): (BK | null)[][][] {
   // Gate arch — wood frame
   set(4,1,5,"wood"); set(4,1,6,"wood"); set(4,1,7,"wood"); set(4,1,8,"wood");
 
-  /* ── Battlements on top of walls — stone with gaps ── */
-  const batt = (z:number,x0:number,x1:number)=>{
-    for(let x=x0;x<=x1;x+=2) set(4,z,x,"stone");
-  };
   // front battlement
   for(let x=1;x<=W-2;x+=2) set(4,1,x,"stone");
   // back battlement
@@ -251,8 +247,6 @@ interface Orb{ x:number;y:number;vx:number;vy:number;size:number;life:number; }
 interface Shockwave{ r:number;maxR:number;life:number;cx:number;cy:number; }
 interface DustPuff{ x:number;y:number;r:number;life:number; }
 
-let _uid=0; const uid=()=>_uid++;
-
 const easeInOut=(t:number)=>t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -334,7 +328,8 @@ export default function LoaderScreen({onComplete}:LoaderScreenProps){
 
     /* ── main frame ── */
     const TOTAL_SECS = 4.2;
-    let last=performance.now(), startTime=performance.now();
+    let last=performance.now();
+    const startTime=performance.now();
     let raf=0;
 
     const frame=(now:number)=>{
@@ -342,7 +337,6 @@ export default function LoaderScreen({onComplete}:LoaderScreenProps){
       const dt=Math.min((now-last)/1000,0.05); last=now;
       const elapsed=(now-startTime)/1000;
       S.t=Math.min(elapsed/TOTAL_SECS,1);
-      const prevCount=S.count;
       S.count=Math.round(easeInOut(S.t)*100);
       S.countDisp+=(S.count-S.countDisp)*Math.min(1,dt*10);
       S.torchPhase+=dt*3.5;

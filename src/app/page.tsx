@@ -8,21 +8,6 @@ import LoaderScreen from "@/components/common/Loader";
 import Navbar from "@/components/common/Navbar";
 import Projects from "@/components/Projects";
 import SkillsSection from "@/components/SkillsSection";
-import AchievementToast from "@/components/AchievementToast";
-import { useAchievementOnView } from "@/hooks/useAchievementOnView";
-
-// Section-specific achievements that trigger when each section scrolls into view
-const SECTION_ACHIEVEMENTS = {
-  hero: { id: "hero", title: "Getting Started!", desc: "Welcome to Naman's world" },
-  about: { id: "about", title: "Player Info Loaded!", desc: "Now you know the player" },
-  skills: { id: "skills", title: "Inventory Full!", desc: "So many tools in the chest" },
-  projects: { id: "projects", title: "Master Builder!", desc: "Check out these builds" },
-};
-
-function AchievementSection({ achievement, children }: { achievement: { id: string; title: string; desc: string }; children: React.ReactNode }) {
-  const ref = useAchievementOnView(achievement);
-  return <div ref={ref}>{children}</div>;
-}
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,42 +36,24 @@ export default function Home() {
                   padding: "1.5rem",
                 }}
               >
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.hero}>
                   <HeroSection />
-                </AchievementSection>
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.about}>
                   <AboutUs />
-                </AchievementSection>
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.skills}>
                   <SkillsSection />
-                </AchievementSection>
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.projects}>
                   <Projects />
-                </AchievementSection>
                 <Footer />
               </div>
               {/* Mobile: no outer border */}
               <div className="sm:hidden">
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.hero}>
                   <HeroSection />
-                </AchievementSection>
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.about}>
                   <AboutUs />
-                </AchievementSection>
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.skills}>
                   <SkillsSection />
-                </AchievementSection>
-                <AchievementSection achievement={SECTION_ACHIEVEMENTS.projects}>
                   <Projects />
-                </AchievementSection>
                 <Footer />
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* Global achievement toast — renders once, bottom-right */}
-      <AchievementToast />
     </>
   );
 }
