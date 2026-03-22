@@ -8,12 +8,12 @@ import { cn } from "@/lib/utils";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const navOptions = [
-  { name: "About", href: "#about", shortcut: "a", icon: "📖" },
-  { name: "Skills", href: "#skills", shortcut: "s", icon: "⚔️" },
-  { name: "Projects", href: "/projects", shortcut: "p", icon: "🏗️" },
-  { name: "Experience", href: "/experience", shortcut: "e", icon: "⭐" },
-  { name: "Events", href: "/events", shortcut: "v", icon: "🎪" },
-  { name: "Resume", href: "/resume", shortcut: "r", icon: "📜" },
+  { name: "About", href: "#about", shortcut: "a" },
+  { name: "Skills", href: "#skills", shortcut: "s" },
+  { name: "Projects", href: "/projects", shortcut: "p" },
+  { name: "Experience", href: "/experience", shortcut: "e" },
+  { name: "Events", href: "/events", shortcut: "v" },
+  { name: "Resume", href: "/resume", shortcut: "r" },
 ];
 
 export default function Navbar() {
@@ -150,7 +150,7 @@ export default function Navbar() {
   return (
     <>
       {/* === TOP NAVBAR - Minecraft Hotbar Style === */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-t-bg text-t-text md:relative md:mb-5 no-mc-font">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent text-t-text md:relative md:mb-5 no-mc-font">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Mobile hamburger */}
@@ -168,7 +168,7 @@ export default function Navbar() {
             <div
               className="hidden md:flex items-center gap-1 p-1.5"
               style={{
-                background: "var(--t-surface)",
+                background: "transparent",
                 border: "2px solid var(--t-border)",
                 boxShadow:
                   "inset 1px 1px 0 rgba(255,255,255,0.08), inset -1px -1px 0 rgba(0,0,0,0.25)",
@@ -196,7 +196,6 @@ export default function Navbar() {
                       }
                   }
                 >
-                  <span className="text-xs">{option.icon}</span>
                   <span>{option.name}</span>
                   <span
                     className={cn(
@@ -231,7 +230,7 @@ export default function Navbar() {
 
         {/* Mobile menu overlay */}
         {isOpen && (
-          <div className="fixed inset-0 z-40 bg-t-bg/97 backdrop-blur-sm md:hidden">
+          <div className="fixed inset-0 z-40 bg-transparent md:hidden">
             {/* Close button */}
             <div className="absolute top-4 left-4">
               <button
@@ -263,7 +262,6 @@ export default function Navbar() {
                       }}
                       className="mc-slot cursor-pointer w-full text-left px-4 py-3 flex items-center gap-3 text-t-text hover:text-mc-grass transition-all"
                     >
-                      <span className="text-lg">{option.icon}</span>
                       <span className="font-medium">
                         {option.name}
                       </span>
@@ -304,7 +302,7 @@ export default function Navbar() {
         <div
           className="flex items-center gap-1 p-1.5"
           style={{
-            background: "var(--t-bg)",
+            background: "transparent",
             border: "3px solid var(--t-border)",
             boxShadow:
               "inset 2px 2px 0 rgba(255,255,255,0.08), inset -2px -2px 0 rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.5)",
@@ -332,7 +330,6 @@ export default function Navbar() {
                   }
               }
             >
-              <span className="text-xs">{option.icon}</span>
               <span>{option.name}</span>
               <span
                 className={cn(
