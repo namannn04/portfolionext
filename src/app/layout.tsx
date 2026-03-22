@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Silkscreen } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
-import NotificationBanner from "@/components/NotificationBanner";
+// import NotificationBanner from "@/components/NotificationBanner";
 import CelestialBody from "@/components/CelestialBody";
 import { ThemeProvider } from "@/context/ThemeContext";
 
@@ -70,7 +70,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <CelestialBody />
-          <NotificationBanner />
+          {/* <NotificationBanner /> */}
           {children}
           <ScrollToTop />
         </ThemeProvider>

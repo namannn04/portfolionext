@@ -152,7 +152,7 @@ export default function Navbar() {
       {/* === TOP NAVBAR - Minecraft Hotbar Style === */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent text-t-text md:relative md:mb-5 no-mc-font">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between md:justify-center md:gap-6 lg:gap-24 h-16">
             {/* Mobile hamburger */}
             <div className="flex md:hidden">
               <button
@@ -212,7 +212,7 @@ export default function Navbar() {
             </div>
 
             {/* Logo + Theme Toggle */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-5 sm:gap-6">
               <ThemeToggle />
               <div
                 className="text-mc-grass font-bold text-xl"
@@ -302,7 +302,7 @@ export default function Navbar() {
         <div
           className="flex items-center gap-1 p-1.5"
           style={{
-            background: "transparent",
+            background: "var(--t-bg)",
             border: "3px solid var(--t-border)",
             boxShadow:
               "inset 2px 2px 0 rgba(255,255,255,0.08), inset -2px -2px 0 rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.5)",
