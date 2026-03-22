@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import AboutUs from "@/components/AboutUs";
 import Footer from "@/components/common/Footer";
 import HeroSection from "@/components/HeroSection";
+import LoaderScreen from "@/components/common/Loader";
 import Navbar from "@/components/common/Navbar";
 import Projects from "@/components/Projects";
 import SkillsSection from "@/components/SkillsSection";
@@ -23,8 +25,11 @@ function AchievementSection({ achievement, children }: { achievement: { id: stri
 }
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <>
+      {isLoading && <LoaderScreen onComplete={() => setIsLoading(false)} />}
       <div className="bg-t-bg min-h-screen">
         <div className="sm:py-20">
           <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto">
