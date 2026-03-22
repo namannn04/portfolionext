@@ -393,15 +393,6 @@ export default function HeroSection() {
               ))}
             </div>
           </div>
-
-          {/* Hotbar slot numbers */}
-          <div className="mt-1 flex justify-center">
-            <div className="flex items-center gap-[14px] px-2">
-              {[1, 2, 3, 4, 5].map((n) => (
-                <span key={n} className="text-[9px] text-t-dim font-mono w-12 text-center">{n}</span>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 
