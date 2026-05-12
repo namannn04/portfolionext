@@ -3,18 +3,18 @@
 import AboutUs from "@/components/AboutUs";
 import Footer from "@/components/common/Footer";
 import HeroSection from "@/components/HeroSection";
-import VideoLoader from "@/components/common/VideoLoader";
+// import VideoLoader from "@/components/common/VideoLoader";
 import Navbar from "@/components/common/Navbar";
 import Projects from "@/components/Projects";
 import SkillsSection from "@/components/SkillsSection";
-import { useState } from "react";
+// import { useState } from "react";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
-      {isLoading && <VideoLoader onComplete={() => setIsLoading(false)} />}
+      {/* {isLoading && <VideoLoader onComplete={() => setIsLoading(false)} />} */}
       <div className="bg-t-bg min-h-screen">
         <div className="sm:py-20">
           <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto">

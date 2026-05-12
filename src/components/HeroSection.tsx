@@ -2,58 +2,17 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-
-interface FallingBlock {
-  id: number;
-  x: number;
-  delay: number;
-  duration: number;
-  size: number;
-  color: string;
-}
-
-const BLOCK_COLORS = [
-  "var(--mc-grass)", "var(--mc-dirt)", "var(--mc-stone)",
-  "var(--mc-diamond)", "var(--mc-gold)", "var(--mc-emerald)", "var(--mc-wood)",
-];
+import { useTheme } from "@/context/ThemeContext";
 
 export default function HeroSection() {
-  const [blocks, setBlocks] = useState<FallingBlock[]>([]);
-  const [showContent, setShowContent] = useState(false);
+  const { theme } = useTheme();
   const [typedText, setTypedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
-  const [xpOrbPositions, setXpOrbPositions] = useState<{ x: number; y: number; delay: number; size: number }[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const fullText = "Web Developer | Open Source Contributor";
 
-  // Generate falling blocks
-  useEffect(() => {
-    const generated: FallingBlock[] = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 10,
-      duration: 10 + Math.random() * 15,
-      size: 4 + Math.random() * 12,
-      color: BLOCK_COLORS[Math.floor(Math.random() * BLOCK_COLORS.length)],
-    }));
-    setBlocks(generated);
-
-    // Generate XP orbs
-    const orbs = Array.from({ length: 8 }, () => ({
-      x: 30 + Math.random() * 40,
-      y: Math.random() * 100,
-      delay: Math.random() * 6,
-      size: 3 + Math.random() * 4,
-    }));
-    setXpOrbPositions(orbs);
-
-    const timer = setTimeout(() => setShowContent(true), 300);
-    return () => clearTimeout(timer);
-  }, []);
-
   // Typewriter
   useEffect(() => {
-    if (!showContent) return;
     let i = 0;
     const interval = setInterval(() => {
       if (i <= fullText.length) {
@@ -64,7 +23,7 @@ export default function HeroSection() {
       }
     }, 45);
     return () => clearInterval(interval);
-  }, [showContent]);
+  }, []);
 
   // Cursor blink
   useEffect(() => {
@@ -79,44 +38,6 @@ export default function HeroSection() {
       ref={containerRef}
       className="relative flex min-h-[90vh] w-full items-center justify-center px-4 mt-10 pb-16 overflow-hidden"
     >
-      {/* Falling blocks */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {blocks.map((block) => (
-          <div
-            key={block.id}
-            className="absolute opacity-[0.08]"
-            style={{
-              left: `${block.x}%`,
-              top: "-20px",
-              width: `${block.size}px`,
-              height: `${block.size}px`,
-              backgroundColor: block.color,
-              animation: `fallingBlock ${block.duration}s linear ${block.delay}s infinite`,
-              boxShadow: "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3)",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* XP Orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {xpOrbPositions.map((orb, i) => (
-          <div
-            key={`xp-${i}`}
-            className="absolute rounded-full"
-            style={{
-              left: `${orb.x}%`,
-              bottom: "0",
-              width: `${orb.size}px`,
-              height: `${orb.size}px`,
-              background: "var(--mc-xp)",
-              boxShadow: "0 0 6px var(--mc-xp), 0 0 12px var(--mc-xp)",
-              animation: `xpFloat ${4 + Math.random() * 3}s ease-in-out ${orb.delay}s infinite`,
-            }}
-          />
-        ))}
-      </div>
-
       {/* Grid dots */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -131,10 +52,7 @@ export default function HeroSection() {
 
         {/* ===== PROFILE IMAGE AREA ===== */}
         <div className="relative mx-auto w-full max-w-md">
-          <div
-            className={`relative transition-all duration-700 ease-out ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-          >
+          <div className="relative">
             {/* Desktop name */}
             <div className="hidden md:block text-center mb-6">
               <h1
@@ -209,7 +127,7 @@ export default function HeroSection() {
               >
                 <div className="relative aspect-[3/4] w-full">
                   <Image
-                    src="/profile.jpg"
+                    src={theme === "light" ? "/profilewhite.jpeg" : "/profileBlack.png"}
                     alt="Portfolio background"
                     fill
                     className="object-cover"
@@ -248,10 +166,7 @@ export default function HeroSection() {
         </div>
 
         {/* ===== PLAYER STATS BAR ===== */}
-        <div
-          className={`w-full max-w-md mt-12 transition-all duration-700 delay-500 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-        >
+        <div className="w-full max-w-md mt-12">
           <div
             className="p-3"
             style={{
@@ -282,9 +197,9 @@ export default function HeroSection() {
                 <span className="text-mc-xp">✨</span>
                 <div className="w-16 h-2 bg-t-bg relative overflow-hidden" style={{ border: "1px solid var(--t-border)" }}>
                   <div
-                    className="h-full transition-all duration-[2s] ease-out"
+                    className="h-full"
                     style={{
-                      width: showContent ? "73%" : "0%",
+                      width: "73%",
                       background: "var(--mc-xp)",
                       boxShadow: "0 0 4px var(--mc-xp)",
                     }}
@@ -297,10 +212,7 @@ export default function HeroSection() {
         </div>
 
         {/* ===== BOTTOM CONTENT ===== */}
-        <div
-          className={`relative mt-6 transition-all duration-700 delay-300 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-        >
+        <div className="relative mt-6">
           {/* Mobile name */}
           <h1
             className="block md:hidden text-center text-3xl sm:text-4xl font-black uppercase tracking-wider text-t-text mb-2"
@@ -336,9 +248,9 @@ export default function HeroSection() {
           <div className="mt-3 flex justify-center">
             <div className="w-64 h-1.5 bg-t-border relative overflow-hidden" style={{ border: "1px solid var(--t-border)" }}>
               <div
-                className="h-full transition-all duration-[2s] ease-out"
+                className="h-full"
                 style={{
-                  width: showContent ? "100%" : "0%",
+                  width: "100%",
                   background: "var(--mc-xp)",
                   boxShadow: "0 0 8px var(--mc-xp)",
                 }}
@@ -398,19 +310,6 @@ export default function HeroSection() {
 
       {/* Keyframes */}
       <style jsx>{`
-        @keyframes fallingBlock {
-          0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
-          10% { opacity: 0.08; }
-          90% { opacity: 0.08; }
-          100% { transform: translateY(100vh) rotate(90deg); opacity: 0; }
-        }
-        @keyframes xpFloat {
-          0% { transform: translateY(0); opacity: 0; }
-          10% { opacity: 0.8; }
-          50% { opacity: 1; }
-          90% { opacity: 0.3; }
-          100% { transform: translateY(-100vh); opacity: 0; }
-        }
         @keyframes torchFlicker {
           0% { opacity: 0.7; transform: scaleY(0.9); }
           50% { opacity: 1; transform: scaleY(1.1); }
