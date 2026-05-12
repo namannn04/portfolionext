@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useState<Theme>("light");
-    const [mounted, setMounted] = useState(false);
+
     const transitionTimerRef = useRef<number | null>(null);
 
     useEffect(() => {
@@ -27,7 +27,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         } else {
             document.documentElement.setAttribute("data-theme", "light");
         }
-        setMounted(true);
     }, []);
 
     const toggleTheme = useCallback(() => {
@@ -56,10 +55,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             }
         };
     }, []);
-
-    if (!mounted) {
-        return <div style={{ visibility: "hidden" }}>{children}</div>;
-    }
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

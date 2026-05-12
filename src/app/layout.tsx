@@ -36,10 +36,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link id="favicon" rel="icon" href="/NDLight.png" type="image/png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" as="image" href="/profile.jpg" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         {/* Prevent flash of wrong theme + dynamic favicon */}
         <script
           dangerouslySetInnerHTML={{

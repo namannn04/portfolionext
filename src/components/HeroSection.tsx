@@ -2,10 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { useTheme } from "@/context/ThemeContext";
 
 export default function HeroSection() {
-  const { theme } = useTheme();
   const [typedText, setTypedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -127,13 +125,24 @@ export default function HeroSection() {
               >
                 <div className="relative aspect-[3/4] w-full">
                   <Image
-                    src={theme === "light" ? "/profilewhite.jpeg" : "/profileBlack.png"}
+                    src="/profilewhite.jpeg"
                     alt="Portfolio background"
                     fill
-                    className="object-cover"
+                    className="object-cover img-light"
                     priority
+                    fetchPriority="high"
                     quality={85}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 450px"
+                  />
+                  <Image
+                    src="/profileBlack.png"
+                    alt="Portfolio background"
+                    fill
+                    className="object-cover img-dark"
+                    priority
+                    fetchPriority="high"
+                    quality={85}
+                    sizes="(max-width: 768px) 100vw, 450px"
                   />
                 </div>
 
@@ -310,6 +319,8 @@ export default function HeroSection() {
 
       {/* Keyframes */}
       <style jsx>{`
+        :global([data-theme='light'] .img-dark) { display: none !important; }
+        :global([data-theme='dark'] .img-light) { display: none !important; }
         @keyframes torchFlicker {
           0% { opacity: 0.7; transform: scaleY(0.9); }
           50% { opacity: 1; transform: scaleY(1.1); }
