@@ -230,7 +230,7 @@ function HotbarSlot({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function HeroSection() {
-  const [typedText] = useState("Web Developer | Open Source Contributor");
+  // const [typedText] = useState("Web Developer | Open Source Contributor");
 
   const staticBlocks: FloatingBlock[] = [
     { id: 1, x: 12, y: 8, size: 28, type: BLOCK_TYPES[0], rotation: -8, opacity: 0.16 },
@@ -699,25 +699,10 @@ export default function HeroSection() {
                     quality={85}
                     sizes="(max-width: 768px) 100vw, 260px"
                   />
-                  {/* Pixelate overlay on image */}
-                  <div style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px), repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px)",
-                    pointerEvents: "none",
-                  }} />
-                  {/* Enchant shimmer on hover */}
-                  <div style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(135deg, transparent 40%, rgba(79,195,247,0.12) 50%, transparent 60%)",
-                    backgroundSize: "200% 200%",
-                    pointerEvents: "none",
-                  }} />
                 </div>
 
                 {/* Player name tag at bottom of image */}
-                <div
+                {/* <div
                   style={{
                     position: "absolute",
                     bottom: 0,
@@ -749,16 +734,7 @@ export default function HeroSection() {
                   }}>
                     namannn04
                   </span>
-                  <span style={{
-                    marginLeft: "auto",
-                    fontFamily: "'Press Start 2P', monospace",
-                    fontSize: 6,
-                    color: "var(--mc-xp)",
-                    textShadow: "0 0 4px var(--mc-xp)",
-                  }}>
-                    ● ONLINE
-                  </span>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -780,6 +756,10 @@ export default function HeroSection() {
             }}>
               {/* Panel title */}
               <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
                 fontFamily: "'Press Start 2P', monospace",
                 fontSize: "clamp(8px, 1.8vw, 11px)",
                 color: "var(--mc-gold)",
@@ -788,7 +768,16 @@ export default function HeroSection() {
                 paddingBottom: 12,
                 letterSpacing: "0.08em",
               }}>
-                ▶ PLAYER STATS
+                <span>▶ PLAYER STATS</span>
+                <span style={{
+                  fontFamily: "'Press Start 2P', monospace",
+                  fontSize: "clamp(6px, 1.2vw, 9px)",
+                  color: "var(--mc-xp)",
+                  textShadow: "0 0 4px var(--mc-xp)",
+                  whiteSpace: "nowrap",
+                }}>
+                  ● ONLINE
+                </span>
               </div>
 
               <div style={{
@@ -799,9 +788,9 @@ export default function HeroSection() {
                 lineHeight: 1.5,
               }}>
                 <div style={{ color: "var(--mc-xp)" }}>USER: namannn04</div>
-                <div>SDE</div>
-                <div>OPEN SOURCE CONTRIBUTOR</div>
-                <div>FREELANCER</div>
+                <div>&gt; SDE</div>
+                <div>&gt; OPEN SOURCE CONTRIBUTOR</div>
+                <div>&gt; FREELANCER</div>
               </div>
 
               {/* Stats */}
@@ -853,7 +842,7 @@ export default function HeroSection() {
           </div>
 
           {/* ── TYPEWRITER ROLE ────────────────────────────── */}
-          <div style={{
+          {/* <div style={{
             marginTop: 28,
             fontFamily: "'Press Start 2P', monospace",
             fontSize: "clamp(8px, 2vw, 13px)",
@@ -865,7 +854,7 @@ export default function HeroSection() {
             opacity: 1,
           }}>
             &gt; {typedText}
-          </div>
+          </div> */}
 
           {/* ── HOTBAR SOCIAL LINKS ──────────────────────── */}
           <div style={{
