@@ -332,8 +332,8 @@ export default function HeroSection() {
           98% { text-shadow: 4px 4px 0 var(--t-shadow-color), 3px 0 0 color-mix(in srgb, var(--mc-gold) 55%, var(--mc-redstone) 45%); letter-spacing: 0.25em; }
         }
 
-        :global([data-theme='light'] .img-dark) { display: none !important; }
-        :global([data-theme='dark'] .img-light) { display: none !important; }
+        [data-theme='light'] .img-dark { display: none !important; }
+        [data-theme='dark'] .img-light { display: none !important; }
 
         .mc-hero-section * { box-sizing: border-box; }
       `}</style>
