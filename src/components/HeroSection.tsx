@@ -791,12 +791,24 @@ export default function HeroSection() {
                 ▶ PLAYER STATS
               </div>
 
+              <div style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: "clamp(7px, 1.6vw, 10px)",
+                color: "var(--t-text)",
+                letterSpacing: "0.08em",
+                lineHeight: 1.5,
+              }}>
+                <div style={{ color: "var(--mc-xp)" }}>USER: namannn04</div>
+                <div>SDE</div>
+                <div>OPEN SOURCE CONTRIBUTOR</div>
+                <div>FREELANCER</div>
+              </div>
+
               {/* Stats */}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <StatBar icon="❤️" value={20} max={20} color="var(--mc-redstone)" label="HP 20/20" />
                 <StatBar icon="🍖" value={18} max={20} color="var(--mc-dirt)" label="FD 18/20" />
                 <StatBar icon="✨" value={73} max={100} color="var(--mc-xp)" label="XP 99LV" />
-                <StatBar icon="⚡" value={88} max={100} color="var(--mc-diamond)" label="SK 88%" />
               </div>
 
               {/* Divider */}
@@ -874,26 +886,6 @@ export default function HeroSection() {
                 <HotbarSlot key={s.label} label={s.label} href={s.href} delay={i * 0.08}>
                   {s.icon}
                 </HotbarSlot>
-              ))}
-            </div>
-
-            {/* Selector indicator */}
-            <div style={{
-              marginTop: 4,
-              display: "flex",
-              justifyContent: "center",
-              gap: 3,
-            }}>
-              {socials.map((_, i) => (
-                <div key={i} style={{
-                  width: 8,
-                  height: 3,
-                  background:
-                    i === 1
-                      ? "var(--t-text)"
-                      : "color-mix(in srgb, var(--t-text) 20%, transparent)",
-                  transition: "background 0.2s",
-                }} />
               ))}
             </div>
           </div>
