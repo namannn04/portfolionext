@@ -454,24 +454,6 @@ export default function HeroSection() {
             marginBottom: 8,
             textAlign: "center",
           }}>
-            {/* Enchantment-style subtitle above name */}
-            <div style={{
-              fontFamily: "'Press Start 2P', monospace",
-              fontSize: "clamp(7px, 1.5vw, 10px)",
-              color: "var(--mc-xp)",
-              letterSpacing: "0.4em",
-              marginBottom: 16,
-              opacity: 0.8,
-              textShadow: "0 0 8px color-mix(in srgb, var(--mc-xp) 80%, transparent)",
-              background:
-                "linear-gradient(90deg, var(--mc-xp), color-mix(in srgb, var(--mc-xp) 70%, var(--t-text)), var(--mc-diamond), var(--mc-xp))",
-              backgroundSize: "200% auto",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}>
-              ✦ PORTFOLIO LOADED ✦
-            </div>
 
             <h1 style={{
               fontFamily: "'Press Start 2P', monospace",
