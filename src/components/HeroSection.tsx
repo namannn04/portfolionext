@@ -544,7 +544,7 @@ export default function HeroSection() {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            gap: 20,
+            gap: 24,
             justifyContent: "center",
             alignItems: "flex-start",
             width: "100%",
@@ -557,7 +557,7 @@ export default function HeroSection() {
               flexShrink: 0,
             }}>
               {/* Torch Left */}
-              <div style={{
+              {/* <div style={{
                 position: "absolute",
                 left: -28,
                 top: "25%",
@@ -590,10 +590,10 @@ export default function HeroSection() {
                     boxShadow: "inset 1px 0 0 rgba(255,255,255,0.1)",
                   }}
                 />
-              </div>
+              </div> */}
 
               {/* Torch Right */}
-              <div style={{
+              {/* <div style={{
                 position: "absolute",
                 right: -28,
                 top: "25%",
@@ -626,7 +626,7 @@ export default function HeroSection() {
                     boxShadow: "inset 1px 0 0 rgba(255,255,255,0.1)",
                   }}
                 />
-              </div>
+              </div> */}
 
               {/* Corner Decorations */}
               {[
@@ -826,7 +826,7 @@ export default function HeroSection() {
                   INVENTORY
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  {["React", "Next.js", "TypeScript", "Node", "Git", "OSS"].map((skill, i) => (
+                  {["React", "Next.js", "TypeScript", "Node"].map((skill, i) => (
                     <div key={skill} style={{
                       fontFamily: "'Press Start 2P', monospace",
                       fontSize: "clamp(6px, 1.2vw, 8px)",
@@ -947,8 +947,7 @@ export default function HeroSection() {
         </div>
 
         {/* ── Corner Block Decorations ─────────────────────── */}
-        (
-          <>
+        <>
             <div style={{ position: "absolute", top: 16, left: 16, zIndex: 5, opacity: 0.4 }}>
               <MinecraftBlock
                 size={24}
@@ -977,8 +976,7 @@ export default function HeroSection() {
                 shadow="color-mix(in srgb, var(--mc-gold) 60%, #000)"
               />
             </div>
-          </>
-        )
+        </>
       </section>
     </>
   );
