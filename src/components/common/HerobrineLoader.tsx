@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type HerobrineLoaderProps = {
@@ -40,18 +41,26 @@ export default function HerobrineLoader({
       aria-label="Loading"
     >
       <div className="relative flex items-center justify-center">
-        <img
-          src="/herobrineClose.png"
-          alt="Herobrine eyes closed"
-          className={`herobrine-face ${phase === "open" ? "herobrine-face-hidden" : ""}`}
-          draggable={false}
-        />
-        <img
-          src="/herobrineOpen.png"
-          alt="Herobrine eyes open"
-          className={`herobrine-face herobrine-face-open ${phase === "open" ? "herobrine-face-opened" : ""}`}
-          draggable={false}
-        />
+        <div className="herobrine-face-frame">
+          <Image
+            src="/herobrineClose.png"
+            alt="Herobrine eyes closed"
+            className={`herobrine-face ${phase === "open" ? "herobrine-face-hidden" : ""}`}
+            fill
+            sizes="(max-width: 768px) 92vw, 1000px"
+            priority
+            draggable={false}
+          />
+          <Image
+            src="/herobrineOpen.png"
+            alt="Herobrine eyes open"
+            className={`herobrine-face herobrine-face-open ${phase === "open" ? "herobrine-face-opened" : ""}`}
+            fill
+            sizes="(max-width: 768px) 92vw, 1000px"
+            priority
+            draggable={false}
+          />
+        </div>
       </div>
     </div>
   );
