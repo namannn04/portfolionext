@@ -258,6 +258,69 @@ html.theme-transition .mc-border-light {
     @apply border-border outline-ring/50;
   }
 
+
+@keyframes herobrineZoomIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.35);
+  }
+}
+
+.herobrine-loader {
+  animation: loaderFadeIn 0.2s ease-out;
+  background: radial-gradient(circle at 50% 40%, rgba(25, 25, 40, 0.85), rgba(6, 6, 10, 0.98) 55%, #000 100%);
+}
+
+.herobrine-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0) 45%),
+    radial-gradient(circle at 50% 65%, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.9) 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0, rgba(255, 255, 255, 0.02) 1px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 4px);
+  opacity: 0.9;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes loaderFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.herobrine-face {
+  width: min(92vw, 1000px);
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.herobrine-face-hidden {
+  opacity: 0;
+}
+
+.herobrine-face-open {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  opacity: 0;
+}
+
+.herobrine-face-opened {
+  opacity: 1;
+  filter: brightness(1.2);
+  animation: herobrineZoomIn 1s ease-out 1s forwards;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
   body {
     @apply bg-t-bg text-t-text;
     font-family: var(--font-geist-sans), system-ui, sans-serif;
