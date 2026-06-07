@@ -247,7 +247,7 @@ export default function AboutSection() {
 
                 {/* Action buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 sm:justify-between mt-8 pt-6 border-t-2 border-t-border">
-                  <Link href="/resume" className="w-full sm:w-auto">
+                  <Link href="/resume" prefetch className="w-full sm:w-auto">
                     <Button
                       className="w-full cursor-pointer text-white font-medium"
                       style={{
@@ -262,7 +262,7 @@ export default function AboutSection() {
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
-                  <Link href="/contact" className="w-full sm:w-auto">
+                  <Link href="/contact" prefetch className="w-full sm:w-auto">
                     <Button
                       className="w-full cursor-pointer text-white font-medium"
                       style={{

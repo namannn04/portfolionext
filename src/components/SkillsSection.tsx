@@ -301,7 +301,7 @@ export default function SkillsSection() {
 
         {/* Resume link */}
         <div className="mt-12 flex justify-center">
-          <Link href="/resume">
+          <Link href="/resume" prefetch>
             <button
               className="cursor-pointer px-6 py-3 flex items-center gap-4 text-t-text font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               style={{

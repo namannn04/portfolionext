@@ -1,10 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Calendar, Trophy, Users, Lightbulb, MapPin } from "lucide-react";
 import type { JSX } from "react";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 
 type EventType = "attended" | "organized" | "mentored" | "organized+attended";
 
@@ -27,30 +24,18 @@ const typeEmojis: Record<EventType, string> = { attended: "🏆", organized: "�
 const typeColors: Record<EventType, string> = { attended: "var(--mc-diamond)", organized: "var(--mc-grass)", mentored: "var(--mc-gold)", "organized+attended": "var(--mc-emerald)" };
 
 export default function EventsPage() {
-  const [mounted, setMounted] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => { setMounted(true); setTimeout(() => setIsVisible(true), 200); }, []);
-  if (!mounted) return null;
-
   return (
-    <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
+    <div className="relative">
       <div
-        className="relative overflow-hidden min-h-screen sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6"
-      >
-        {/* MC Grid */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
-        <div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ border: "3px solid var(--t-border)", boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)" }} />
-
-        {/* Header */}
-        <div className={`mb-16 relative z-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+      <div className="relative z-10">
+        <div className="mb-16">
           <span className="text-mc-xp text-sm font-medium tracking-[0.3em] uppercase mb-3 block" style={{ textShadow: "0 0 10px var(--mc-xp)" }}>
             🗡️ Quest Log 🗡️
           </span>
@@ -70,14 +55,11 @@ export default function EventsPage() {
           </p>
         </div>
 
-        {/* Events Grid */}
-        <div className="grid grid-cols-1 gap-6 relative z-10">
-          {[...events].sort((a, b) => b.id - a.id).map((event, index) => (
+        <div className="grid grid-cols-1 gap-6">
+          {[...events].sort((a, b) => b.id - a.id).map((event) => (
             <div
               key={event.id}
-              className={`group relative transition-all duration-700 hover:translate-x-[-2px] hover:translate-y-[-2px] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-              style={{ transitionDelay: `${(index + 1) * 150}ms` }}
+              className="group relative transition-all duration-300 hover:translate-x-[-2px] hover:translate-y-[-2px]"
             >
               <div
                 style={{
@@ -88,7 +70,6 @@ export default function EventsPage() {
                 }}
               >
                 <div className="flex flex-col md:flex-row">
-                  {/* Icon side */}
                   <div className="md:w-1/4 p-6 flex items-center justify-center">
                     <div
                       className="w-16 h-16 flex items-center justify-center text-white transition-all duration-300"
@@ -101,7 +82,6 @@ export default function EventsPage() {
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="md:w-3/4 p-6">
                     <div className="flex items-center gap-2 mb-3">
                       <span
@@ -134,7 +114,6 @@ export default function EventsPage() {
                   </div>
                 </div>
 
-                {/* Bottom accent */}
                 <div
                   className="h-[3px] w-0 group-hover:w-full transition-all duration-500"
                   style={{ background: typeColors[event.type] }}
@@ -143,8 +122,6 @@ export default function EventsPage() {
             </div>
           ))}
         </div>
-
-        <Footer />
       </div>
     </div>
   );

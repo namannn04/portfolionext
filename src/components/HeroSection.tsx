@@ -890,6 +890,7 @@ export default function HeroSection() {
               <Link
                 key={btn.label}
                 href={btn.href}
+                prefetch
                 style={{
                   display: "inline-block",
                   textDecoration: "none",

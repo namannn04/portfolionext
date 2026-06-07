@@ -16,21 +16,19 @@ const navOptions = [
   { name: "Resume", href: "/resume", shortcut: "r" },
 ];
 
+function navHref(href: string) {
+  return href.startsWith("#") ? `/${href}` : href;
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showFloating, setShowFloating] = useState(false);
   const lastScrollYRef = useRef(0);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
@@ -56,7 +54,7 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [mounted]);
+  }, []);
 
   const scrollToElement = useCallback((element: HTMLElement) => {
     window.scrollTo({
@@ -68,21 +66,11 @@ export default function Navbar() {
   const handleNavigation = useCallback(
     (href: string) => {
       if (href.startsWith("#")) {
-        if (pathname !== "/") {
-          router.push("/");
-          setTimeout(() => {
-            const id = href.substring(1);
-            const element = document.getElementById(id);
-            if (element) {
-              scrollToElement(element);
-            }
-          }, 300);
+        if (pathname === "/") {
+          const element = document.getElementById(href.slice(1));
+          if (element) scrollToElement(element);
         } else {
-          const id = href.substring(1);
-          const element = document.getElementById(id);
-          if (element) {
-            scrollToElement(element);
-          }
+          router.push(navHref(href));
         }
       } else {
         router.push(href);
@@ -126,37 +114,51 @@ export default function Navbar() {
 
   useEffect(() => {
     if (window.location.hash) {
-      setTimeout(() => {
-        const id = window.location.hash.substring(1);
-        const element = document.getElementById(id);
-        if (element) {
-          scrollToElement(element);
-        }
-      }, 100);
+      const id = window.location.hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) scrollToElement(element);
     }
   }, [pathname, scrollToElement]);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleNavClick = (index: number, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+    href: string
+  ) => {
     setActiveIndex(index);
-    handleNavigation(href);
+    if (href.startsWith("#") && pathname === "/") {
+      e.preventDefault();
+      const element = document.getElementById(href.slice(1));
+      if (element) scrollToElement(element);
+    }
   };
 
-  if (!mounted) return null;
+  const navLinkClass = (index: number, extra = "") =>
+    cn(
+      "relative cursor-pointer px-3 py-2 text-sm transition-all duration-200 flex items-center gap-1.5",
+      extra,
+      activeIndex === index ? "bg-mc-grass text-white" : "hover:bg-t-hover text-t-text2"
+    );
+
+  const navLinkStyle = (index: number) =>
+    activeIndex === index
+      ? {
+          boxShadow:
+            "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 0 0 10px rgba(92,184,92,0.3)",
+        }
+      : {
+          boxShadow:
+            "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.15)",
+        };
 
   return (
     <>
-      {/* === TOP NAVBAR - Minecraft Hotbar Style === */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent text-t-text md:relative md:mb-5 no-mc-font">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between md:justify-center md:gap-6 lg:gap-24 h-16">
-            {/* Mobile hamburger */}
             <div className="flex md:hidden">
               <button
-                onClick={toggleMenu}
+                onClick={() => setIsOpen(!isOpen)}
                 className="text-mc-grass hover:text-mc-emerald focus:outline-none cursor-pointer transition-colors"
                 aria-label="Toggle menu"
               >
@@ -164,7 +166,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Desktop nav - Hotbar slots */}
             <div
               className="hidden md:flex items-center gap-1 p-1.5"
               style={{
@@ -175,52 +176,38 @@ export default function Navbar() {
               }}
             >
               {navOptions.map((option, index) => (
-                <button
+                <Link
                   key={option.name}
-                  onClick={() => handleNavClick(index, option.href)}
-                  className={cn(
-                    "relative cursor-pointer px-3 py-2 text-sm transition-all duration-200 flex items-center gap-1.5",
-                    activeIndex === index
-                      ? "bg-mc-grass text-white"
-                      : "hover:bg-t-hover text-t-text2"
-                  )}
-                  style={
-                    activeIndex === index
-                      ? {
-                        boxShadow:
-                          "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 0 0 10px rgba(92,184,92,0.3)",
-                      }
-                      : {
-                        boxShadow:
-                          "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.15)",
-                      }
-                  }
+                  href={navHref(option.href)}
+                  prefetch={!option.href.startsWith("#")}
+                  onClick={(e) => handleNavClick(e, index, option.href)}
+                  className={navLinkClass(index)}
+                  style={navLinkStyle(index)}
                 >
                   <span>{option.name}</span>
                   <span
                     className={cn(
                       "text-xs",
-                      activeIndex === index
-                        ? "text-white/60"
-                        : "text-t-dim"
+                      activeIndex === index ? "text-white/60" : "text-t-dim"
                     )}
                   >
                     ({option.shortcut})
                   </span>
-                </button>
+                </Link>
               ))}
             </div>
 
-            {/* Logo + Theme Toggle */}
             <div className="flex items-center gap-5 sm:gap-6">
               <ThemeToggle />
               <div
                 className="text-mc-grass font-bold text-xl"
-                style={{
-                  textShadow: "1px 1px 0 rgba(0,0,0,0.5)",
-                }}
+                style={{ textShadow: "1px 1px 0 rgba(0,0,0,0.5)" }}
               >
-                <Link href="/" className="hover:text-mc-emerald transition-colors no-mc-font">
+                <Link
+                  href="/"
+                  prefetch
+                  className="hover:text-mc-emerald transition-colors no-mc-font"
+                >
                   .dadhich
                 </Link>
               </div>
@@ -228,13 +215,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu overlay */}
         {isOpen && (
           <div className="fixed inset-0 z-40 bg-transparent md:hidden">
-            {/* Close button */}
             <div className="absolute top-4 left-4">
               <button
-                onClick={toggleMenu}
+                onClick={() => setIsOpen(false)}
                 className="text-mc-grass hover:text-mc-emerald focus:outline-none cursor-pointer"
                 aria-label="Close menu"
               >
@@ -242,7 +227,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Menu items - inventory grid */}
             <div className="pt-20 px-4">
               <div className="w-full space-y-2">
                 {navOptions.map((option, index) => (
@@ -255,23 +239,22 @@ export default function Navbar() {
                       transform: "translateX(-100%)",
                     }}
                   >
-                    <button
-                      onClick={() => {
+                    <Link
+                      href={navHref(option.href)}
+                      prefetch={!option.href.startsWith("#")}
+                      onClick={(e) => {
                         setIsOpen(false);
-                        handleNavClick(index, option.href);
+                        handleNavClick(e, index, option.href);
                       }}
                       className="mc-slot cursor-pointer w-full text-left px-4 py-3 flex items-center gap-3 text-t-text hover:text-mc-grass transition-all"
                     >
-                      <span className="font-medium">
-                        {option.name}
-                      </span>
+                      <span className="font-medium">{option.name}</span>
                       <span className="text-t-dim text-xs ml-auto">
                         [{option.shortcut}]
                       </span>
-                    </button>
+                    </Link>
                   </div>
                 ))}
-                {/* Theme toggle in mobile */}
                 <div
                   className="menu-item pt-4"
                   style={{
@@ -290,7 +273,6 @@ export default function Navbar() {
 
       <div className="h-16 md:hidden" aria-hidden="true" />
 
-      {/* === FLOATING BOTTOM NAVBAR - Hotbar === */}
       <div
         className={cn(
           "fixed left-1/2 bottom-8 z-50 -translate-x-1/2 transition-all duration-500 hidden md:flex items-center no-mc-font",
@@ -309,26 +291,13 @@ export default function Navbar() {
           }}
         >
           {navOptions.map((option, index) => (
-            <button
+            <Link
               key={option.name}
-              onClick={() => handleNavClick(index, option.href)}
-              className={cn(
-                "relative cursor-pointer px-3 py-2 text-sm transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap",
-                activeIndex === index
-                  ? "bg-mc-grass text-white"
-                  : "hover:bg-t-hover text-t-text2"
-              )}
-              style={
-                activeIndex === index
-                  ? {
-                    boxShadow:
-                      "inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.3), 0 0 10px rgba(92,184,92,0.3)",
-                  }
-                  : {
-                    boxShadow:
-                      "inset 1px 1px 0 rgba(255,255,255,0.05), inset -1px -1px 0 rgba(0,0,0,0.15)",
-                  }
-              }
+              href={navHref(option.href)}
+              prefetch={!option.href.startsWith("#")}
+              onClick={(e) => handleNavClick(e, index, option.href)}
+              className={navLinkClass(index, "whitespace-nowrap")}
+              style={navLinkStyle(index)}
             >
               <span>{option.name}</span>
               <span
@@ -339,7 +308,7 @@ export default function Navbar() {
               >
                 ({option.shortcut})
               </span>
-            </button>
+            </Link>
           ))}
           <div className="flex-shrink-0 ml-1">
             <ThemeToggle />

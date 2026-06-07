@@ -1,13 +1,11 @@
 "use client";
 
 import type React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, ChevronRight, ChevronLeft, Award, Briefcase } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 
 interface Experience {
   id: number; title: string; company: string; period: string; description: string; skills: string[]; color: string; image?: string; icon: React.ReactNode;
@@ -16,9 +14,6 @@ interface Experience {
 export default function ExperiencePage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeExperience, setActiveExperience] = useState<number>(1);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => { setTimeout(() => setIsVisible(true), 200); }, []);
 
   const experiences: Experience[] = [
     {
@@ -46,18 +41,11 @@ export default function ExperiencePage() {
   const currentExperience = experiences.find((exp) => exp.id === activeExperience) || experiences[0];
 
   return (
-    <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
-      <div className="relative overflow-hidden min-h-screen sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6">
-        {/* MC Grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-        <div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ border: "3px solid var(--t-border)", boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)" }} />
-
-        <div className="relative z-10 py-10">
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+      <div className="relative z-10 py-10">
           {/* Header Panel */}
-          <div
-            className={`mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-          >
+          <div className="mb-12">
             <div
               className="p-6 md:p-8"
               style={{
@@ -86,7 +74,7 @@ export default function ExperiencePage() {
                     A journey through my professional career, showcasing the projects and roles that have shaped my expertise in web development.
                   </p>
                 </div>
-                <Link href="/resume">
+                <Link href="/resume" prefetch>
                   <button
                     className="cursor-pointer px-5 py-2.5 text-white font-bold uppercase text-sm tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98]"
                     style={{
@@ -103,7 +91,7 @@ export default function ExperiencePage() {
           </div>
 
           {/* Timeline Progress Bar */}
-          <div className={`flex justify-center mb-12 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <div className="mb-12 flex justify-center">
             <div
               className="relative w-full max-w-3xl h-[3px] overflow-hidden"
               style={{ background: "var(--t-border)" }}
@@ -253,8 +241,6 @@ export default function ExperiencePage() {
               <span className="text-t-dim">{experiences.length.toString().padStart(2, "0")}</span>
             </div>
           </div>
-        </div>
-        <Footer />
       </div>
     </div>
   );

@@ -8,9 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
-
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<{ type: "idle" | "loading" | "success" | "error"; message: string }>({ type: "idle", message: "" });
@@ -39,35 +36,16 @@ export default function Contact() {
   };
 
   return (
-    <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
+    <div className="relative">
       <div
-        className="relative overflow-hidden min-h-screen sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6"
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
-          border: "none",
+          backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
         }}
-      >
-        {/* MC Grid background */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
-
-        {/* Outer MC border on desktop */}
-        <div
-          className="hidden sm:block absolute inset-0 pointer-events-none"
-          style={{
-            border: "3px solid var(--t-border)",
-            boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)",
-          }}
-        />
-
-        {/* Main form panel */}
-        <div
-          className="relative z-10 p-6 md:p-8"
+      />
+      <div
+        className="relative z-10 p-6 md:p-8"
           style={{
             background: "var(--t-surface)",
             border: "3px solid var(--t-border)",
@@ -233,8 +211,6 @@ export default function Contact() {
               </span>
             </p>
           </div>
-        </div>
-        <Footer />
       </div>
     </div>
   );

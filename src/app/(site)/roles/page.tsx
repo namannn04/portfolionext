@@ -5,8 +5,6 @@ import { motion, useInView } from "framer-motion";
 import { Briefcase, ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 
 interface Role {
   id: number; title: string; organization: string; period: string;
@@ -45,14 +43,9 @@ export default function RolesPage() {
   const toggleRole = (id: number) => { setExpandedRole(expandedRole === id ? null : id); };
 
   return (
-    <div className="sm:block sm:py-20 bg-t-bg">
-      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
-      <div className="relative min-h-screen overflow-hidden sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6">
-        {/* MC Grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-        <div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ border: "3px solid var(--t-border)", boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)" }} />
-
-        <div className="container mx-auto px-0 py-10 relative z-10">
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+      <div className="relative z-10 py-10">
           {/* Header Panel */}
           <div
             className="mb-12 p-6 md:p-8"
@@ -209,7 +202,7 @@ export default function RolesPage() {
 
           {/* CTA */}
           <div className="mt-16 flex justify-center">
-            <Link href="/experience">
+            <Link href="/experience" prefetch>
               <button
                 className="cursor-pointer px-6 py-3 flex items-center gap-2 text-t-text font-bold uppercase tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98]"
                 style={{
@@ -224,8 +217,6 @@ export default function RolesPage() {
               </button>
             </Link>
           </div>
-        </div>
-        <Footer />
       </div>
     </div>
   );

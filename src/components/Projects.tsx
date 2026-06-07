@@ -296,7 +296,7 @@ export default function Projects() {
 
       {/* View all projects */}
       <div className="container mx-auto px-4 mt-16 text-center relative z-10">
-        <Link href="/projects">
+        <Link href="/projects" prefetch>
           <button
             className="cursor-pointer inline-flex items-center justify-center px-7 py-3 font-medium text-t-text transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group"
             style={{

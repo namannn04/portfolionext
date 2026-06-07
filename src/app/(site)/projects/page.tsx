@@ -1,11 +1,8 @@
 "use client";
 
-import Navbar from "@/components/common/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import Footer from "@/components/common/Footer";
-import { useState, useEffect } from "react";
 
 interface Project {
   id: number; title: string; description: string; tags: string[];
@@ -17,9 +14,6 @@ interface GroupProject extends Project {
 }
 
 export default function Page() {
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => { setTimeout(() => setIsVisible(true), 200); }, []);
-
   const groupProjects: GroupProject[] = [
     { id: 3, title: "SPARK (Under development)", description: "SPARK is a platform for exploring and joining communities, events, internships, and open-source projects. It also includes a social posting feature to stay updated on tech and events, all in one place with unique enhancements.", tags: ["React", "Node.js", "Express.js", "Firebase", "MongoDB", "Tailwind CSS"], video: "/groupProjects/SPARK.mkv", demoUrl: "https://careercompass-xi.vercel.app/", githubUrl: "", showViewProject: false, contribution: "I worked on the frontend development, user authentication implementation, and the backend logic and its integration. I also contributed to the design and implementation of the user interface." },
     { id: 2, title: "careerCompass", description: "CareerCompass is a project providing detailed career guidance using both manual resources and AI. Users can explore 500+ careers, learning about paths, skills, qualifications, counseling, and strategies.", tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"], video: "/groupProjects/careercompass.mkv", demoUrl: "https://careercompass-xi.vercel.app/", githubUrl: "", showViewProject: true, contribution: "I contributed to the full stack: frontend UI/design, backend logic, and authentication. I also developed the admin panel for managing counselors and applications." },
@@ -117,16 +111,11 @@ export default function Page() {
   );
 
   return (
-    <div className="py-20 bg-t-bg sm:block">
-      <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto"><Navbar /></div>
-      <div className="relative min-h-screen overflow-hidden sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6">
-        {/* Grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-        <div className="hidden sm:block absolute inset-0 pointer-events-none" style={{ border: "3px solid var(--t-border)", boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.25)" }} />
-
-        <div className="relative z-10">
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(var(--mc-stone) 1px, transparent 1px), linear-gradient(90deg, var(--mc-stone) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+      <div className="relative z-10">
           {/* Header */}
-          <div className={`mb-16 text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <div className="mb-16 text-center">
             <span className="text-mc-xp text-sm font-medium tracking-[0.3em] uppercase mb-3 block" style={{ textShadow: "0 0 10px var(--mc-xp)" }}>🏗️ Build Gallery 🏗️</span>
             <h1
               className="text-4xl md:text-5xl font-black text-mc-grass uppercase tracking-wider mb-4"
@@ -175,8 +164,6 @@ export default function Page() {
               {projects.map((project, idx) => <MCProjectCard key={project.id} project={project} isGroup={false} index={idx} />)}
             </div>
           </div>
-        </div>
-        <Footer />
       </div>
     </div>
   );
