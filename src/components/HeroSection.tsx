@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // ─── Floating Block Types ────────────────────────────────────────────────────
 const BLOCK_TYPES = [
@@ -873,20 +874,25 @@ export default function HeroSection() {
             {[
               {
                 label: "⚔ View Projects",
+                href: "/projects",
                 color: "var(--mc-grass)",
                 shadow: "color-mix(in srgb, var(--mc-grass) 55%, #000)",
                 glow: "color-mix(in srgb, var(--mc-grass) 45%, transparent)",
               },
               {
                 label: "✉ Hire Me",
+                href: "/contact",
                 color: "var(--mc-diamond)",
                 shadow: "color-mix(in srgb, var(--mc-diamond) 55%, #000)",
                 glow: "color-mix(in srgb, var(--mc-diamond) 45%, transparent)",
               },
             ].map((btn) => (
-              <button
+              <Link
                 key={btn.label}
+                href={btn.href}
                 style={{
+                  display: "inline-block",
+                  textDecoration: "none",
                   fontFamily: "'Press Start 2P', monospace",
                   fontSize: "clamp(8px, 1.8vw, 11px)",
                   padding: "clamp(10px, 2vw, 14px) clamp(16px, 3vw, 28px)",
@@ -902,16 +908,16 @@ export default function HeroSection() {
                   imageRendering: "pixelated",
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(3px)";
-                  (e.currentTarget as HTMLButtonElement).style.borderBottomWidth = "2px";
+                  e.currentTarget.style.transform = "translateY(3px)";
+                  e.currentTarget.style.borderBottomWidth = "2px";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-                  (e.currentTarget as HTMLButtonElement).style.borderBottomWidth = "5px";
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.borderBottomWidth = "5px";
                 }}
               >
                 {btn.label}
-              </button>
+              </Link>
             ))}
           </div>
 
