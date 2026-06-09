@@ -19,7 +19,7 @@ export default function ResumeViewer() {
           "inset 2px 2px 0 rgba(255,255,255,0.06), inset -2px -2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.3)",
       }}
     >
-      <div className="pdf-viewer-container relative z-10 min-h-[100vh] w-full">
+      <div className="pdf-viewer-container relative z-10 w-full sm:min-h-[80vh] lg:min-h-[90vh]">
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
           <Viewer
             fileUrl="/Resume.pdf"

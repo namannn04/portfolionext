@@ -671,6 +671,26 @@ html.theme-transition .mc-border-light {
   color: white;
 }
 
+/* ===== Resume PDF viewer (mobile) ===== */
+@media (max-width: 639px) {
+  .pdf-viewer-container .rpv-default-layout__container,
+  .pdf-viewer-container .rpv-default-layout__main,
+  .pdf-viewer-container .rpv-core__viewer,
+  .pdf-viewer-container .rpv-core__inner-container {
+    min-height: unset !important;
+    height: auto !important;
+  }
+
+  .pdf-viewer-container .rpv-default-layout__body {
+    overflow: visible;
+  }
+
+  .pdf-viewer-container .rpv-core__inner-page--single {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
 /* ===== Responsive helpers ===== */
 @media (max-width: 640px) {
   .mc-border {
