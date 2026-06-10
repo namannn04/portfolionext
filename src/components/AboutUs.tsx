@@ -114,7 +114,7 @@ export default function AboutSection() {
                 <div className="space-y-4">
                   <p className="text-t-text2 leading-relaxed">
                     Hello! I&apos;m Naman Dadhich, a Full Stack Developer with a
-                    passion for coding and currently in my third year, sixth
+                    passion for coding and currently in my final fourth year, sixth
                     semester. I have more than two years of hands-on experience
                     and specialize in developing solid web applications. I also
                     have 3 months of experience as an SDE at Zelosify, where I
