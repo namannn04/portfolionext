@@ -340,19 +340,19 @@ export default function HeroSection() {
       `}</style>
 
       <section
-        className="mc-hero-section"
+        className="mc-hero-section py-10 sm:py-14 lg:py-16"
         style={{
           position: "relative",
-          minHeight: "100vh",
           width: "100%",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           overflow: "hidden",
           background:
             "linear-gradient(180deg, var(--t-bg) 0%, var(--t-bg2) 40%, color-mix(in srgb, var(--t-bg2) 70%, var(--mc-grass) 30%) 100%)",
-          paddingTop: 40,
-          paddingBottom: 60,
+          paddingTop: 0,
+          paddingBottom: 0,
         }}
       >
         {/* ── Sky gradient overlay ─────────────────────────── */}

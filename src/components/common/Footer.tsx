@@ -23,7 +23,7 @@ const BEDROCK_SEGMENTS = [
 
 export default function Footer() {
   return (
-    <div className="pb-10">
+    <div className="pb-6">
       {/* Bedrock-style separator */}
       <div className="flex justify-center items-center gap-1 mt-10 mb-5">
         {BEDROCK_SEGMENTS.map((seg, i) => (

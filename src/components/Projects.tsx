@@ -91,7 +91,7 @@ export default function Projects() {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative min-h-screen w-full bg-t-bg py-20 overflow-hidden"
+      className="relative w-full bg-t-bg py-12 sm:py-16 overflow-hidden"
     >
       {/* Background grid */}
       <div
