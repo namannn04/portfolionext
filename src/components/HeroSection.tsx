@@ -453,6 +453,7 @@ export default function HeroSection() {
           {/* ── BIG PIXELATED NAME ────────────────────────── */}
           <div style={{
             marginBottom: 8,
+            marginTop: "4.25rem",
             textAlign: "center",
           }}>
 
@@ -865,6 +866,7 @@ export default function HeroSection() {
           {/* ── CTA Buttons ─────────────────────────────── */}
           <div style={{
             marginTop: 28,
+            marginBottom: "4.5rem",
             display: "flex",
             gap: 12,
             flexWrap: "wrap",
