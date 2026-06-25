@@ -458,7 +458,7 @@ export default function HeroSection() {
 
             <h1 style={{
               fontFamily: "'Press Start 2P', monospace",
-              fontSize: "clamp(28px, 7vw, 72px)",
+              fontSize: "clamp(28px, 7.5cqi, 72px)",
               lineHeight: 1.2,
               margin: 0,
               letterSpacing: "0.06em",
@@ -487,7 +487,7 @@ export default function HeroSection() {
             {/* XP Bar under name */}
             <div style={{ marginTop: 20, display: "flex", justifyContent: "center" }}>
               <div style={{
-                width: "clamp(200px, 50vw, 380px)",
+                width: "clamp(200px, 40cqi, 380px)",
                 height: 10,
                 background: "var(--t-bg2)",
                 border: "2px solid var(--t-border)",
@@ -512,7 +512,7 @@ export default function HeroSection() {
             </div>
             <div style={{
               fontFamily: "'Press Start 2P', monospace",
-              fontSize: "clamp(7px, 1.5vw, 9px)",
+              fontSize: "clamp(7px, 1.4cqi, 9px)",
               color: "var(--mc-xp)",
               marginTop: 6,
               textShadow: "0 0 6px color-mix(in srgb, var(--mc-xp) 80%, transparent)",
@@ -649,7 +649,7 @@ export default function HeroSection() {
 
               {/* Image Frame */}
               <div style={{
-                width: "clamp(180px, 35vw, 260px)",
+                width: "clamp(180px, 27cqi, 260px)",
                 position: "relative",
                 overflow: "hidden",
                   border: "4px solid var(--t-border)",
@@ -727,11 +727,11 @@ export default function HeroSection() {
               border: "3px solid var(--t-border)",
               boxShadow:
                 "inset 3px 3px 0 rgba(255,255,255,0.07), inset -3px -3px 0 rgba(0,0,0,0.35), 5px 5px 0 var(--t-shadow-color)",
-              padding: "clamp(16px, 3vw, 28px)",
+              padding: "clamp(16px, 2.5cqi, 28px)",
               display: "flex",
               flexDirection: "column",
               gap: 16,
-              minWidth: "clamp(240px, 45vw, 340px)",
+              minWidth: "clamp(240px, 35cqi, 340px)",
               maxWidth: 380,
               backdropFilter: "blur(8px)",
               flex: 1,
@@ -744,7 +744,7 @@ export default function HeroSection() {
                 justifyContent: "space-between",
                 gap: 12,
                 fontFamily: "'Press Start 2P', monospace",
-                fontSize: "clamp(8px, 1.8vw, 11px)",
+                fontSize: "clamp(8px, 1.7cqi, 11px)",
                 color: "var(--mc-gold)",
                 textShadow: "2px 2px 0 #000, 0 0 8px color-mix(in srgb, var(--mc-gold) 60%, transparent)",
                 borderBottom: "2px solid color-mix(in srgb, var(--mc-gold) 25%, transparent)",
@@ -754,7 +754,7 @@ export default function HeroSection() {
                 <span>▶ PLAYER STATS</span>
                 <span style={{
                   fontFamily: "'Press Start 2P', monospace",
-                  fontSize: "clamp(6px, 1.2vw, 9px)",
+                  fontSize: "clamp(6px, 1.1cqi, 9px)",
                   color: "var(--mc-xp)",
                   textShadow: "0 0 4px var(--mc-xp)",
                   whiteSpace: "nowrap",
@@ -765,7 +765,7 @@ export default function HeroSection() {
 
               <div style={{
                 fontFamily: "'Press Start 2P', monospace",
-                fontSize: "clamp(7px, 1.6vw, 10px)",
+                fontSize: "clamp(7px, 1.5cqi, 10px)",
                 color: "var(--t-text)",
                 letterSpacing: "0.08em",
                 lineHeight: 1.5,
@@ -801,7 +801,7 @@ export default function HeroSection() {
                   {["React", "Next.js", "TypeScript", "Node"].map((skill, i) => (
                     <div key={skill} style={{
                       fontFamily: "'Press Start 2P', monospace",
-                      fontSize: "clamp(6px, 1.2vw, 8px)",
+                      fontSize: "clamp(6px, 1.1cqi, 8px)",
                       padding: "5px 8px",
                       background:
                         i % 2 === 0
@@ -828,7 +828,7 @@ export default function HeroSection() {
           {/* <div style={{
             marginTop: 28,
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: "clamp(8px, 2vw, 13px)",
+            fontSize: "clamp(8px, 1.9cqi, 13px)",
             color: "var(--mc-xp)",
             textShadow:
               "0 0 10px color-mix(in srgb, var(--mc-xp) 60%, transparent)",
@@ -895,8 +895,8 @@ export default function HeroSection() {
                   display: "inline-block",
                   textDecoration: "none",
                   fontFamily: "'Press Start 2P', monospace",
-                  fontSize: "clamp(8px, 1.8vw, 11px)",
-                  padding: "clamp(10px, 2vw, 14px) clamp(16px, 3vw, 28px)",
+                  fontSize: "clamp(8px, 1.7cqi, 11px)",
+                  padding: "clamp(10px, 1.9cqi, 14px) clamp(16px, 2.5cqi, 28px)",
                   background: btn.color,
                   color: "var(--primary-foreground)",
                   border: "none",

@@ -14,11 +14,11 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-t-bg min-h-screen">
       <div className="sm:py-20">
-        <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto">
+        <div className="site-column mx-auto w-full max-w-[960px] px-4 sm:px-0">
           <Navbar />
         </div>
         <div className="mx-auto px-4 sm:px-0">
-          <div className="sm:max-w-[90%] lg:max-w-[50%] mx-auto p-6">
+          <div className="site-column mx-auto w-full max-w-[960px] p-6">
             <div className="hidden sm:block" style={borderBoxStyle}>
               {children}
               <Footer />

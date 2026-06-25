@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type HerobrineLoaderProps = {
   onComplete?: () => void;
@@ -16,13 +16,16 @@ export default function HerobrineLoader({
 }: HerobrineLoaderProps) {
   const [phase, setPhase] = useState<"closed" | "open">("closed");
   const [visible, setVisible] = useState(true);
+  const onCompleteRef = useRef(onComplete);
+
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     document.body.classList.add("no-scroll");
     const openTimer = setTimeout(() => setPhase("open"), openDelayMs);
     const finishTimer = setTimeout(() => {
       setVisible(false);
-      onComplete?.();
+      onCompleteRef.current?.();
     }, finishDelayMs);
 
     return () => {
@@ -30,7 +33,7 @@ export default function HerobrineLoader({
       clearTimeout(openTimer);
       clearTimeout(finishTimer);
     };
-  }, [finishDelayMs, onComplete, openDelayMs]);
+  }, [finishDelayMs, openDelayMs]);
 
   if (!visible) return null;
 

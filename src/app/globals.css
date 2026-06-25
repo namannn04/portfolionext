@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Unified site column — fixed rem width scales uniformly on browser zoom */
+.site-column {
+  container-type: inline-size;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
