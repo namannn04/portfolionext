@@ -12,7 +12,7 @@ const navOptions = [
   { name: "Skills", href: "#skills", shortcut: "s" },
   { name: "Projects", href: "/projects", shortcut: "p" },
   { name: "Experience", href: "/experience", shortcut: "e" },
-  { name: "Events", href: "/events", shortcut: "v" },
+  // { name: "Events", href: "/events", shortcut: "v" },
   { name: "Resume", href: "/resume", shortcut: "r" },
 ];
 
