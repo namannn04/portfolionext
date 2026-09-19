@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
+import { usePathname } from "next/navigation";
 
 const borderBoxStyle = {
   border: "3px solid var(--t-border)",
@@ -11,6 +12,12 @@ const borderBoxStyle = {
 } as const;
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  if (pathname === "/") {
+    return <main>{children}</main>;
+  }
+
   return (
     <div className="bg-t-bg">
       <div className="pt-8 pb-6 sm:pt-20 sm:pb-8">
