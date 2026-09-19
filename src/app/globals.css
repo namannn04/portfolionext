@@ -694,6 +694,261 @@
   .journey-player-wrap, .journey-player-wrap *, .journey-scroll-cue, .journey-portal, .journey-portal i { animation: none !important; }
 }
 
+/* ===== WebGL Minecraft world ===== */
+.mc3d-root {
+  height: 720vh;
+  background: #000;
+}
+
+.mc3d-viewport {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  background: #83c9ec;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+.mc3d-viewport canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  image-rendering: pixelated;
+}
+
+.mc-load-screen {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #fff;
+  background-color: #24170f;
+  background-image:
+    linear-gradient(45deg, rgba(36, 19, 11, .48) 25%, transparent 25%, transparent 75%, rgba(36, 19, 11, .48) 75%),
+    linear-gradient(45deg, rgba(113, 70, 41, .35) 25%, transparent 25%, transparent 75%, rgba(113, 70, 41, .35) 75%),
+    repeating-linear-gradient(135deg, #51321f 0 8px, #5e3a24 9px 16px, #40271a 17px 24px);
+  background-position: 0 0, 8px 8px, 0 0;
+  background-size: 16px 16px, 16px 16px, 32px 32px;
+}
+
+.mc-load-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent 20%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.68) 100%);
+}
+
+.mc-load-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-shadow: 2px 2px #1a100a;
+}
+
+.mc-load-map {
+  display: grid;
+  grid-template-columns: repeat(11, 8px);
+  grid-template-rows: repeat(11, 8px);
+  gap: 1px;
+  width: 99px;
+  height: 99px;
+  margin-bottom: 28px;
+  transform: rotate(45deg);
+}
+
+.mc-load-map i {
+  display: block;
+  background: rgba(0,0,0,.62);
+  border: 1px solid rgba(255,255,255,.025);
+  transition: background-color 80ms linear, box-shadow 80ms linear;
+}
+
+.mc-load-map i.is-generated {
+  background: #7c8d5a;
+  box-shadow: inset 1px 1px rgba(179,192,130,.5);
+}
+
+.mc-load-content p {
+  margin: 0 0 8px;
+  font-family: var(--font-mc), monospace;
+  font-size: clamp(17px, 2.2vw, 25px);
+}
+
+.mc-load-content strong {
+  font-family: var(--font-mc), monospace;
+  font-size: 14px;
+  color: #d7d7d7;
+}
+
+.mc-load-content > span {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #d2c8bf;
+}
+
+.mc3d-topbar {
+  position: absolute;
+  z-index: 20;
+  top: 22px;
+  left: 26px;
+  right: 26px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  color: #fff;
+  text-shadow: 2px 2px #1b2624;
+  pointer-events: none;
+}
+
+.mc3d-logo,
+.mc3d-menu-button {
+  pointer-events: auto;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-mc), monospace;
+  font-size: 12px;
+}
+
+.mc3d-logo {
+  justify-self: start;
+  padding: 11px 13px;
+  background: rgba(17, 22, 20, .62);
+  border: 2px solid rgba(255,255,255,.72);
+  box-shadow: 3px 3px rgba(0,0,0,.45);
+  backdrop-filter: blur(4px);
+}
+
+.mc3d-menu-button {
+  justify-self: end;
+  padding: 11px 15px;
+  background: #777;
+  border: 2px solid #111;
+  box-shadow: inset 2px 2px #aaa, inset -2px -2px #444, 3px 3px rgba(0,0,0,.36);
+}
+
+.mc3d-biome {
+  display: flex;
+  min-width: 150px;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 18px;
+  background: rgba(17,22,20,.52);
+  border: 1px solid rgba(255,255,255,.35);
+  backdrop-filter: blur(4px);
+}
+
+.mc3d-biome span { font-size: 10px; text-transform: uppercase; letter-spacing: .18em; opacity: .68; }
+.mc3d-biome strong { margin-top: 3px; font-family: var(--font-mc), monospace; font-size: 11px; }
+
+.mc3d-intro {
+  position: absolute;
+  z-index: 15;
+  top: 50%;
+  left: clamp(28px, 7vw, 110px);
+  width: min(600px, 43vw);
+  transform: translateY(-54%);
+  color: #fff;
+  text-shadow: 3px 3px #1b2722;
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+.mc3d-intro.is-hidden { opacity: 0; transform: translate(-60px, -54%); pointer-events: none; }
+.mc3d-intro > p { margin: 0 0 14px; font-family: var(--font-mc), monospace; color: #b4f277; font-size: 11px; letter-spacing: .12em; }
+.mc3d-intro h1 { margin: 0; font-family: var(--font-mc), monospace; font-size: clamp(48px, 6.5vw, 90px); line-height: .94; letter-spacing: -.055em; }
+.mc3d-intro > div { margin-top: 20px; font-size: clamp(16px, 1.35vw, 20px); font-weight: 650; }
+.mc3d-intro nav { display: flex; gap: 10px; margin-top: 26px; }
+.mc3d-intro nav a { padding: 12px 16px; color: #fff; background: rgba(21,28,24,.77); border: 2px solid #d6d6d6; box-shadow: inset 2px 2px rgba(255,255,255,.2), inset -2px -2px rgba(0,0,0,.5), 3px 3px rgba(0,0,0,.4); font-family: var(--font-mc), monospace; font-size: 10px; text-decoration: none; }
+
+.mc3d-location-card {
+  position: absolute;
+  z-index: 16;
+  top: 50%;
+  right: clamp(28px, 7vw, 110px);
+  width: min(430px, 38vw);
+  padding: 26px;
+  color: #f5f5f5;
+  background: rgba(14,18,16,.82);
+  border: 3px solid #b8b8b8;
+  box-shadow: inset 3px 3px rgba(255,255,255,.1), inset -3px -3px rgba(0,0,0,.5), 7px 7px rgba(0,0,0,.36);
+  backdrop-filter: blur(7px);
+  opacity: 0;
+  transform: translate(55px, -44%);
+  pointer-events: none;
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+.mc3d-location-card.is-visible { opacity: 1; transform: translate(0, -44%); pointer-events: auto; }
+.mc3d-location-card small { color: #9ee766; font-family: var(--font-mc), monospace; font-size: 10px; letter-spacing: .1em; }
+.mc3d-location-card h2 { margin: 13px 0; font-family: var(--font-mc), monospace; font-size: clamp(22px, 2.2vw, 32px); }
+.mc3d-location-card p { margin: 0 0 20px; font-size: 16px; line-height: 1.55; color: #dedede; }
+.mc3d-location-card a { color: #b8f187; font-weight: 800; text-decoration: none; }
+.mc3d-location-card--portal { border-color: #b45ae0; box-shadow: inset 3px 3px rgba(255,255,255,.1), inset -3px -3px rgba(0,0,0,.5), 0 0 35px rgba(169,69,220,.35), 7px 7px rgba(0,0,0,.36); }
+
+.mc3d-name-tag {
+  padding: 4px 7px;
+  color: #fff;
+  background: rgba(18,18,18,.55);
+  font: 11px var(--font-geist-sans), sans-serif;
+  text-shadow: 1px 1px #000;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.mc3d-hud {
+  position: absolute;
+  z-index: 19;
+  left: 50%;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mc3d-status { display: flex; width: 446px; justify-content: space-between; margin-bottom: 4px; color: #ef3939; font-size: 17px; text-shadow: 2px 2px #3c1414; letter-spacing: -3px; }
+.mc3d-status span:last-child { color: #c88131; filter: saturate(1.2); }
+.mc3d-xp { width: 448px; height: 7px; margin-bottom: 4px; padding: 1px; background: #111; border: 1px solid #333; }
+.mc3d-xp i { display: block; height: 100%; background: #65c932; box-shadow: 0 0 5px #6ded30; }
+.mc3d-hotbar { display: flex; background: rgba(34,34,34,.76); border: 3px solid #171717; box-shadow: 3px 3px rgba(0,0,0,.35); }
+.mc3d-hotbar i { display: grid; width: 48px; height: 48px; place-items: center; border: 2px solid #777; box-shadow: inset 2px 2px rgba(255,255,255,.13), inset -2px -2px rgba(0,0,0,.42); color: #fff; font-size: 22px; font-style: normal; text-shadow: 2px 2px #111; }
+.mc3d-hotbar i.is-selected { border-color: #fff; box-shadow: inset 0 0 0 2px #222; transform: scale(1.08); background: rgba(255,255,255,.12); }
+.mc3d-scroll-help { position: absolute; z-index: 17; left: 50%; bottom: 128px; transform: translateX(-50%); color: #fff; font-family: var(--font-mc), monospace; font-size: 10px; text-shadow: 2px 2px #111; animation: mc3d-help 1.3s ease-in-out infinite; }
+.mc3d-scroll-help span { margin-left: 8px; color: #a9ed70; }
+.mc3d-progress { position: absolute; z-index: 30; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(0,0,0,.45); }
+.mc3d-progress span { display: block; height: 100%; background: #64d22f; box-shadow: 0 0 9px #64d22f; }
+
+@keyframes mc3d-help { 50% { transform: translate(-50%, 7px); } }
+
+@media (max-width: 760px) {
+  .mc3d-root { height: 620vh; }
+  .mc3d-viewport { min-height: 520px; }
+  .mc3d-topbar { top: 12px; left: 12px; right: 12px; grid-template-columns: 1fr auto; }
+  .mc3d-biome { display: none; }
+  .mc3d-logo, .mc3d-menu-button { font-size: 9px; padding: 9px 10px; }
+  .mc3d-intro { top: 28%; left: 18px; width: calc(100% - 36px); transform: none; }
+  .mc3d-intro.is-hidden { transform: translateX(-35px); }
+  .mc3d-intro h1 { font-size: clamp(42px, 15vw, 64px); }
+  .mc3d-intro > div { font-size: 14px; }
+  .mc3d-intro nav { flex-wrap: wrap; }
+  .mc3d-location-card { top: 24%; left: 18px; right: 18px; width: auto; padding: 19px; transform: translateY(25px); }
+  .mc3d-location-card.is-visible { transform: none; }
+  .mc3d-location-card p { font-size: 14px; }
+  .mc3d-hud { bottom: 12px; transform: translateX(-50%) scale(.72); transform-origin: bottom; }
+  .mc3d-scroll-help { bottom: 108px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc3d-scroll-help { animation: none; }
+  .mc3d-intro, .mc3d-location-card { transition: none; }
+}
+
 /* ===== Theme Transition ===== */
 html.theme-transition,
 html.theme-transition body,
