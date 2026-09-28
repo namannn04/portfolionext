@@ -29,7 +29,7 @@ const PRESETS: Preset[] = [
   {
     id: "top",
     slot: SLOT.text,
-    desktop: { x: 0, y: 0.2, scale: 1, opacity: 1 },
+    desktop: { x: 0, y: 0.26, scale: 1, opacity: 1 },
     mobile: { x: 0, y: 0.36, scale: 1, opacity: 1 },
   },
   {
@@ -198,7 +198,8 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
 
   // (Re)build the name whenever the viewport width changes meaningfully.
   useEffect(() => {
-    const target = viewport.width * (mobile ? 0.92 : 0.86);
+    // Fill the width, but never taller than ~a third of the screen.
+    const target = Math.min(viewport.width * (mobile ? 0.92 : 0.86), viewport.height * 0.32 * 4.7);
     if (Math.abs(target - textWidth.current) < 0.05) return;
     textWidth.current = target;
     let cancelled = false;
@@ -217,7 +218,7 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
     return () => {
       cancelled = true;
     };
-  }, [viewport.width, mobile, count, geometry]);
+  }, [viewport.width, viewport.height, mobile, count, geometry]);
 
   useEffect(() => {
     uniforms.uSize.value = THREE.MathUtils.clamp(18 + (size.width / 1440) * 14, 20, 34);
