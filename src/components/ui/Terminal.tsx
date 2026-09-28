@@ -80,7 +80,7 @@ function Neofetch() {
     ["education", `B.Tech CSE, MSIT '${profile.education.year.slice(2)}`],
     ["stack", "Next.js · TypeScript · Node.js · PostgreSQL"],
     ["shell", "portfolio-sh 2.0"],
-    ["renderer", "WebGL · 18k particles · hyperspace"],
+    ["renderer", "WebGL · 18k particles · starfield"],
     ["uptime", `${new Date().getFullYear() - 2023}+ years of shipping`],
   ];
   return (
@@ -221,7 +221,7 @@ export default function Terminal() {
               ["socials · resume", "Links, and the CV page"],
               ["goto <section>", `Fly to ${SECTIONS.join(", ")}`],
               ["shape <name>", `Reshape the universe: ${SHAPES.join(", ")}, or auto`],
-              ["explode · warp", "Blow the particles apart · jump to hyperspace"],
+              ["explode · warp", "Blow the particles apart · fly through the stars"],
               ["neofetch", "System info, the important kind"],
               ["sudo hire naman", "You know you want to"],
               ["ls · cat · echo · date", "The classics"],
@@ -302,8 +302,7 @@ export default function Terminal() {
           close();
           window.setTimeout(() => lenis?.scrollTo(0, { duration: 1.6 }), 250);
         } else if (section) {
-          print(<Dim>Warping to {section}…</Dim>);
-          universe.warp = 18;
+          print(<Dim>Flying to {section}…</Dim>);
           goto(section);
         } else
           print(
@@ -340,8 +339,8 @@ export default function Terminal() {
         break;
       case "warp":
       case "hyperspace":
-        universe.warp = 40;
-        print(<p className="text-sky-300">Engaging hyperdrive… hold on.</p>);
+        universe.warp = 6;
+        print(<p className="text-sky-300">Punching it. Stars incoming.</p>);
         break;
       case "neofetch":
         print(<Neofetch />);
@@ -349,7 +348,7 @@ export default function Terminal() {
       case "sudo":
         if (/^hire\s+naman/.test(arg)) {
           universe.celebrateAt = performance.now();
-          universe.warp = 24;
+          universe.warp = 4;
           print(
             <div className="space-y-1">
               <p className="text-accent">[sudo] password for recruiter: ••••••••</p>

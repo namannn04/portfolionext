@@ -158,15 +158,13 @@ void main() {
 `;
 
 /*
- * Hyperspace starfield. Stars live in a deep box in front of the camera and
- * travel towards it with scroll; the same maths drives two draws: twinkling
- * points, and streaks (a head/tail pair per star) that stretch with speed.
+ * Starfield. Stars live in a deep box in front of the camera and drift
+ * slowly towards it, wrapping around so the field never runs out.
  */
 const starCommon = /* glsl */ `
 uniform float uTime;
 uniform float uTravel;
 uniform float uDepth;
-uniform float uStretch;
 attribute vec3 aSeed;
 
 vec3 starPosition(vec3 p) {
@@ -194,8 +192,7 @@ void main() {
   gl_Position = projectionMatrix * mv;
   float twinkle = 0.55 + 0.45 * sin(uTime * (0.6 + aSeed.y * 2.2) + aSeed.x * 40.0);
   gl_PointSize = uSize * (0.35 + aSeed.z * aSeed.z * 1.6) * uPixelRatio / -mv.z;
-  // Points give way to streaks at speed.
-  vAlpha = depthFade(p.z) * twinkle * (1.0 - smoothstep(0.2, 1.6, uStretch) * 0.7);
+  vAlpha = depthFade(p.z) * twinkle;
   vTint = aSeed.y;
 }
 `;
@@ -214,33 +211,5 @@ void main() {
   if (core < 0.01) discard;
   vec3 color = vTint > 0.92 ? uAccent : vTint > 0.78 ? uCool : uColor;
   gl_FragColor = vec4(color, (core * 0.5 + halo) * vAlpha);
-}
-`;
-
-export const starLineVertex = /* glsl */ `
-${starCommon}
-attribute float aEnd;
-varying float vAlpha;
-varying float vEnd;
-
-void main() {
-  vec3 p = starPosition(position);
-  // Tail trails away from the camera, longer for nearer stars.
-  float trail = uStretch * (0.6 + aSeed.z * 1.4);
-  p.z -= aEnd * trail;
-  vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  gl_Position = projectionMatrix * mv;
-  vAlpha = depthFade(p.z + aEnd * trail) * smoothstep(0.05, 0.9, uStretch);
-  vEnd = aEnd;
-}
-`;
-
-export const starLineFragment = /* glsl */ `
-uniform vec3 uColor;
-varying float vAlpha;
-varying float vEnd;
-
-void main() {
-  gl_FragColor = vec4(uColor, vAlpha * (1.0 - vEnd) * 0.9);
 }
 `;

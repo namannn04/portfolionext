@@ -5,7 +5,7 @@ Personal portfolio built with Next.js 15, React Three Fiber and Framer Motion.
 ## Highlights
 
 - **Morphing particle universe**: 18k GPU particles (9k on phones) spell the name in the hero, then morph per section into a globe, double helix, wave field, knot, galaxy and portal. They swirl apart mid-transition, scatter away from the cursor or a tap, and churn with scroll speed.
-- **Hyperspace starfield**: a deep star field flies towards you as you scroll and stretches into light-speed streaks at speed; shooting stars cross the sky.
+- **Starfield**: a deep, calm star field drifts towards you with a gentle scroll parallax; shooting stars cross the sky.
 - **Secret terminal**: press `/` or Ctrl/Cmd+K. `help`, `projects`, `neofetch`, `goto work`, `shape galaxy`, `explode`, `warp`, `sudo hire naman`, with history and tab-complete. Shape, explode and warp commands drive the WebGL scene live.
 - **Cinematic intro**: a counter-and-curtain preloader, once per session, that hands off to the particles assembling.
 - **Layout**: bento-grid About with cursor-spotlight tiles, a draggable 3D skill globe, and a section rail with scroll progress.
