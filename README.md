@@ -4,9 +4,10 @@ Personal portfolio built with Next.js 15, React Three Fiber and Framer Motion.
 
 ## Highlights
 
-- Fixed WebGL scene: a shader-displaced iridescent form that glides between per-section poses, reacts to cursor and scroll velocity, and lowers geometry detail on phones.
-- Lenis smooth scrolling, masked text reveals, scroll-linked highlights, sticky stacking project cards and a scroll-pinned hackathon gallery.
-- Responsive from 320px phones to wide desktops, with `prefers-reduced-motion` respected throughout.
+- **Morphing particle universe**: 18k GPU particles (9k on phones) spell the name in the hero, then morph per section into a globe, double helix, wave field, knot, galaxy and portal. They swirl apart mid-transition, scatter away from the cursor or a tap, and churn with scroll speed.
+- **Cinematic intro**: a counter-and-curtain preloader, once per session, that hands off to the particles assembling.
+- **Interaction layer**: custom cursor with contextual labels, scramble-text hovers, a marquee that skews with scroll velocity, magnetic buttons, 3D-tilt media, sticky stacking project cards and a scroll-pinned hackathon gallery.
+- **Smooth and accessible**: Lenis smooth scrolling, readable HTML text over the WebGL, responsive from 320px phones to wide desktops, and `prefers-reduced-motion` respected throughout.
 - Contact form backed by Resend (`/api/contact`).
 
 ## Development

@@ -65,8 +65,8 @@ const PRESETS: Preset[] = [
   {
     id: "contact",
     slot: SLOT.ring,
-    desktop: { x: 0.64, y: 0.34, scale: 0.46, opacity: 0.9 },
-    mobile: { x: 0.52, y: 0.7, scale: 0.3, opacity: 0.6 },
+    desktop: { x: 0.74, y: 0.5, scale: 0.36, opacity: 0.6 },
+    mobile: { x: 0.52, y: 0.7, scale: 0.3, opacity: 0.5 },
   },
 ];
 
