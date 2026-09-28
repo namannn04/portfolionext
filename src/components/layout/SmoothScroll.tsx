@@ -18,6 +18,12 @@ export function scrollToHash(lenis: Lenis | null, hash: string) {
   return true;
 }
 
+/** Scrolls an element into place, `offset` px from the top of the viewport. */
+export function scrollToElement(lenis: Lenis | null, element: HTMLElement, offset = 0) {
+  if (lenis) lenis.scrollTo(element, { offset, duration: 1.2 });
+  else window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY + offset, behavior: "smooth" });
+}
+
 export function scrollToTop(lenis: Lenis | null) {
   if (lenis) lenis.scrollTo(0, { duration: 1.5 });
   else window.scrollTo({ top: 0, behavior: "smooth" });
