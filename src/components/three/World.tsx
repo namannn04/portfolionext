@@ -8,17 +8,7 @@ import { universe } from "@/lib/universe";
 import { morphFragment, morphVertex } from "./shaders";
 import Starfield from "./Starfield";
 import ShootingStars from "./ShootingStars";
-import {
-  cloudShape,
-  galaxyShape,
-  helixShape,
-  knotShape,
-  randoms,
-  ringShape,
-  sphereShape,
-  textShape,
-  waveShape,
-} from "./shapes";
+import { galaxyShape, helixShape, knotShape, randoms, ringShape, sphereShape, textShape, waveShape } from "./shapes";
 
 /** Shape slots, matching `shapeAt` in the vertex shader. */
 const SLOT = { text: 0, sphere: 1, helix: 2, wave: 3, knot: 4, galaxy: 5, ring: 6 } as const;
@@ -179,7 +169,6 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
     g.setAttribute("aKnot", new THREE.BufferAttribute(knotShape(count), 3));
     g.setAttribute("aGalaxy", new THREE.BufferAttribute(galaxyShape(count), 3));
     g.setAttribute("aRing", new THREE.BufferAttribute(ringShape(count), 3));
-    g.setAttribute("aCloud", new THREE.BufferAttribute(cloudShape(count), 3));
     g.setAttribute("aRand", new THREE.BufferAttribute(randoms(count), 3));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 20);
     return g;
@@ -197,6 +186,7 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
       uPixelRatio: { value: Math.min(gl.getPixelRatio(), 2) },
       uTurbulence: { value: 0 },
       uExplode: { value: 0 },
+      uTextHalf: { value: 2 },
       uPulse: { value: 0 },
       uMouse: { value: new THREE.Vector3(99, 99, 0.5) },
       uMouseStrength: { value: 0 },
@@ -239,11 +229,12 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
         const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
         (attribute.array as Float32Array).set(points);
         attribute.needsUpdate = true;
+        uniforms.uTextHalf.value = target / 2;
       });
     return () => {
       cancelled = true;
     };
-  }, [viewport.width, viewport.height, mobile, count, geometry]);
+  }, [viewport.width, viewport.height, mobile, count, geometry, uniforms]);
 
   useEffect(() => {
     uniforms.uSize.value = THREE.MathUtils.clamp(18 + (size.width / 1440) * 14, 20, 34);
@@ -282,8 +273,9 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
 
     // Wall-clock based so the assembly finishes on time even at low frame rates.
     if (introStart.current !== null && !reducedMotion) {
-      const t = Math.min((performance.now() - introStart.current) / 2600, 1);
-      introProgress.current = 1 - Math.pow(1 - t, 3);
+      const t = Math.min((performance.now() - introStart.current) / 3200, 1);
+      // Linear here: the shader eases each particle's own flight.
+      introProgress.current = t;
     }
     uniforms.uIntro.value = introProgress.current;
 
@@ -338,6 +330,10 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
     const pulse = envelope(now, universe.celebrateAt, 250, 3200);
     uniforms.uExplode.value = Math.max(envelope(now, universe.explodeAt, 220, 2600), pulse * 0.55);
     uniforms.uPulse.value = pulse;
+
+    // Gentle 3D tilt towards the pointer gives the whole shape depth.
+    group.rotation.y = damp(group.rotation.y, pointer.current.x * 0.22 * pointer.current.active, 2.5);
+    group.rotation.x = damp(group.rotation.x, -pointer.current.y * 0.14 * pointer.current.active, 2.5);
 
     // Cursor in the group's local space, so the push works at any pose.
     const recent = performance.now() - pointer.current.last < 1400;

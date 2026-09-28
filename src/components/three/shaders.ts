@@ -64,6 +64,7 @@ uniform float uSize;
 uniform float uPixelRatio;
 uniform float uTurbulence;
 uniform float uExplode;
+uniform float uTextHalf;
 uniform vec3 uMouse;
 uniform float uMouseStrength;
 
@@ -73,7 +74,6 @@ attribute vec3 aWave;
 attribute vec3 aKnot;
 attribute vec3 aGalaxy;
 attribute vec3 aRing;
-attribute vec3 aCloud;
 attribute vec3 aRand;
 
 varying float vAlpha;
@@ -106,35 +106,51 @@ void main() {
   float m = smoothstep(delay, delay + 0.65, uMix);
   vec3 p = mix(shapeAt(uFrom), shapeAt(uTo), m);
 
-  // Particles swirl apart mid-morph and settle as they arrive.
+  // Particles swirl apart mid-morph, twisting round a vortex, then settle.
   float transit = sin(m * 3.14159);
+  p = rotY(transit * (0.9 + aRand.x * 1.4)) * p;
   p += noiseVec(p * 0.55 + uTime * 0.18) * (transit * 0.85 + uTurbulence);
   p += noiseVec(p * 1.4 + uTime * 0.12) * 0.012;
 
-  // Intro: assemble out of a wide cloud.
-  float intro = smoothstep(aRand.y * 0.45, aRand.y * 0.45 + 0.55, uIntro);
-  p = mix(aCloud, p, intro);
+  // How much of the name is on screen (0 when showing another shape).
+  float textWeight = (uFrom < 0.5 ? 1.0 - m : 0.0) + (uTo < 0.5 && uFrom > 0.5 ? m : 0.0);
+  float across = clamp(position.x / max(uTextHalf, 0.001) * 0.5 + 0.5, 0.0, 1.0);
+
+  // Intro: particles spiral in out of a vortex and land letter by letter,
+  // sweeping left to right across the name.
+  float start = across * 0.42 + aRand.y * 0.18;
+  float local = clamp((uIntro - start) / 0.4, 0.0, 1.0);
+  float eased = 1.0 - pow(1.0 - local, 3.0);
+  float angle = aRand.x * 6.28318 + (1.0 - eased) * 5.0;
+  float radius = 2.2 + aRand.y * 5.0;
+  vec3 vortex = vec3(cos(angle) * radius, sin(angle) * radius * 0.55, -1.5 - aRand.z * 5.0);
+  p = mix(vortex, p, eased);
+  float flight = local * (1.0 - local) * 4.0; // peaks mid-flight
 
   // Explosion: every particle flies outward along its own jittered ray.
   vec3 ray = normalize(p + (aRand - 0.5) * 0.9 + 1e-4);
   p += ray * uExplode * (1.2 + aRand.x * 3.2);
   p += noiseVec(p * 0.4 + uTime * 0.5) * uExplode * 0.6;
 
+  // A band of light sweeps across the name every few seconds.
+  float sweepX = fract(uTime * 0.11) * 3.2 - 1.1;
+  float sweep = exp(-pow(across - sweepX, 2.0) * 60.0) * textWeight * step(0.999, uIntro);
+
   // Cursor pushes particles away and towards the camera.
   vec2 d = p.xy - uMouse.xy;
   float dist = length(d);
   float force = (1.0 - smoothstep(0.0, uMouse.z, dist)) * uMouseStrength;
   p.xy += normalize(d + 1e-5) * force * uMouse.z * 0.8;
-  p.z += force * 0.5;
+  p.z += force * 0.5 + sweep * 0.08;
 
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
-  float size = uSize * (0.55 + aRand.z * 0.9) * (1.0 + force * 1.2);
+  float size = uSize * (0.55 + aRand.z * 0.9) * (1.0 + force * 1.2 + sweep * 0.7 + flight * 0.8);
   gl_PointSize = size * uPixelRatio / -mv.z;
 
   vAccent = step(0.86, aRand.z);
-  vGlow = force;
-  vAlpha = (0.65 + 0.35 * sin(uTime * 0.9 + aRand.x * 40.0)) * mix(0.2, 1.0, intro);
+  vGlow = clamp(force + sweep * 0.9 + flight * 0.7, 0.0, 1.0);
+  vAlpha = (0.65 + 0.35 * sin(uTime * 0.9 + aRand.x * 40.0)) * mix(0.15, 1.0, eased) * (1.0 + sweep * 0.6);
 }
 `;
 

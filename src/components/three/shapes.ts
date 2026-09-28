@@ -162,21 +162,6 @@ export function ringShape(count: number, radius = 1.9): Shape {
   return points;
 }
 
-/** Loose cloud the particles start in before assembling. */
-export function cloudShape(count: number, radius = 9): Shape {
-  const points = new Float32Array(count * 3);
-  const rand = mulberry32(71);
-  for (let i = 0; i < count; i += 1) {
-    const r = radius * Math.cbrt(rand());
-    const theta = rand() * Math.PI * 2;
-    const phi = Math.acos(2 * rand() - 1);
-    points[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    points[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.6;
-    points[i * 3 + 2] = r * Math.cos(phi) * 0.5;
-  }
-  return points;
-}
-
 export function randoms(count: number): Float32Array {
   const values = new Float32Array(count * 3);
   const rand = mulberry32(83);
