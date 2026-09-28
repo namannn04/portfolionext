@@ -3,60 +3,76 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { blobFragment, blobVertex, particlesFragment, particlesVertex } from "./shaders";
+import { intro } from "@/lib/intro";
+import { dustFragment, dustVertex, morphFragment, morphVertex } from "./shaders";
+import {
+  cloudShape,
+  galaxyShape,
+  helixShape,
+  knotShape,
+  randoms,
+  ringShape,
+  sphereShape,
+  textShape,
+  waveShape,
+} from "./shapes";
 
-type Pose = { x: number; y: number; scale: number; amplitude: number; hue: number; dim?: number };
-type Preset = { id: string; desktop: Pose; mobile: Pose };
+/** Shape slots, matching `shapeAt` in the vertex shader. */
+const SLOT = { text: 0, sphere: 1, helix: 2, wave: 3, knot: 4, galaxy: 5, ring: 6 } as const;
 
-// One pose per page section. x/y are fractions of the half-viewport, scale is a
-// fraction of the smaller viewport side, so poses hold up at any aspect ratio.
+type Pose = { x: number; y: number; scale: number; opacity: number };
+type Preset = { id: string; slot: number; desktop: Pose; mobile: Pose };
+
+// x/y are fractions of the half-viewport. scale is relative to the smaller
+// viewport side (the hero text is sized in world units, so it uses 1).
 const PRESETS: Preset[] = [
   {
     id: "top",
-    desktop: { x: 0.46, y: 0.02, scale: 0.3, amplitude: 0.24, hue: 0, dim: 1 },
-    mobile: { x: 0.28, y: 0.6, scale: 0.25, amplitude: 0.22, hue: 0, dim: 1 },
+    slot: SLOT.text,
+    desktop: { x: 0, y: 0.2, scale: 1, opacity: 1 },
+    mobile: { x: 0, y: 0.36, scale: 1, opacity: 1 },
   },
   {
     id: "about",
-    desktop: { x: 0.9, y: 0.58, scale: 0.19, amplitude: 0.42, hue: 0.06 },
-    mobile: { x: 0.8, y: 0.8, scale: 0.18, amplitude: 0.4, hue: 0.06 },
+    slot: SLOT.sphere,
+    desktop: { x: 0.74, y: 0.42, scale: 0.46, opacity: 0.55 },
+    mobile: { x: 0.55, y: 0.66, scale: 0.34, opacity: 0.45 },
   },
   {
     id: "experience",
-    desktop: { x: 0.97, y: -0.5, scale: 0.21, amplitude: 0.28, hue: 0.12 },
-    mobile: { x: -0.85, y: 0.82, scale: 0.17, amplitude: 0.28, hue: 0.12 },
+    slot: SLOT.helix,
+    desktop: { x: 0.05, y: -0.68, scale: 0.72, opacity: 0.42 },
+    mobile: { x: 0, y: 0.74, scale: 0.36, opacity: 0.45 },
   },
   {
     id: "work",
-    desktop: { x: -0.98, y: 0.55, scale: 0.18, amplitude: 0.5, hue: 0.2 },
-    mobile: { x: 0.85, y: 0.84, scale: 0.16, amplitude: 0.45, hue: 0.2 },
+    slot: SLOT.wave,
+    desktop: { x: 0, y: -0.62, scale: 1.05, opacity: 0.45 },
+    mobile: { x: 0, y: -0.72, scale: 0.5, opacity: 0.4 },
   },
   {
     id: "skills",
-    desktop: { x: 0.9, y: 0.1, scale: 0.24, amplitude: 0.36, hue: 0.28 },
-    mobile: { x: -0.8, y: 0.8, scale: 0.18, amplitude: 0.34, hue: 0.28 },
+    slot: SLOT.knot,
+    desktop: { x: 0.7, y: 0.38, scale: 0.52, opacity: 0.55 },
+    mobile: { x: 0.5, y: 0.68, scale: 0.34, opacity: 0.45 },
   },
   {
     id: "events",
-    desktop: { x: -0.95, y: -0.5, scale: 0.2, amplitude: 0.3, hue: 0.34 },
-    mobile: { x: 0.82, y: 0.82, scale: 0.17, amplitude: 0.3, hue: 0.34 },
+    slot: SLOT.galaxy,
+    desktop: { x: 0.02, y: 0.66, scale: 0.72, opacity: 0.5 },
+    mobile: { x: 0, y: 0.7, scale: 0.4, opacity: 0.45 },
   },
   {
     id: "contact",
-    desktop: { x: 0.66, y: 0.42, scale: 0.26, amplitude: 0.38, hue: 0.4, dim: 1 },
-    mobile: { x: 0.72, y: 0.78, scale: 0.2, amplitude: 0.36, hue: 0.4, dim: 0.85 },
+    slot: SLOT.ring,
+    desktop: { x: 0.64, y: 0.34, scale: 0.46, opacity: 0.9 },
+    mobile: { x: 0.52, y: 0.7, scale: 0.3, opacity: 0.6 },
   },
 ];
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
-const mixPose = (a: Pose, b: Pose, t: number): Pose => ({
-  x: THREE.MathUtils.lerp(a.x, b.x, t),
-  y: THREE.MathUtils.lerp(a.y, b.y, t),
-  scale: THREE.MathUtils.lerp(a.scale, b.scale, t),
-  amplitude: THREE.MathUtils.lerp(a.amplitude, b.amplitude, t),
-  hue: THREE.MathUtils.lerp(a.hue, b.hue, t),
-  dim: THREE.MathUtils.lerp(a.dim ?? 0.62, b.dim ?? 0.62, t),
-});
+
+type Frame = { from: number; to: number; mix: number; pose: Pose };
 
 /** Tracks the document offset of every section that has a preset. */
 function useSectionOffsets() {
@@ -80,104 +96,203 @@ function useSectionOffsets() {
   return offsets;
 }
 
-function currentPose(offsets: { index: number; top: number }[], mobile: boolean): Pose {
+function resolve(offsets: { index: number; top: number }[], mobile: boolean): Frame {
   const pick = (index: number) => (mobile ? PRESETS[index].mobile : PRESETS[index].desktop);
-  if (offsets.length === 0) return pick(0);
-  const probe = window.scrollY + window.innerHeight * 0.5;
-  if (probe <= offsets[0].top) return pick(offsets[0].index);
+  const hold = (index: number): Frame => ({
+    from: PRESETS[index].slot,
+    to: PRESETS[index].slot,
+    mix: 0,
+    pose: pick(index),
+  });
+  if (offsets.length === 0) return hold(0);
+  const probe = window.scrollY + window.innerHeight * 0.55;
+  if (probe <= offsets[0].top) return hold(offsets[0].index);
   for (let i = 0; i < offsets.length - 1; i += 1) {
-    const from = offsets[i];
-    const to = offsets[i + 1];
-    if (probe < to.top) {
-      // Hold each pose through most of its section, then glide to the next.
-      const raw = (probe - from.top) / Math.max(1, to.top - from.top);
-      const t = smooth(THREE.MathUtils.clamp((raw - 0.45) / 0.55, 0, 1));
-      return mixPose(pick(from.index), pick(to.index), t);
+    const a = offsets[i];
+    const b = offsets[i + 1];
+    if (probe < b.top) {
+      // Hold each shape through most of its section, then morph into the next.
+      const raw = (probe - a.top) / Math.max(1, b.top - a.top);
+      const t = smooth(THREE.MathUtils.clamp((raw - 0.5) / 0.5, 0, 1));
+      const pa = pick(a.index);
+      const pb = pick(b.index);
+      const lerp = THREE.MathUtils.lerp;
+      return {
+        from: PRESETS[a.index].slot,
+        to: PRESETS[b.index].slot,
+        mix: t,
+        pose: {
+          x: lerp(pa.x, pb.x, t),
+          y: lerp(pa.y, pb.y, t),
+          scale: lerp(pa.scale, pb.scale, t),
+          opacity: lerp(pa.opacity, pb.opacity, t),
+        },
+      };
     }
   }
-  return pick(offsets[offsets.length - 1].index);
+  return hold(offsets[offsets.length - 1].index);
 }
 
-function Blob({ reducedMotion }: { reducedMotion: boolean }) {
-  const group = useRef<THREE.Group>(null);
-  const mesh = useRef<THREE.Mesh>(null);
-  const { viewport, size } = useThree();
-  // Portrait tablets share the phone poses: the hero text fills the width there.
+function Particles({ count, reducedMotion }: { count: number; reducedMotion: boolean }) {
+  const points = useRef<THREE.Points>(null);
+  const { viewport, size, gl } = useThree();
   const mobile = size.width < 768 || size.height > size.width * 1.15;
-  const detailed = size.width >= 768;
   const offsets = useSectionOffsets();
-  const pointer = useRef({ x: 0, y: 0 });
+  const pointer = useRef({ x: 0, y: 0, active: 0, last: -10 });
+  const introProgress = useRef(reducedMotion ? 1 : 0);
+  const introStart = useRef<number | null>(intro.done ? performance.now() : null);
   const lastScroll = useRef(0);
   const energy = useRef(0);
-  const reveal = useRef(0);
+  // Text is sized in world units, so track the viewport width it was built for.
+  const textWidth = useRef(0);
+  const textPose = useRef(1);
 
-  const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, detailed ? 48 : 28), [detailed]);
+  const geometry = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+    g.setAttribute("aSphere", new THREE.BufferAttribute(sphereShape(count), 3));
+    g.setAttribute("aHelix", new THREE.BufferAttribute(helixShape(count), 3));
+    g.setAttribute("aWave", new THREE.BufferAttribute(waveShape(count), 3));
+    g.setAttribute("aKnot", new THREE.BufferAttribute(knotShape(count), 3));
+    g.setAttribute("aGalaxy", new THREE.BufferAttribute(galaxyShape(count), 3));
+    g.setAttribute("aRing", new THREE.BufferAttribute(ringShape(count), 3));
+    g.setAttribute("aCloud", new THREE.BufferAttribute(cloudShape(count), 3));
+    g.setAttribute("aRand", new THREE.BufferAttribute(randoms(count), 3));
+    g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 20);
+    return g;
+  }, [count]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uAmplitude: { value: 0.32 },
-      uFrequency: { value: 0.95 },
-      uTwist: { value: 0.35 },
-      uHue: { value: 0 },
-      uDim: { value: 1 },
+      uFrom: { value: 0 },
+      uTo: { value: 0 },
+      uMix: { value: 0 },
+      uIntro: { value: introProgress.current },
+      uSize: { value: 14 },
+      uPixelRatio: { value: Math.min(gl.getPixelRatio(), 2) },
+      uTurbulence: { value: 0 },
+      uMouse: { value: new THREE.Vector3(99, 99, 0.5) },
+      uMouseStrength: { value: 0 },
+      uOpacity: { value: 1 },
+      uColor: { value: new THREE.Color("#e9eef5") },
       uAccent: { value: new THREE.Color("#c6f432") },
-      uBase: { value: new THREE.Color("#0c1116") },
     }),
-    [],
+    [gl],
   );
+  // Own the material so these exact uniform objects reach the GPU.
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: morphVertex,
+        fragmentShader: morphFragment,
+        uniforms,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      }),
+    [uniforms],
+  );
+  useEffect(() => () => material.dispose(), [material]);
+
+  // (Re)build the name whenever the viewport width changes meaningfully.
+  useEffect(() => {
+    const target = viewport.width * (mobile ? 0.92 : 0.86);
+    if (Math.abs(target - textWidth.current) < 0.05) return;
+    textWidth.current = target;
+    let cancelled = false;
+    const family =
+      getComputedStyle(document.documentElement).getPropertyValue("--font-bricolage").trim() || "sans-serif";
+    document.fonts
+      .load(`700 220px ${family}`)
+      .catch(() => undefined)
+      .then(() => {
+        if (cancelled) return;
+        const { points } = textShape(count, "NAMAN", family, target);
+        const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
+        (attribute.array as Float32Array).set(points);
+        attribute.needsUpdate = true;
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [viewport.width, mobile, count, geometry]);
+
+  useEffect(() => {
+    uniforms.uSize.value = THREE.MathUtils.clamp(18 + (size.width / 1440) * 14, 20, 34);
+  }, [size.width, uniforms]);
 
   useEffect(() => {
     const onMove = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse") return;
       pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = -((event.clientY / window.innerHeight) * 2 - 1);
+      pointer.current.last = performance.now();
     };
     window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
+    window.addEventListener("pointerdown", onMove, { passive: true });
+    const begin = () => (introStart.current ??= performance.now());
+    const unsubscribe = intro.subscribe(begin);
+    // Safety net: never leave the particles scattered if no preloader runs.
+    const fallback = window.setTimeout(begin, 4000);
+    return () => {
+      window.clearTimeout(fallback);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onMove);
+      unsubscribe();
+    };
   }, []);
 
   useFrame((_, delta) => {
-    if (!group.current || !mesh.current) return;
+    const group = points.current;
+    if (!group) return;
     const dt = Math.min(delta, 1 / 30);
     const damp = (current: number, target: number, speed: number) => THREE.MathUtils.damp(current, target, speed, dt);
 
     const scrollY = window.scrollY;
     const velocity = Math.abs(scrollY - lastScroll.current) / Math.max(dt, 1e-3);
     lastScroll.current = scrollY;
-    energy.current = damp(energy.current, Math.min(velocity / 2600, 1), 3);
-    reveal.current = damp(reveal.current, 1, 1.6);
+    energy.current = damp(energy.current, Math.min(velocity / 3000, 1), 3);
 
-    const pose = currentPose(offsets.current, mobile);
+    // Wall-clock based so the assembly finishes on time even at low frame rates.
+    if (introStart.current !== null && !reducedMotion) {
+      const t = Math.min((performance.now() - introStart.current) / 2600, 1);
+      introProgress.current = 1 - Math.pow(1 - t, 3);
+    }
+    uniforms.uIntro.value = introProgress.current;
+
+    const frame = resolve(offsets.current, mobile);
+    uniforms.uFrom.value = frame.from;
+    uniforms.uTo.value = frame.to;
+    uniforms.uMix.value = frame.mix;
+
+    // Text is authored at world scale; every other shape scales with the viewport.
     const minSide = Math.min(viewport.width, viewport.height);
-    const targetScale = pose.scale * minSide * (0.75 + 0.25 * reveal.current);
-    const targetX = pose.x * viewport.width * 0.5 + pointer.current.x * 0.12;
-    const targetY = pose.y * viewport.height * 0.5 + pointer.current.y * 0.12;
+    const shapeScale = (frame.pose.scale * minSide) / 3.2;
+    textPose.current = frame.from === SLOT.text ? 1 - frame.mix : 0;
+    const targetScale = THREE.MathUtils.lerp(shapeScale, 1, textPose.current);
+    const scale = damp(group.scale.x, targetScale, 3.2);
+    group.scale.setScalar(scale);
+    group.position.x = damp(group.position.x, (frame.pose.x * viewport.width) / 2, 3.2);
+    group.position.y = damp(group.position.y, (frame.pose.y * viewport.height) / 2, 3.2);
 
-    group.current.position.x = damp(group.current.position.x, targetX, 2.4);
-    group.current.position.y = damp(group.current.position.y, targetY, 2.4);
-    const scale = damp(group.current.scale.x, targetScale, 2.4);
-    group.current.scale.setScalar(scale);
+    // Cursor in the group's local space, so the push works at any pose.
+    const recent = performance.now() - pointer.current.last < 1400;
+    pointer.current.active = damp(pointer.current.active, recent ? 1 : 0, recent ? 6 : 1.5);
+    const worldX = (pointer.current.x * viewport.width) / 2;
+    const worldY = (pointer.current.y * viewport.height) / 2;
+    const mouse = uniforms.uMouse.value;
+    mouse.x = damp(mouse.x, (worldX - group.position.x) / scale, 10);
+    mouse.y = damp(mouse.y, (worldY - group.position.y) / scale, 10);
+    mouse.z = (mobile ? 0.3 : 0.42) / scale;
+    uniforms.uMouseStrength.value = reducedMotion ? 0 : pointer.current.active;
 
-    group.current.rotation.x = damp(group.current.rotation.x, pointer.current.y * 0.35, 2);
-    group.current.rotation.y = damp(group.current.rotation.y, pointer.current.x * 0.5, 2);
-    if (!reducedMotion) mesh.current.rotation.y += dt * (0.08 + energy.current * 0.6);
-
-    uniforms.uTime.value += reducedMotion ? 0 : dt * (1 + energy.current * 2.5);
-    uniforms.uAmplitude.value = damp(uniforms.uAmplitude.value, pose.amplitude + energy.current * 0.25, 3);
-    uniforms.uTwist.value = damp(uniforms.uTwist.value, 0.35 + energy.current * 1.4, 3);
-    uniforms.uHue.value = damp(uniforms.uHue.value, pose.hue, 2);
-    uniforms.uDim.value = damp(uniforms.uDim.value, pose.dim ?? 0.62, 2.5);
+    uniforms.uTime.value += reducedMotion ? 0 : dt;
+    uniforms.uTurbulence.value = energy.current * 0.6;
+    uniforms.uOpacity.value = damp(uniforms.uOpacity.value, frame.pose.opacity, 2.5);
   });
 
-  return (
-    <group ref={group} scale={0.001}>
-      <mesh ref={mesh} geometry={geometry}>
-        <shaderMaterial vertexShader={blobVertex} fragmentShader={blobFragment} uniforms={uniforms} />
-      </mesh>
-    </group>
-  );
+  return <points ref={points} geometry={geometry} material={material} frustumCulled={false} />;
 }
 
 function Dust({ count, reducedMotion }: { count: number; reducedMotion: boolean }) {
@@ -189,12 +304,12 @@ function Dust({ count, reducedMotion }: { count: number; reducedMotion: boolean 
     const scales = new Float32Array(count);
     const offsets = new Float32Array(count);
     for (let i = 0; i < count; i += 1) {
-      const radius = 3 + Math.random() * 7;
+      const radius = 4 + Math.random() * 8;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = radius * Math.cos(phi) * 0.7;
-      positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta) - 3;
+      positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta) - 5;
       scales[i] = 0.4 + Math.random();
       offsets[i] = Math.random();
     }
@@ -210,58 +325,69 @@ function Dust({ count, reducedMotion }: { count: number; reducedMotion: boolean 
     () => ({
       uTime: { value: 0 },
       uPixelRatio: { value: Math.min(gl.getPixelRatio(), 2) },
-      uSize: { value: 26 },
-      uColor: { value: new THREE.Color("#dfe7ee") },
+      uSize: { value: 22 },
+      uColor: { value: new THREE.Color("#aeb8c4") },
     }),
     [gl],
   );
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: dustVertex,
+        fragmentShader: dustFragment,
+        uniforms,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      }),
+    [uniforms],
+  );
+  useEffect(() => () => material.dispose(), [material]);
 
   useFrame((_, delta) => {
     if (!points.current || reducedMotion) return;
     uniforms.uTime.value += delta;
-    points.current.rotation.y += delta * 0.012;
-    points.current.rotation.x = -window.scrollY * 0.00008;
+    points.current.rotation.y += delta * 0.01;
+    points.current.rotation.x = -window.scrollY * 0.00005;
   });
 
-  return (
-    <points ref={points} geometry={geometry}>
-      <shaderMaterial
-        vertexShader={particlesVertex}
-        fragmentShader={particlesFragment}
-        uniforms={uniforms}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
+  return <points ref={points} geometry={geometry} material={material} />;
 }
 
 export default function World() {
   const [ready, setReady] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [mobile, setMobile] = useState(false);
+  const [settings, setSettings] = useState<{ count: number; dust: number; reducedMotion: boolean; dpr: number } | null>(
+    null,
+  );
 
   useEffect(() => {
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    setMobile(window.innerWidth < 768);
+    const narrow = window.innerWidth < 768;
+    const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
+    setSettings({
+      count: narrow ? 9000 : weak ? 11000 : 18000,
+      dust: narrow ? 300 : 700,
+      reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      dpr: narrow ? 1.5 : 2,
+    });
   }, []);
+
+  if (!settings) return null;
 
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-[1600ms] ease-out-quart"
+      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-[1200ms] ease-out-quart"
       style={{ opacity: ready ? 1 : 0 }}
     >
       <Canvas
-        dpr={[1, mobile ? 1.5 : 2]}
+        dpr={[1, settings.dpr]}
         camera={{ position: [0, 0, 6], fov: 35, near: 0.1, far: 50 }}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         onCreated={() => setReady(true)}
         fallback={null}
       >
-        <Blob reducedMotion={reducedMotion} />
-        <Dust count={mobile ? 450 : 1100} reducedMotion={reducedMotion} />
+        <Particles count={settings.count} reducedMotion={settings.reducedMotion} />
+        <Dust count={settings.dust} reducedMotion={settings.reducedMotion} />
       </Canvas>
     </div>
   );

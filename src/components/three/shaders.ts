@@ -44,104 +44,113 @@ float snoise(vec3 v) {
   m = m * m;
   return 105.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
 }
+
+vec3 noiseVec(vec3 p) {
+  return vec3(snoise(p), snoise(p + vec3(31.4, 17.7, 5.3)), snoise(p + vec3(-11.2, 43.1, 27.9)));
+}
 `;
 
-export const blobVertex = /* glsl */ `
+/*
+ * Shape slots: 0 text (position), 1 sphere, 2 helix, 3 wave, 4 knot,
+ * 5 galaxy, 6 ring. uFrom/uTo pick two slots and uMix blends between them.
+ */
+export const morphVertex = /* glsl */ `
 uniform float uTime;
-uniform float uAmplitude;
-uniform float uFrequency;
-uniform float uTwist;
+uniform float uFrom;
+uniform float uTo;
+uniform float uMix;
+uniform float uIntro;
+uniform float uSize;
+uniform float uPixelRatio;
+uniform float uTurbulence;
+uniform vec3 uMouse;
+uniform float uMouseStrength;
 
-varying vec3 vNormal;
-varying vec3 vViewDir;
-varying float vNoise;
+attribute vec3 aSphere;
+attribute vec3 aHelix;
+attribute vec3 aWave;
+attribute vec3 aKnot;
+attribute vec3 aGalaxy;
+attribute vec3 aRing;
+attribute vec3 aCloud;
+attribute vec3 aRand;
+
+varying float vAlpha;
+varying float vAccent;
+varying float vGlow;
 
 ${simplex}
 
-vec3 twist(vec3 p, float amount) {
-  float angle = p.y * amount;
-  float s = sin(angle);
-  float c = cos(angle);
-  return vec3(c * p.x - s * p.z, p.y, s * p.x + c * p.z);
-}
+mat3 rotY(float a) { float s = sin(a), c = cos(a); return mat3(c, 0.0, -s, 0.0, 1.0, 0.0, s, 0.0, c); }
+mat3 rotX(float a) { float s = sin(a), c = cos(a); return mat3(1.0, 0.0, 0.0, 0.0, c, s, 0.0, -s, c); }
+mat3 rotZ(float a) { float s = sin(a), c = cos(a); return mat3(c, s, 0.0, -s, c, 0.0, 0.0, 0.0, 1.0); }
 
-float field(vec3 p) {
-  float slow = snoise(p * uFrequency + vec3(0.0, uTime * 0.18, uTime * 0.12));
-  float fine = snoise(p * uFrequency * 2.1 - uTime * 0.2) * 0.12;
-  return slow + fine;
-}
-
-vec3 displace(vec3 p) {
-  vec3 n = normalize(p);
-  return twist(p + n * field(p) * uAmplitude, uTwist);
+vec3 shapeAt(float slot) {
+  float spin = uTime * 0.16;
+  if (slot < 0.5) return position;
+  if (slot < 1.5) return rotY(spin) * aSphere;
+  if (slot < 2.5) return rotX(uTime * 0.35) * aHelix;
+  if (slot < 3.5) {
+    vec3 p = aWave;
+    p.y = sin(p.x * 1.3 + uTime * 1.1) * 0.28 + cos(p.z * 1.9 + uTime * 0.8) * 0.22;
+    return rotX(0.55) * p;
+  }
+  if (slot < 4.5) return rotY(spin) * rotX(spin * 0.6) * aKnot;
+  if (slot < 5.5) return rotX(-1.05) * rotY(spin * 0.8) * aGalaxy;
+  return rotZ(uTime * 0.1) * aRing;
 }
 
 void main() {
-  vec3 p = position;
-  vec3 n = normalize(normal);
-  // Finite-difference normals keep the lighting correct after displacement.
-  vec3 tangent = normalize(cross(n, abs(n.y) < 0.99 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0)));
-  vec3 bitangent = normalize(cross(n, tangent));
-  float e = 0.012;
-  vec3 d0 = displace(p);
-  vec3 d1 = displace(p + tangent * e);
-  vec3 d2 = displace(p + bitangent * e);
-  vec3 displacedNormal = normalize(cross(d1 - d0, d2 - d0));
+  float delay = aRand.x * 0.35;
+  float m = smoothstep(delay, delay + 0.65, uMix);
+  vec3 p = mix(shapeAt(uFrom), shapeAt(uTo), m);
 
-  vNoise = field(p);
-  vec4 mv = modelViewMatrix * vec4(d0, 1.0);
-  vNormal = normalize(normalMatrix * displacedNormal);
-  vViewDir = normalize(-mv.xyz);
+  // Particles swirl apart mid-morph and settle as they arrive.
+  float transit = sin(m * 3.14159);
+  p += noiseVec(p * 0.55 + uTime * 0.18) * (transit * 0.85 + uTurbulence);
+  p += noiseVec(p * 1.4 + uTime * 0.12) * 0.012;
+
+  // Intro: assemble out of a wide cloud.
+  float intro = smoothstep(aRand.y * 0.45, aRand.y * 0.45 + 0.55, uIntro);
+  p = mix(aCloud, p, intro);
+
+  // Cursor pushes particles away and towards the camera.
+  vec2 d = p.xy - uMouse.xy;
+  float dist = length(d);
+  float force = (1.0 - smoothstep(0.0, uMouse.z, dist)) * uMouseStrength;
+  p.xy += normalize(d + 1e-5) * force * uMouse.z * 0.8;
+  p.z += force * 0.5;
+
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
+  float size = uSize * (0.55 + aRand.z * 0.9) * (1.0 + force * 1.2);
+  gl_PointSize = size * uPixelRatio / -mv.z;
+
+  vAccent = step(0.86, aRand.z);
+  vGlow = force;
+  vAlpha = (0.65 + 0.35 * sin(uTime * 0.9 + aRand.x * 40.0)) * mix(0.2, 1.0, intro);
 }
 `;
 
-export const blobFragment = /* glsl */ `
-uniform float uTime;
-uniform float uHue;
-uniform float uDim;
+export const morphFragment = /* glsl */ `
+uniform vec3 uColor;
 uniform vec3 uAccent;
-uniform vec3 uBase;
+uniform float uOpacity;
 
-varying vec3 vNormal;
-varying vec3 vViewDir;
-varying float vNoise;
-
-vec3 palette(float t) {
-  // Cool iridescence: deep teal -> cyan -> lime, anchored to the brand accent.
-  vec3 a = vec3(0.42, 0.5, 0.46);
-  vec3 b = vec3(0.38, 0.4, 0.34);
-  vec3 c = vec3(1.0, 1.0, 1.0);
-  vec3 d = vec3(0.32 + uHue, 0.42 + uHue, 0.58 + uHue);
-  return a + b * cos(6.28318 * (c * t + d));
-}
+varying float vAlpha;
+varying float vAccent;
+varying float vGlow;
 
 void main() {
-  vec3 n = normalize(vNormal);
-  vec3 v = normalize(vViewDir);
-  if (!gl_FrontFacing) n = -n;
-
-  float fresnel = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), 2.4);
-  vec3 keyDir = normalize(vec3(-0.6, 0.8, 0.7));
-  vec3 rimDir = normalize(vec3(0.9, -0.3, -0.4));
-  float diffuse = max(dot(n, keyDir), 0.0);
-  float spec = pow(max(dot(reflect(-keyDir, n), v), 0.0), 28.0);
-  float rim = pow(max(dot(n, rimDir), 0.0), 3.0);
-
-  vec3 irid = palette(fresnel * 0.9 + vNoise * 0.22 + uTime * 0.015);
-  vec3 color = uBase;
-  color += uBase * diffuse * 1.6;
-  color = mix(color, irid, fresnel * 0.85);
-  color += uAccent * rim * 0.55;
-  color += vec3(spec) * 0.45;
-  color += uAccent * smoothstep(0.35, 1.0, vNoise) * 0.14;
-
-  gl_FragColor = vec4(color * uDim, 1.0);
-  #include <colorspace_fragment>
+  float d = length(gl_PointCoord - 0.5);
+  float core = 1.0 - smoothstep(0.12, 0.5, d);
+  if (core < 0.01) discard;
+  vec3 color = mix(uColor, uAccent, clamp(vAccent + vGlow * 0.9, 0.0, 1.0));
+  gl_FragColor = vec4(color, core * vAlpha * uOpacity);
 }
 `;
 
-export const particlesVertex = /* glsl */ `
+export const dustVertex = /* glsl */ `
 uniform float uTime;
 uniform float uPixelRatio;
 uniform float uSize;
@@ -159,13 +168,13 @@ void main() {
 }
 `;
 
-export const particlesFragment = /* glsl */ `
+export const dustFragment = /* glsl */ `
 uniform vec3 uColor;
 varying float vAlpha;
 
 void main() {
   float d = length(gl_PointCoord - 0.5);
-  float alpha = smoothstep(0.5, 0.0, d) * vAlpha * 0.7;
+  float alpha = (1.0 - smoothstep(0.0, 0.5, d)) * vAlpha * 0.5;
   if (alpha < 0.01) discard;
   gl_FragColor = vec4(uColor, alpha);
 }
