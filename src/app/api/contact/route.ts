@@ -3,11 +3,14 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]!)
+
 export async function POST(req: NextRequest) {
   const body = await req.json()
   const { name, email, message } = body
 
-  if (!name || !email || !message) {
+  if (typeof name !== "string" || typeof email !== "string" || typeof message !== "string" || !name || !email || !message) {
     return Response.json(
       {
         success: false,
@@ -21,10 +24,11 @@ export async function POST(req: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: "onboarding@resend.dev", // must be verified in Resend
       to: ["namandadhich15592@gmail.com"],
-      subject: `New Message from ${name}`,
-      html: `<p><strong>Name:</strong> ${name}</p>
-             <p><strong>Email:</strong> ${email}</p>
-             <p><strong>Message:</strong> ${message}</p>`,
+      replyTo: email,
+      subject: `New Message from ${name.slice(0, 120)}`,
+      html: `<p><strong>Name:</strong> ${escapeHtml(name)}</p>
+             <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+             <p><strong>Message:</strong><br/>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>`,
     })
 
     if (error) {

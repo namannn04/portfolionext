@@ -17,7 +17,7 @@ const PRESETS: Preset[] = [
   { id: "work", desktop: { x: -0.98, y: 0.55, scale: 0.18, amplitude: 0.5, hue: 0.2 }, mobile: { x: 0.85, y: 0.84, scale: 0.16, amplitude: 0.45, hue: 0.2 } },
   { id: "skills", desktop: { x: 0.9, y: 0.1, scale: 0.24, amplitude: 0.36, hue: 0.28 }, mobile: { x: -0.8, y: 0.8, scale: 0.18, amplitude: 0.34, hue: 0.28 } },
   { id: "events", desktop: { x: -0.95, y: -0.5, scale: 0.2, amplitude: 0.3, hue: 0.34 }, mobile: { x: 0.82, y: 0.82, scale: 0.17, amplitude: 0.3, hue: 0.34 } },
-  { id: "contact", desktop: { x: 0.36, y: 0.0, scale: 0.36, amplitude: 0.38, hue: 0.4, dim: 1 }, mobile: { x: 0.0, y: 0.5, scale: 0.3, amplitude: 0.36, hue: 0.4, dim: 0.8 } },
+  { id: "contact", desktop: { x: 0.66, y: 0.42, scale: 0.26, amplitude: 0.38, hue: 0.4, dim: 1 }, mobile: { x: 0.72, y: 0.78, scale: 0.2, amplitude: 0.36, hue: 0.4, dim: 0.85 } },
 ];
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
@@ -108,7 +108,7 @@ function Blob({ reducedMotion }: { reducedMotion: boolean }) {
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!group.current || !mesh.current) return;
     const dt = Math.min(delta, 1 / 30);
     const damp = (current: number, target: number, speed: number) =>
@@ -140,7 +140,6 @@ function Blob({ reducedMotion }: { reducedMotion: boolean }) {
     uniforms.uTwist.value = damp(uniforms.uTwist.value, 0.35 + energy.current * 1.4, 3);
     uniforms.uHue.value = damp(uniforms.uHue.value, pose.hue, 2);
     uniforms.uDim.value = damp(uniforms.uDim.value, pose.dim ?? 0.62, 2.5);
-    state.camera.position.y = damp(state.camera.position.y, -scrollY * 0.0004, 4);
   });
 
   return (
