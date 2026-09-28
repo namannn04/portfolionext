@@ -1,75 +1,46 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Silkscreen } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ScrollToTop from "@/components/ScrollToTop";
-// import NotificationBanner from "@/components/NotificationBanner";
-import CelestialBody from "@/components/CelestialBody";
-import { ThemeProvider } from "@/context/ThemeContext";
+import SmoothScroll from "@/components/layout/SmoothScroll";
+import Nav from "@/components/layout/Nav";
+import Footer from "@/components/layout/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const silkscreen = Silkscreen({
-  variable: "--font-mc",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"], weight: ["500", "600", "700"] });
 
 export const metadata: Metadata = {
-  title: "Naman Dadhich",
-  description: "Full Stack Developer portfolio — crafted with a Minecraft-inspired design. Explore projects, skills, and experience.",
+  metadataBase: new URL("https://namandadhich.me"),
+  title: {
+    default: "Naman Dadhich — Full Stack Developer",
+    template: "%s — Naman Dadhich",
+  },
+  description:
+    "Naman Dadhich is a full stack developer from New Delhi building scalable products with Next.js, TypeScript and Node.js, and leading developer communities.",
+  icons: { icon: "/NDDark.png" },
+  openGraph: {
+    title: "Naman Dadhich — Full Stack Developer",
+    description: "Scalable full-stack products, developer communities, and shipped experiences.",
+    images: ["/profileBlack.png"],
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#0e0f13",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link id="favicon" rel="icon" href="/NDLight.png" type="image/png" />
-        {/* Prevent flash of wrong theme + dynamic favicon */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme') || 'light';
-                  document.documentElement.setAttribute('data-theme', theme);
-                  var fav = document.getElementById('favicon');
-                  if (fav) fav.href = theme === 'light' ? '/NDLight.png' : '/NDDark.png';
-                  new MutationObserver(function(m) {
-                    m.forEach(function(mut) {
-                      if (mut.attributeName === 'data-theme') {
-                        var t = document.documentElement.getAttribute('data-theme');
-                        var f = document.getElementById('favicon');
-                        if (f) f.href = t === 'light' ? '/NDLight.png' : '/NDDark.png';
-                      }
-                    });
-                  }).observe(document.documentElement, { attributes: true });
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} antialiased`}
-      >
-        <ThemeProvider>
-          <CelestialBody />
-          {/* <NotificationBanner /> */}
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable}`}>
+      <body className="antialiased">
+        <SmoothScroll>
+          <Nav />
           {children}
-          <ScrollToTop />
-        </ThemeProvider>
+          <Footer />
+        </SmoothScroll>
+        <div className="grain" aria-hidden="true" />
       </body>
     </html>
   );

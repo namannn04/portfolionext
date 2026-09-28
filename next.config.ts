@@ -1,29 +1,24 @@
 import type { NextConfig } from "next";
 
+const sections: Record<string, string> = {
+  projects: "work",
+  experience: "experience",
+  roles: "experience",
+  events: "events",
+  contact: "contact",
+};
+
 const nextConfig: NextConfig = {
   images: {
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    formats: ["image/avif", "image/webp"],
   },
-  webpack: (config, { isServer }) => {
-    // Handle canvas module for PDF viewer
-    if (!isServer) {
-      config.resolve.alias.canvas = false;
-      config.resolve.alias.encoding = false;
-    }
-    
-    // Ignore node-specific modules
-    config.externals = [...(config.externals || []), { canvas: 'canvas' }];
-    
-    return config;
+  async redirects() {
+    // Old multi-page routes now live as sections on the home page.
+    return Object.entries(sections).map(([source, hash]) => ({
+      source: `/${source}`,
+      destination: `/#${hash}`,
+      permanent: false,
+    }));
   },
 };
 
