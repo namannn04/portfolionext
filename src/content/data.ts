@@ -39,6 +39,8 @@ export type Experience = {
   company: string;
   period: string;
   image: string;
+  /** Image is a wordmark that should be letterboxed rather than cropped. */
+  logo?: boolean;
   description: string;
   skills: string[];
 };
@@ -49,6 +51,7 @@ export const experiences: Experience[] = [
     company: "Zelosify",
     period: "Jul 2025 — Sep 2025",
     image: "/experience/zelosify.jpg",
+    logo: true,
     description:
       "Zelosify simplifies vendor and contract management for large enterprises, from contract creation and approvals to onboarding, workflow tracking and compliance. I built responsive landing pages and role-based dashboards, maintained CI/CD pipelines, implemented secure multi-user authentication with Keycloak, and managed cloud storage on AWS S3.",
     skills: ["Next.js", "TypeScript", "Keycloak", "Node.js", "PostgreSQL", "Prisma", "Docker", "AWS S3", "Postman"],

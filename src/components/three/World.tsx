@@ -12,11 +12,11 @@ type Preset = { id: string; desktop: Pose; mobile: Pose };
 // fraction of the smaller viewport side, so poses hold up at any aspect ratio.
 const PRESETS: Preset[] = [
   { id: "top", desktop: { x: 0.46, y: 0.02, scale: 0.3, amplitude: 0.24, hue: 0, dim: 1 }, mobile: { x: 0.28, y: 0.6, scale: 0.25, amplitude: 0.22, hue: 0, dim: 1 } },
-  { id: "about", desktop: { x: 0.74, y: 0.5, scale: 0.19, amplitude: 0.42, hue: 0.06 }, mobile: { x: 0.62, y: 0.72, scale: 0.2, amplitude: 0.4, hue: 0.06 } },
-  { id: "experience", desktop: { x: 0.64, y: -0.25, scale: 0.22, amplitude: 0.28, hue: 0.12 }, mobile: { x: -0.7, y: 0.78, scale: 0.18, amplitude: 0.28, hue: 0.12 } },
-  { id: "work", desktop: { x: -0.7, y: 0.45, scale: 0.16, amplitude: 0.5, hue: 0.2 }, mobile: { x: 0.72, y: 0.8, scale: 0.16, amplitude: 0.45, hue: 0.2 } },
-  { id: "skills", desktop: { x: 0.58, y: 0.05, scale: 0.26, amplitude: 0.36, hue: 0.28 }, mobile: { x: -0.6, y: 0.74, scale: 0.2, amplitude: 0.34, hue: 0.28 } },
-  { id: "events", desktop: { x: -0.6, y: -0.35, scale: 0.18, amplitude: 0.3, hue: 0.34 }, mobile: { x: 0.66, y: 0.78, scale: 0.17, amplitude: 0.3, hue: 0.34 } },
+  { id: "about", desktop: { x: 0.9, y: 0.58, scale: 0.19, amplitude: 0.42, hue: 0.06 }, mobile: { x: 0.8, y: 0.8, scale: 0.18, amplitude: 0.4, hue: 0.06 } },
+  { id: "experience", desktop: { x: 0.97, y: -0.5, scale: 0.21, amplitude: 0.28, hue: 0.12 }, mobile: { x: -0.85, y: 0.82, scale: 0.17, amplitude: 0.28, hue: 0.12 } },
+  { id: "work", desktop: { x: -0.98, y: 0.55, scale: 0.18, amplitude: 0.5, hue: 0.2 }, mobile: { x: 0.85, y: 0.84, scale: 0.16, amplitude: 0.45, hue: 0.2 } },
+  { id: "skills", desktop: { x: 0.9, y: 0.1, scale: 0.24, amplitude: 0.36, hue: 0.28 }, mobile: { x: -0.8, y: 0.8, scale: 0.18, amplitude: 0.34, hue: 0.28 } },
+  { id: "events", desktop: { x: -0.95, y: -0.5, scale: 0.2, amplitude: 0.3, hue: 0.34 }, mobile: { x: 0.82, y: 0.82, scale: 0.17, amplitude: 0.3, hue: 0.34 } },
   { id: "contact", desktop: { x: 0.36, y: 0.0, scale: 0.36, amplitude: 0.38, hue: 0.4, dim: 1 }, mobile: { x: 0.0, y: 0.5, scale: 0.3, amplitude: 0.36, hue: 0.4, dim: 0.8 } },
 ];
 
