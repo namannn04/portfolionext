@@ -59,7 +59,7 @@ function FeaturedCard({
         className="relative origin-top overflow-hidden rounded-[1.75rem] border border-line/70 bg-ink-2 p-4 shadow-[0_-24px_60px_-30px_rgb(0_0_0/0.8)] md:rounded-[2.25rem] md:p-6"
       >
         <div className="grid gap-6 md:grid-cols-12 md:gap-10">
-          <div className="flex flex-col gap-6 p-2 md:col-span-5 md:p-4 lg:col-span-4">
+          <div className="flex flex-col gap-6 p-2 md:col-span-5 md:p-4">
             <div className="flex items-center justify-between">
               <span className="font-mono text-xs text-mute">
                 {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
@@ -70,7 +70,7 @@ function FeaturedCard({
                 </span>
               )}
             </div>
-            <h3 className="display text-[clamp(2.25rem,3.6vw,3.5rem)] [overflow-wrap:anywhere]">{project.title}</h3>
+            <h3 className="display text-[clamp(2.25rem,3.2vw,3.5rem)] break-words">{project.title}</h3>
             <p className="text-fg-2 leading-relaxed">{project.description}</p>
             {project.contribution && (
               <div className="border-l-2 border-accent/70 pl-4 text-sm leading-relaxed text-fg-2">
@@ -83,7 +83,7 @@ function FeaturedCard({
               {project.href && <VisitLink href={project.href} label="Visit live site" />}
             </div>
           </div>
-          <div className="order-first md:order-none md:col-span-7 lg:col-span-8">
+          <div className="order-first md:order-none md:col-span-7">
             <Tilt className="h-full rounded-[1.25rem] md:rounded-[1.75rem]" max={4}>
               <ProjectMedia
                 video={project.video}
@@ -95,7 +95,11 @@ function FeaturedCard({
             </Tilt>
           </div>
         </div>
-        <motion.div aria-hidden="true" style={{ opacity: stacked ? dim : 0 }} className="pointer-events-none absolute inset-0 bg-ink" />
+        <motion.div
+          aria-hidden="true"
+          style={{ opacity: stacked ? dim : 0 }}
+          className="pointer-events-none absolute inset-0 bg-ink"
+        />
       </motion.article>
     </div>
   );

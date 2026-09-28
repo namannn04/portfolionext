@@ -11,13 +11,41 @@ type Preset = { id: string; desktop: Pose; mobile: Pose };
 // One pose per page section. x/y are fractions of the half-viewport, scale is a
 // fraction of the smaller viewport side, so poses hold up at any aspect ratio.
 const PRESETS: Preset[] = [
-  { id: "top", desktop: { x: 0.46, y: 0.02, scale: 0.3, amplitude: 0.24, hue: 0, dim: 1 }, mobile: { x: 0.28, y: 0.6, scale: 0.25, amplitude: 0.22, hue: 0, dim: 1 } },
-  { id: "about", desktop: { x: 0.9, y: 0.58, scale: 0.19, amplitude: 0.42, hue: 0.06 }, mobile: { x: 0.8, y: 0.8, scale: 0.18, amplitude: 0.4, hue: 0.06 } },
-  { id: "experience", desktop: { x: 0.97, y: -0.5, scale: 0.21, amplitude: 0.28, hue: 0.12 }, mobile: { x: -0.85, y: 0.82, scale: 0.17, amplitude: 0.28, hue: 0.12 } },
-  { id: "work", desktop: { x: -0.98, y: 0.55, scale: 0.18, amplitude: 0.5, hue: 0.2 }, mobile: { x: 0.85, y: 0.84, scale: 0.16, amplitude: 0.45, hue: 0.2 } },
-  { id: "skills", desktop: { x: 0.9, y: 0.1, scale: 0.24, amplitude: 0.36, hue: 0.28 }, mobile: { x: -0.8, y: 0.8, scale: 0.18, amplitude: 0.34, hue: 0.28 } },
-  { id: "events", desktop: { x: -0.95, y: -0.5, scale: 0.2, amplitude: 0.3, hue: 0.34 }, mobile: { x: 0.82, y: 0.82, scale: 0.17, amplitude: 0.3, hue: 0.34 } },
-  { id: "contact", desktop: { x: 0.66, y: 0.42, scale: 0.26, amplitude: 0.38, hue: 0.4, dim: 1 }, mobile: { x: 0.72, y: 0.78, scale: 0.2, amplitude: 0.36, hue: 0.4, dim: 0.85 } },
+  {
+    id: "top",
+    desktop: { x: 0.46, y: 0.02, scale: 0.3, amplitude: 0.24, hue: 0, dim: 1 },
+    mobile: { x: 0.28, y: 0.6, scale: 0.25, amplitude: 0.22, hue: 0, dim: 1 },
+  },
+  {
+    id: "about",
+    desktop: { x: 0.9, y: 0.58, scale: 0.19, amplitude: 0.42, hue: 0.06 },
+    mobile: { x: 0.8, y: 0.8, scale: 0.18, amplitude: 0.4, hue: 0.06 },
+  },
+  {
+    id: "experience",
+    desktop: { x: 0.97, y: -0.5, scale: 0.21, amplitude: 0.28, hue: 0.12 },
+    mobile: { x: -0.85, y: 0.82, scale: 0.17, amplitude: 0.28, hue: 0.12 },
+  },
+  {
+    id: "work",
+    desktop: { x: -0.98, y: 0.55, scale: 0.18, amplitude: 0.5, hue: 0.2 },
+    mobile: { x: 0.85, y: 0.84, scale: 0.16, amplitude: 0.45, hue: 0.2 },
+  },
+  {
+    id: "skills",
+    desktop: { x: 0.9, y: 0.1, scale: 0.24, amplitude: 0.36, hue: 0.28 },
+    mobile: { x: -0.8, y: 0.8, scale: 0.18, amplitude: 0.34, hue: 0.28 },
+  },
+  {
+    id: "events",
+    desktop: { x: -0.95, y: -0.5, scale: 0.2, amplitude: 0.3, hue: 0.34 },
+    mobile: { x: 0.82, y: 0.82, scale: 0.17, amplitude: 0.3, hue: 0.34 },
+  },
+  {
+    id: "contact",
+    desktop: { x: 0.66, y: 0.42, scale: 0.26, amplitude: 0.38, hue: 0.4, dim: 1 },
+    mobile: { x: 0.72, y: 0.78, scale: 0.2, amplitude: 0.36, hue: 0.4, dim: 0.85 },
+  },
 ];
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
@@ -74,14 +102,16 @@ function Blob({ reducedMotion }: { reducedMotion: boolean }) {
   const group = useRef<THREE.Group>(null);
   const mesh = useRef<THREE.Mesh>(null);
   const { viewport, size } = useThree();
-  const mobile = size.width < 768;
+  // Portrait tablets share the phone poses: the hero text fills the width there.
+  const mobile = size.width < 768 || size.height > size.width * 1.15;
+  const detailed = size.width >= 768;
   const offsets = useSectionOffsets();
   const pointer = useRef({ x: 0, y: 0 });
   const lastScroll = useRef(0);
   const energy = useRef(0);
   const reveal = useRef(0);
 
-  const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, mobile ? 28 : 48), [mobile]);
+  const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, detailed ? 48 : 28), [detailed]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   const uniforms = useMemo(
@@ -111,8 +141,7 @@ function Blob({ reducedMotion }: { reducedMotion: boolean }) {
   useFrame((_, delta) => {
     if (!group.current || !mesh.current) return;
     const dt = Math.min(delta, 1 / 30);
-    const damp = (current: number, target: number, speed: number) =>
-      THREE.MathUtils.damp(current, target, speed, dt);
+    const damp = (current: number, target: number, speed: number) => THREE.MathUtils.damp(current, target, speed, dt);
 
     const scrollY = window.scrollY;
     const velocity = Math.abs(scrollY - lastScroll.current) / Math.max(dt, 1e-3);

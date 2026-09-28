@@ -49,7 +49,9 @@ export default function Footer() {
         </div>
       </div>
       <div className="shell flex flex-col gap-1 border-t border-line/60 py-5 text-xs text-mute sm:flex-row sm:justify-between">
-        <p>© {new Date().getFullYear()} {profile.name}</p>
+        <p>
+          © {new Date().getFullYear()} {profile.name}
+        </p>
         <p>Designed and built by Naman with Next.js and Three.js</p>
       </div>
     </footer>

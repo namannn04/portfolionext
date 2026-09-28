@@ -87,7 +87,12 @@ export default function About() {
             />
             <div className="mt-14 grid gap-6 text-lg leading-relaxed text-fg-2 md:grid-cols-2 md:gap-x-10">
               {rest.map((paragraph, index) => (
-                <Reveal key={index} delay={index * 0.05} as="p" className={index === 0 ? "md:col-span-2 md:max-w-[62ch]" : ""}>
+                <Reveal
+                  key={index}
+                  delay={index * 0.05}
+                  as="p"
+                  className={index === 0 ? "md:col-span-2 md:max-w-[62ch]" : ""}
+                >
                   {paragraph}
                 </Reveal>
               ))}

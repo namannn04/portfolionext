@@ -17,10 +17,18 @@ function Marquee({ items, reverse = false, duration = 45 }: { items: string[]; r
     >
       <div
         className="marquee-track flex shrink-0 items-center"
-        style={{ "--marquee-duration": `${duration}s`, animationDirection: reverse ? "reverse" : "normal" } as React.CSSProperties}
+        style={
+          {
+            "--marquee-duration": `${duration}s`,
+            animationDirection: reverse ? "reverse" : "normal",
+          } as React.CSSProperties
+        }
       >
         {[...items, ...items].map((item, index) => (
-          <span key={index} className="display flex items-center text-[clamp(2.5rem,7vw,6rem)] whitespace-nowrap text-fg/90">
+          <span
+            key={index}
+            className="display flex items-center text-[clamp(2.5rem,7vw,6rem)] whitespace-nowrap text-fg/90"
+          >
             {item}
             <span className="mx-6 inline-block size-3 rotate-45 bg-accent md:mx-10 md:size-4" />
           </span>
@@ -32,7 +40,16 @@ function Marquee({ items, reverse = false, duration = 45 }: { items: string[]; r
 
 export default function Skills() {
   const primary = ["Next.js", "TypeScript", "React", "Node.js", "PostgreSQL", "Tailwind CSS", "AWS", "Docker"];
-  const secondary = ["Express.js", "Prisma", "MongoDB", "Framer Motion", "Three.js", "Firebase", "Redux", "GitHub Actions"];
+  const secondary = [
+    "Express.js",
+    "Prisma",
+    "MongoDB",
+    "Framer Motion",
+    "Three.js",
+    "Firebase",
+    "Redux",
+    "GitHub Actions",
+  ];
 
   return (
     <section id="skills" className="relative py-28 md:py-40">

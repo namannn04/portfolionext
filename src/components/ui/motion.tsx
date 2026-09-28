@@ -1,6 +1,15 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -72,7 +81,11 @@ export function SplitText({
   return (
     <span ref={ref} className={cn("inline", className)} aria-label={text} role="text">
       {words.map((word, index) => (
-        <span key={`${word}-${index}`} aria-hidden="true" className="inline-flex overflow-hidden pb-[0.08em] -mb-[0.08em] align-bottom">
+        <span
+          key={`${word}-${index}`}
+          aria-hidden="true"
+          className="inline-flex overflow-hidden pb-[0.08em] -mb-[0.08em] align-bottom"
+        >
           <motion.span
             className="inline-block will-change-transform"
             initial={reduce ? false : { y: "110%" }}
@@ -88,7 +101,15 @@ export function SplitText({
   );
 }
 
-function ScrollWord({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
+function ScrollWord({
+  word,
+  progress,
+  range,
+}: {
+  word: string;
+  progress: MotionValue<number>;
+  range: [number, number];
+}) {
   const opacity = useTransform(progress, range, [0.18, 1]);
   return (
     <motion.span style={{ opacity }} className="transition-none">
@@ -107,14 +128,27 @@ export function ScrollHighlight({ text, className }: { text: string; className?:
   return (
     <p ref={ref} className={className}>
       {words.map((word, index) => (
-        <ScrollWord key={index} word={word} progress={scrollYProgress} range={[index / words.length, (index + 1) / words.length]} />
+        <ScrollWord
+          key={index}
+          word={word}
+          progress={scrollYProgress}
+          range={[index / words.length, (index + 1) / words.length]}
+        />
       ))}
     </p>
   );
 }
 
 /** Pulls its child gently towards the cursor. No-op on touch devices. */
-export function Magnetic({ children, strength = 0.3, className }: { children: React.ReactNode; strength?: number; className?: string }) {
+export function Magnetic({
+  children,
+  strength = 0.3,
+  className,
+}: {
+  children: React.ReactNode;
+  strength?: number;
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -143,7 +177,15 @@ export function Magnetic({ children, strength = 0.3, className }: { children: Re
 }
 
 /** Tilts its content in 3D towards the cursor, with a soft moving highlight. */
-export function Tilt({ children, className, max = 8 }: { children: React.ReactNode; className?: string; max?: number }) {
+export function Tilt({
+  children,
+  className,
+  max = 8,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  max?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0.5);
   const py = useMotionValue(0.5);
@@ -174,7 +216,11 @@ export function Tilt({ children, className, max = 8 }: { children: React.ReactNo
         }}
       >
         {children}
-        <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[inherit]" style={{ background: glare }} />
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-[inherit]"
+          style={{ background: glare }}
+        />
       </motion.div>
     </div>
   );

@@ -103,7 +103,8 @@ export const featuredProjects: Project[] = [
     title: "CareerCompass",
     description:
       "Detailed career guidance powered by curated resources and AI. Explore 500+ careers, with paths, skills, qualifications, counselling and strategies for each.",
-    contribution: "Full stack: frontend UI and design, backend logic, authentication, and the admin panel for counsellors and applications.",
+    contribution:
+      "Full stack: frontend UI and design, backend logic, authentication, and the admin panel for counsellors and applications.",
     tags: ["React", "Node.js", "Express.js", "Firebase", "Tailwind CSS"],
     video: "/groupProjects/careercompass.mkv",
     poster: "/groupProjects/careercompass.jpg",
@@ -152,10 +153,28 @@ export const skills: { label: string; items: string[] }[] = [
   { label: "Languages", items: ["JavaScript", "TypeScript", "Python", "Java", "C", "C++", "HTML", "CSS", "SQL"] },
   {
     label: "Frameworks & libraries",
-    items: ["React", "Next.js", "Node.js", "Express.js", "Tailwind CSS", "Redux", "REST APIs", "Framer Motion", "Mongoose", "Prisma", "shadcn/ui", "JWT", "Material UI", "Three.js"],
+    items: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "Tailwind CSS",
+      "Redux",
+      "REST APIs",
+      "Framer Motion",
+      "Mongoose",
+      "Prisma",
+      "shadcn/ui",
+      "JWT",
+      "Material UI",
+      "Three.js",
+    ],
   },
   { label: "Databases", items: ["PostgreSQL", "MongoDB", "MySQL", "Firebase"] },
-  { label: "Tools & platforms", items: ["Git", "GitHub Actions", "Docker", "AWS", "Vercel", "Netlify", "Render", "Cloudinary", "Postman", "Figma"] },
+  {
+    label: "Tools & platforms",
+    items: ["Git", "GitHub Actions", "Docker", "AWS", "Vercel", "Netlify", "Render", "Cloudinary", "Postman", "Figma"],
+  },
   { label: "Ways of working", items: ["Problem solving", "Teamwork", "Leadership", "Adaptability"] },
 ];
 
@@ -175,7 +194,8 @@ export const events: EventItem[] = [
     location: "Manipal University, Jaipur",
     role: "Organized & attended",
     image: "/groupProjects/codemanipal.jpg",
-    description: "A national-level hackathon where I built scalable web applications and presented solutions to industry experts.",
+    description:
+      "A national-level hackathon where I built scalable web applications and presented solutions to industry experts.",
   },
   {
     title: "Pears Hackathon",
@@ -183,7 +203,8 @@ export const events: EventItem[] = [
     location: "Online",
     role: "Organized",
     image: "/groupProjects/pears.jpg",
-    description: "Worked with a diverse team to ship an innovative solution under tight time constraints, across backend and frontend.",
+    description:
+      "Worked with a diverse team to ship an innovative solution under tight time constraints, across backend and frontend.",
   },
   {
     title: "Code Kshetra 2.0",
@@ -191,7 +212,8 @@ export const events: EventItem[] = [
     location: "JIMS, Rohini",
     role: "Organized",
     image: "/groupProjects/ck2.jpg",
-    description: "A competitive programming event built around real-world problems. I managed logistics and kept the contest running smoothly.",
+    description:
+      "A competitive programming event built around real-world problems. I managed logistics and kept the contest running smoothly.",
   },
   {
     title: "Code Cubicle 3.0",
@@ -199,7 +221,8 @@ export const events: EventItem[] = [
     location: "Microsoft Office, Gurugram",
     role: "Organized",
     image: "/groupProjects/cc3.jpg",
-    description: "A large-scale hybrid coding contest on problem-solving and teamwork. I led planning, question setting and participant engagement.",
+    description:
+      "A large-scale hybrid coding contest on problem-solving and teamwork. I led planning, question setting and participant engagement.",
   },
 ];
 
