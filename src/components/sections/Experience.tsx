@@ -44,6 +44,7 @@ export default function Experience() {
                     onClick={() => setOpen(isOpen ? -1 : index)}
                     onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(index)}
                     aria-expanded={isOpen}
+                    data-cursor={isOpen ? "Close" : "Open"}
                     aria-controls={`experience-${index}`}
                     className="group grid w-full grid-cols-[1fr_auto] items-center gap-x-6 gap-y-2 py-7 text-left md:grid-cols-[10rem_1fr_1fr_auto] md:py-9"
                   >

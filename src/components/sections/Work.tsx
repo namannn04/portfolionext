@@ -34,6 +34,17 @@ function VisitLink({ href, label = "Visit project" }: { href: string; label?: st
   );
 }
 
+/** Makes the media itself clickable when there's somewhere to go. */
+function MediaLink({ href, title, children }: { href?: string; title: string; children: React.ReactNode }) {
+  if (!href) return <div data-cursor="Preview">{children}</div>;
+  return (
+    // The visible text link is the keyboard target; this is a bigger mouse target.
+    <a href={href} target="_blank" rel="noreferrer" tabIndex={-1} aria-hidden="true" data-cursor="Visit" title={title}>
+      {children}
+    </a>
+  );
+}
+
 function FeaturedCard({
   project,
   index,
@@ -84,15 +95,17 @@ function FeaturedCard({
             </div>
           </div>
           <div className="order-first md:order-none md:col-span-7">
-            <Tilt className="h-full rounded-[1.25rem] md:rounded-[1.75rem]" max={4}>
-              <ProjectMedia
-                video={project.video}
-                poster={project.poster}
-                title={project.title}
-                sizes="(max-width: 768px) 100vw, 60vw"
-                className="aspect-[16/10] h-full rounded-[inherit] md:aspect-auto md:min-h-[min(26rem,58svh)]"
-              />
-            </Tilt>
+            <MediaLink href={project.href} title={project.title}>
+              <Tilt className="h-full rounded-[1.25rem] md:rounded-[1.75rem]" max={4}>
+                <ProjectMedia
+                  video={project.video}
+                  poster={project.poster}
+                  title={project.title}
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                  className="aspect-[16/10] h-full rounded-[inherit] md:aspect-auto md:min-h-[min(26rem,58svh)]"
+                />
+              </Tilt>
+            </MediaLink>
           </div>
         </div>
         <motion.div
@@ -108,15 +121,17 @@ function FeaturedCard({
 function SoloCard({ project, index }: { project: Project; index: number }) {
   return (
     <Reveal as="li" delay={(index % 2) * 0.08} className="group">
-      <Tilt className="rounded-[1.5rem]" max={5}>
-        <ProjectMedia
-          video={project.video}
-          poster={project.poster}
-          title={project.title}
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="aspect-[16/10] rounded-[inherit] border border-line/60"
-        />
-      </Tilt>
+      <MediaLink href={project.href} title={project.title}>
+        <Tilt className="rounded-[1.5rem]" max={5}>
+          <ProjectMedia
+            video={project.video}
+            poster={project.poster}
+            title={project.title}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="aspect-[16/10] rounded-[inherit] border border-line/60"
+          />
+        </Tilt>
+      </MediaLink>
       <div className="mt-5 flex items-start justify-between gap-6">
         <div>
           <h3 className="display text-2xl font-semibold md:text-3xl">{project.title}</h3>

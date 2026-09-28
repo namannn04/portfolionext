@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { navLinks, profile } from "@/content/data";
 import { scrollToHash, scrollToTop, useLenis } from "./SmoothScroll";
 import { cn } from "@/lib/utils";
+import Scramble from "@/components/ui/Scramble";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -86,7 +87,7 @@ export default function Nav() {
                     onClick={(event) => handleNav(event, link.href)}
                     className="rounded-full px-4 py-2 text-sm text-fg-2 transition-colors hover:bg-ink-3 hover:text-fg"
                   >
-                    {link.label}
+                    <Scramble text={link.label} />
                   </Link>
                 </li>
               ))}

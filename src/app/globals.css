@@ -107,17 +107,14 @@ html.lenis body {
   }
 }
 
-@keyframes marquee {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+/* Custom cursor replaces the native one on fine pointers, except in text fields. */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
 }
-
-.marquee-track {
-  animation: marquee var(--marquee-duration, 40s) linear infinite;
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
+html.has-cursor input,
+html.has-cursor textarea {
+  cursor: text !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

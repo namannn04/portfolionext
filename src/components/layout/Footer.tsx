@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { profile } from "@/content/data";
 import { scrollToTop, useLenis } from "./SmoothScroll";
+import Scramble from "@/components/ui/Scramble";
 
 function useLocalTime(timeZone: string) {
   const [time, setTime] = useState<string>("");
@@ -28,7 +29,7 @@ export default function Footer() {
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-fg-2">
             {profile.socials.map((social) => (
               <a key={social.label} href={social.href} target="_blank" rel="noreferrer" className="link-underline">
-                {social.label}
+                <Scramble text={social.label} />
               </a>
             ))}
           </div>

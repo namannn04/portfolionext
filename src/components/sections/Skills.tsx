@@ -3,40 +3,12 @@
 import dynamic from "next/dynamic";
 import { profile, skills } from "@/content/data";
 import { Reveal, SectionHeading } from "@/components/ui/motion";
+import VelocityMarquee from "@/components/ui/VelocityMarquee";
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), {
   ssr: false,
   loading: () => <div className="h-[140px] animate-pulse rounded-xl bg-ink-3/60" />,
 });
-
-function Marquee({ items, reverse = false, duration = 45 }: { items: string[]; reverse?: boolean; duration?: number }) {
-  return (
-    <div
-      className="marquee flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
-      aria-hidden="true"
-    >
-      <div
-        className="marquee-track flex shrink-0 items-center"
-        style={
-          {
-            "--marquee-duration": `${duration}s`,
-            animationDirection: reverse ? "reverse" : "normal",
-          } as React.CSSProperties
-        }
-      >
-        {[...items, ...items].map((item, index) => (
-          <span
-            key={index}
-            className="display flex items-center text-[clamp(2.5rem,7vw,6rem)] whitespace-nowrap text-fg/90"
-          >
-            {item}
-            <span className="mx-6 inline-block size-3 rotate-45 bg-accent md:mx-10 md:size-4" />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function Skills() {
   const primary = ["Next.js", "TypeScript", "React", "Node.js", "PostgreSQL", "Tailwind CSS", "AWS", "Docker"];
@@ -58,8 +30,8 @@ export default function Skills() {
       </div>
 
       <div className="mt-16 flex flex-col gap-2 md:mt-24 md:gap-4">
-        <Marquee items={primary} />
-        <Marquee items={secondary} reverse duration={55} />
+        <VelocityMarquee items={primary} />
+        <VelocityMarquee items={secondary} reverse baseSpeed={1.6} />
       </div>
 
       <div className="shell mt-20 md:mt-28">
