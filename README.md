@@ -11,6 +11,7 @@ Personal portfolio built with Next.js 15, React Three Fiber and Framer Motion.
 - **Layout**: bento-grid About with cursor-spotlight tiles, a draggable 3D skill globe, and a section rail with scroll progress.
 - **Interaction layer**: custom cursor with contextual labels, scramble-text hovers, a marquee that skews with scroll velocity, magnetic buttons, 3D-tilt media, sticky stacking project cards and a scroll-pinned hackathon gallery.
 - **Smooth and accessible**: Lenis smooth scrolling, readable HTML text over the WebGL, responsive from 320px phones to wide desktops, and `prefers-reduced-motion` respected throughout.
+- Resume page renders `public/Resume.pdf` with PDF.js (works on phones, where inline PDFs usually don't), with zoom, download and open-in-tab.
 - Contact form backed by Resend (`/api/contact`).
 
 ## Development
