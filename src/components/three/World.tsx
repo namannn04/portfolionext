@@ -4,7 +4,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { intro } from "@/lib/intro";
-import { dustFragment, dustVertex, morphFragment, morphVertex } from "./shaders";
+import { morphFragment, morphVertex } from "./shaders";
+import Starfield from "./Starfield";
+import ShootingStars from "./ShootingStars";
 import {
   cloudShape,
   galaxyShape,
@@ -296,77 +298,21 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
   return <points ref={points} geometry={geometry} material={material} frustumCulled={false} />;
 }
 
-function Dust({ count, reducedMotion }: { count: number; reducedMotion: boolean }) {
-  const points = useRef<THREE.Points>(null);
-  const { gl } = useThree();
-
-  const geometry = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    const scales = new Float32Array(count);
-    const offsets = new Float32Array(count);
-    for (let i = 0; i < count; i += 1) {
-      const radius = 4 + Math.random() * 8;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = radius * Math.cos(phi) * 0.7;
-      positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta) - 5;
-      scales[i] = 0.4 + Math.random();
-      offsets[i] = Math.random();
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    g.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
-    g.setAttribute("aOffset", new THREE.BufferAttribute(offsets, 1));
-    return g;
-  }, [count]);
-  useEffect(() => () => geometry.dispose(), [geometry]);
-
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uPixelRatio: { value: Math.min(gl.getPixelRatio(), 2) },
-      uSize: { value: 22 },
-      uColor: { value: new THREE.Color("#aeb8c4") },
-    }),
-    [gl],
-  );
-  const material = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        vertexShader: dustVertex,
-        fragmentShader: dustFragment,
-        uniforms,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }),
-    [uniforms],
-  );
-  useEffect(() => () => material.dispose(), [material]);
-
-  useFrame((_, delta) => {
-    if (!points.current || reducedMotion) return;
-    uniforms.uTime.value += delta;
-    points.current.rotation.y += delta * 0.01;
-    points.current.rotation.x = -window.scrollY * 0.00005;
-  });
-
-  return <points ref={points} geometry={geometry} material={material} />;
-}
-
 export default function World() {
   const [ready, setReady] = useState(false);
-  const [settings, setSettings] = useState<{ count: number; dust: number; reducedMotion: boolean; dpr: number } | null>(
-    null,
-  );
+  const [settings, setSettings] = useState<{
+    count: number;
+    stars: number;
+    reducedMotion: boolean;
+    dpr: number;
+  } | null>(null);
 
   useEffect(() => {
     const narrow = window.innerWidth < 768;
     const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
     setSettings({
       count: narrow ? 9000 : weak ? 11000 : 18000,
-      dust: narrow ? 300 : 700,
+      stars: narrow ? 1400 : 3200,
       reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
       dpr: narrow ? 1.5 : 2,
     });
@@ -388,8 +334,9 @@ export default function World() {
         fallback={null}
       >
         <Particles count={settings.count} reducedMotion={settings.reducedMotion} />
-        <Dust count={settings.dust} reducedMotion={settings.reducedMotion} />
+        <Starfield count={settings.stars} reducedMotion={settings.reducedMotion} />
       </Canvas>
+      {!settings.reducedMotion && <ShootingStars />}
     </div>
   );
 }

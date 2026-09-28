@@ -127,3 +127,31 @@ html.has-cursor textarea {
     scroll-behavior: auto !important;
   }
 }
+
+/* Shooting star: a bright head with a fading tail, flying along its own axis. */
+.meteor {
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.95), rgb(198 244 50 / 0.35) 30%, transparent);
+  box-shadow: 0 0 8px rgb(255 255 255 / 0.5);
+  border-radius: 999px;
+  opacity: 0;
+  animation-name: meteor;
+  animation-timing-function: cubic-bezier(0.3, 0, 0.7, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes meteor {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+    scale: 0.2 1;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: var(--dx) var(--dy);
+    scale: 1 1;
+  }
+}
