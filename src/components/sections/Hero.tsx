@@ -45,7 +45,9 @@ export default function Hero() {
             <span className="size-1.5 rounded-full bg-accent" />
             {profile.role}
           </p>
-          <p className="eyebrow hidden pointer-fine:sm:block">Move your cursor through the name</p>
+          <p className="eyebrow hidden pointer-fine:sm:block">
+            Move through the name · Press <kbd className="rounded border border-line px-1.5 py-0.5 text-fg">/</kbd>
+          </p>
         </motion.div>
 
         {/* The particle name renders here in WebGL; this keeps the space. */}

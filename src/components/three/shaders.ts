@@ -63,6 +63,7 @@ uniform float uIntro;
 uniform float uSize;
 uniform float uPixelRatio;
 uniform float uTurbulence;
+uniform float uExplode;
 uniform vec3 uMouse;
 uniform float uMouseStrength;
 
@@ -114,6 +115,11 @@ void main() {
   float intro = smoothstep(aRand.y * 0.45, aRand.y * 0.45 + 0.55, uIntro);
   p = mix(aCloud, p, intro);
 
+  // Explosion: every particle flies outward along its own jittered ray.
+  vec3 ray = normalize(p + (aRand - 0.5) * 0.9 + 1e-4);
+  p += ray * uExplode * (1.2 + aRand.x * 3.2);
+  p += noiseVec(p * 0.4 + uTime * 0.5) * uExplode * 0.6;
+
   // Cursor pushes particles away and towards the camera.
   vec2 d = p.xy - uMouse.xy;
   float dist = length(d);
@@ -136,6 +142,7 @@ export const morphFragment = /* glsl */ `
 uniform vec3 uColor;
 uniform vec3 uAccent;
 uniform float uOpacity;
+uniform float uPulse;
 
 varying float vAlpha;
 varying float vAccent;
@@ -145,7 +152,7 @@ void main() {
   float d = length(gl_PointCoord - 0.5);
   float core = 1.0 - smoothstep(0.12, 0.5, d);
   if (core < 0.01) discard;
-  vec3 color = mix(uColor, uAccent, clamp(vAccent + vGlow * 0.9, 0.0, 1.0));
+  vec3 color = mix(uColor, uAccent, clamp(vAccent + vGlow * 0.9 + uPulse, 0.0, 1.0));
   gl_FragColor = vec4(color, core * vAlpha * uOpacity);
 }
 `;

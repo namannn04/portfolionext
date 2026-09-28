@@ -57,6 +57,11 @@ body {
   border-radius: 4px;
 }
 
+/* The terminal prompt shows its own caret; a ring around it reads as a bug. */
+.terminal-input:focus-visible {
+  outline: none;
+}
+
 /* Lenis */
 html.lenis,
 html.lenis body {

@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { intro } from "@/lib/intro";
+import { universe } from "@/lib/universe";
 import { morphFragment, morphVertex } from "./shaders";
 import Starfield from "./Starfield";
 import ShootingStars from "./ShootingStars";
@@ -135,6 +136,17 @@ function resolve(offsets: { index: number; top: number }[], mobile: boolean): Fr
   return hold(offsets[offsets.length - 1].index);
 }
 
+/** Short attack, long release: 0 -> 1 -> 0 over `length` ms after `start`. */
+function envelope(now: number, start: number, attack: number, length: number) {
+  const t = now - start;
+  if (t < 0 || t > length) return 0;
+  if (t < attack) return t / attack;
+  const release = 1 - (t - attack) / (length - attack);
+  return release * release;
+}
+
+const dominant = (frame: Frame) => (frame.mix < 0.5 ? frame.from : frame.to);
+
 function Particles({ count, reducedMotion }: { count: number; reducedMotion: boolean }) {
   const points = useRef<THREE.Points>(null);
   const { viewport, size, gl } = useThree();
@@ -148,6 +160,15 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
   // Text is sized in world units, so track the viewport width it was built for.
   const textWidth = useRef(0);
   const textPose = useRef(1);
+  // Terminal overrides: the shape being forced and the morph into/out of it.
+  const forced = useRef<{ target: number | null; from: number; to: number; start: number }>({
+    target: null,
+    from: 0,
+    to: 0,
+    start: -Infinity,
+  });
+  const forcedWeight = useRef(0);
+  const shown = useRef<number>(SLOT.text);
 
   const geometry = useMemo(() => {
     const g = new THREE.BufferGeometry();
@@ -175,6 +196,8 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
       uSize: { value: 14 },
       uPixelRatio: { value: Math.min(gl.getPixelRatio(), 2) },
       uTurbulence: { value: 0 },
+      uExplode: { value: 0 },
+      uPulse: { value: 0 },
       uMouse: { value: new THREE.Vector3(99, 99, 0.5) },
       uMouseStrength: { value: 0 },
       uOpacity: { value: 1 },
@@ -264,20 +287,57 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
     }
     uniforms.uIntro.value = introProgress.current;
 
-    const frame = resolve(offsets.current, mobile);
+    const now = performance.now();
+    const page = resolve(offsets.current, mobile);
+
+    // A forced shape (from the terminal) morphs in over 1.4s; releasing it
+    // morphs back into whatever the page is showing.
+    const override = forced.current;
+    if (universe.shape !== override.target) {
+      override.from = shown.current;
+      override.to = universe.shape ?? dominant(page);
+      override.target = universe.shape;
+      override.start = now;
+    }
+    const overrideMix = smooth(THREE.MathUtils.clamp((now - override.start) / 1400, 0, 1));
+    forcedWeight.current = damp(forcedWeight.current, override.target === null ? 0 : 1, 2.5);
+    const frame: Frame =
+      override.target !== null || overrideMix < 1
+        ? { from: override.from, to: override.to, mix: overrideMix, pose: page.pose }
+        : page;
+    shown.current = dominant(frame);
+
     uniforms.uFrom.value = frame.from;
     uniforms.uTo.value = frame.to;
     uniforms.uMix.value = frame.mix;
 
+    // Forced shapes take centre stage; the name keeps its hero placement.
+    const heroPose = mobile ? PRESETS[0].mobile : PRESETS[0].desktop;
+    const stagePose: Pose =
+      override.target === SLOT.text ? heroPose : { x: 0, y: 0.05, scale: mobile ? 0.5 : 0.62, opacity: 0.9 };
+    const w = forcedWeight.current;
+    const pose: Pose = {
+      x: THREE.MathUtils.lerp(page.pose.x, stagePose.x, w),
+      y: THREE.MathUtils.lerp(page.pose.y, stagePose.y, w),
+      scale: THREE.MathUtils.lerp(page.pose.scale, stagePose.scale, w),
+      opacity: THREE.MathUtils.lerp(page.pose.opacity, stagePose.opacity, w),
+    };
+
     // Text is authored at world scale; every other shape scales with the viewport.
     const minSide = Math.min(viewport.width, viewport.height);
-    const shapeScale = (frame.pose.scale * minSide) / 3.2;
-    textPose.current = frame.from === SLOT.text ? 1 - frame.mix : 0;
+    const shapeScale = (pose.scale * minSide) / 3.2;
+    textPose.current =
+      (frame.from === SLOT.text ? 1 - frame.mix : 0) +
+      (frame.to === SLOT.text && frame.from !== SLOT.text ? frame.mix : 0);
     const targetScale = THREE.MathUtils.lerp(shapeScale, 1, textPose.current);
     const scale = damp(group.scale.x, targetScale, 3.2);
     group.scale.setScalar(scale);
-    group.position.x = damp(group.position.x, (frame.pose.x * viewport.width) / 2, 3.2);
-    group.position.y = damp(group.position.y, (frame.pose.y * viewport.height) / 2, 3.2);
+    group.position.x = damp(group.position.x, (pose.x * viewport.width) / 2, 3.2);
+    group.position.y = damp(group.position.y, (pose.y * viewport.height) / 2, 3.2);
+
+    const pulse = envelope(now, universe.celebrateAt, 250, 3200);
+    uniforms.uExplode.value = Math.max(envelope(now, universe.explodeAt, 220, 2600), pulse * 0.55);
+    uniforms.uPulse.value = pulse;
 
     // Cursor in the group's local space, so the push works at any pose.
     const recent = performance.now() - pointer.current.last < 1400;
@@ -292,7 +352,7 @@ function Particles({ count, reducedMotion }: { count: number; reducedMotion: boo
 
     uniforms.uTime.value += reducedMotion ? 0 : dt;
     uniforms.uTurbulence.value = energy.current * 0.6;
-    uniforms.uOpacity.value = damp(uniforms.uOpacity.value, frame.pose.opacity, 2.5);
+    uniforms.uOpacity.value = damp(uniforms.uOpacity.value, Math.max(pose.opacity, pulse), 2.5);
   });
 
   return <points ref={points} geometry={geometry} material={material} frustumCulled={false} />;
