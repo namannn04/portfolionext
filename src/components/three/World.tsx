@@ -5,19 +5,19 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { blobFragment, blobVertex, particlesFragment, particlesVertex } from "./shaders";
 
-type Pose = { x: number; y: number; scale: number; amplitude: number; hue: number };
+type Pose = { x: number; y: number; scale: number; amplitude: number; hue: number; dim?: number };
 type Preset = { id: string; desktop: Pose; mobile: Pose };
 
 // One pose per page section. x/y are fractions of the half-viewport, scale is a
 // fraction of the smaller viewport side, so poses hold up at any aspect ratio.
 const PRESETS: Preset[] = [
-  { id: "top", desktop: { x: 0.46, y: 0.02, scale: 0.3, amplitude: 0.24, hue: 0 }, mobile: { x: 0.2, y: 0.42, scale: 0.3, amplitude: 0.22, hue: 0 } },
-  { id: "about", desktop: { x: -0.62, y: 0.12, scale: 0.2, amplitude: 0.42, hue: 0.06 }, mobile: { x: 0.62, y: 0.72, scale: 0.2, amplitude: 0.4, hue: 0.06 } },
+  { id: "top", desktop: { x: 0.46, y: 0.02, scale: 0.3, amplitude: 0.24, hue: 0, dim: 1 }, mobile: { x: 0.28, y: 0.6, scale: 0.25, amplitude: 0.22, hue: 0, dim: 1 } },
+  { id: "about", desktop: { x: 0.74, y: 0.5, scale: 0.19, amplitude: 0.42, hue: 0.06 }, mobile: { x: 0.62, y: 0.72, scale: 0.2, amplitude: 0.4, hue: 0.06 } },
   { id: "experience", desktop: { x: 0.64, y: -0.25, scale: 0.22, amplitude: 0.28, hue: 0.12 }, mobile: { x: -0.7, y: 0.78, scale: 0.18, amplitude: 0.28, hue: 0.12 } },
   { id: "work", desktop: { x: -0.7, y: 0.45, scale: 0.16, amplitude: 0.5, hue: 0.2 }, mobile: { x: 0.72, y: 0.8, scale: 0.16, amplitude: 0.45, hue: 0.2 } },
   { id: "skills", desktop: { x: 0.58, y: 0.05, scale: 0.26, amplitude: 0.36, hue: 0.28 }, mobile: { x: -0.6, y: 0.74, scale: 0.2, amplitude: 0.34, hue: 0.28 } },
   { id: "events", desktop: { x: -0.6, y: -0.35, scale: 0.18, amplitude: 0.3, hue: 0.34 }, mobile: { x: 0.66, y: 0.78, scale: 0.17, amplitude: 0.3, hue: 0.34 } },
-  { id: "contact", desktop: { x: 0.36, y: 0.0, scale: 0.36, amplitude: 0.38, hue: 0.4 }, mobile: { x: 0.0, y: 0.5, scale: 0.3, amplitude: 0.36, hue: 0.4 } },
+  { id: "contact", desktop: { x: 0.36, y: 0.0, scale: 0.36, amplitude: 0.38, hue: 0.4, dim: 1 }, mobile: { x: 0.0, y: 0.5, scale: 0.3, amplitude: 0.36, hue: 0.4, dim: 0.8 } },
 ];
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
@@ -27,6 +27,7 @@ const mixPose = (a: Pose, b: Pose, t: number): Pose => ({
   scale: THREE.MathUtils.lerp(a.scale, b.scale, t),
   amplitude: THREE.MathUtils.lerp(a.amplitude, b.amplitude, t),
   hue: THREE.MathUtils.lerp(a.hue, b.hue, t),
+  dim: THREE.MathUtils.lerp(a.dim ?? 0.62, b.dim ?? 0.62, t),
 });
 
 /** Tracks the document offset of every section that has a preset. */
@@ -90,6 +91,7 @@ function Blob({ reducedMotion }: { reducedMotion: boolean }) {
       uFrequency: { value: 0.95 },
       uTwist: { value: 0.35 },
       uHue: { value: 0 },
+      uDim: { value: 1 },
       uAccent: { value: new THREE.Color("#c6f432") },
       uBase: { value: new THREE.Color("#0c1116") },
     }),
@@ -137,6 +139,7 @@ function Blob({ reducedMotion }: { reducedMotion: boolean }) {
     uniforms.uAmplitude.value = damp(uniforms.uAmplitude.value, pose.amplitude + energy.current * 0.25, 3);
     uniforms.uTwist.value = damp(uniforms.uTwist.value, 0.35 + energy.current * 1.4, 3);
     uniforms.uHue.value = damp(uniforms.uHue.value, pose.hue, 2);
+    uniforms.uDim.value = damp(uniforms.uDim.value, pose.dim ?? 0.62, 2.5);
     state.camera.position.y = damp(state.camera.position.y, -scrollY * 0.0004, 4);
   });
 

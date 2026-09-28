@@ -99,6 +99,7 @@ void main() {
 export const blobFragment = /* glsl */ `
 uniform float uTime;
 uniform float uHue;
+uniform float uDim;
 uniform vec3 uAccent;
 uniform vec3 uBase;
 
@@ -135,7 +136,7 @@ void main() {
   color += vec3(spec) * 0.45;
   color += uAccent * smoothstep(0.35, 1.0, vNoise) * 0.14;
 
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color * uDim, 1.0);
   #include <colorspace_fragment>
 }
 `;
