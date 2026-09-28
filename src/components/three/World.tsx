@@ -37,13 +37,13 @@ const PRESETS: Preset[] = [
   {
     id: "about",
     slot: SLOT.sphere,
-    desktop: { x: 0.76, y: 0.42, scale: 0.44, opacity: 0.4 },
+    desktop: { x: 0.78, y: 0.44, scale: 0.42, opacity: 0.32 },
     mobile: { x: 0.55, y: 0.66, scale: 0.34, opacity: 0.32 },
   },
   {
     id: "experience",
     slot: SLOT.helix,
-    desktop: { x: 0.05, y: -0.7, scale: 0.72, opacity: 0.32 },
+    desktop: { x: 0.05, y: -0.74, scale: 0.7, opacity: 0.22 },
     mobile: { x: 0, y: 0.74, scale: 0.36, opacity: 0.32 },
   },
   {
@@ -55,13 +55,13 @@ const PRESETS: Preset[] = [
   {
     id: "skills",
     slot: SLOT.knot,
-    desktop: { x: 0.84, y: 0.45, scale: 0.44, opacity: 0.32 },
-    mobile: { x: 0.5, y: 0.68, scale: 0.34, opacity: 0.32 },
+    desktop: { x: -0.46, y: -0.08, scale: 0.26, opacity: 0.34 },
+    mobile: { x: 0, y: 0.1, scale: 0.26, opacity: 0.3 },
   },
   {
     id: "events",
     slot: SLOT.galaxy,
-    desktop: { x: 0.02, y: 0.7, scale: 0.72, opacity: 0.38 },
+    desktop: { x: 0.3, y: 0.72, scale: 0.66, opacity: 0.26 },
     mobile: { x: 0, y: 0.7, scale: 0.4, opacity: 0.32 },
   },
   {

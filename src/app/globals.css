@@ -24,6 +24,13 @@
   --gutter: clamp(1rem, 4vw, 3rem);
 }
 
+/* Wider gutters where the section rail sits beside the content. */
+@media (min-width: 1280px) {
+  :root {
+    --gutter: clamp(4rem, 5vw, 5.5rem);
+  }
+}
+
 html {
   background: var(--color-ink);
   color: var(--color-fg);
@@ -83,6 +90,10 @@ html.lenis body {
     font-weight: 600;
     letter-spacing: -0.035em;
     line-height: 0.92;
+    /* Soft dark halo keeps big type legible over the particles. */
+    text-shadow:
+      0 0 40px rgb(14 15 19 / 0.85),
+      0 0 12px rgb(14 15 19 / 0.6);
   }
 
   .link-underline {

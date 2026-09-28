@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { profile, skills } from "@/content/data";
 import { Reveal, SectionHeading } from "@/components/ui/motion";
 import VelocityMarquee from "@/components/ui/VelocityMarquee";
+import SkillGlobe from "@/components/ui/SkillGlobe";
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), {
   ssr: false,
@@ -23,6 +24,34 @@ export default function Skills() {
     "GitHub Actions",
   ];
 
+  // A curated two dozen keeps the globe readable; the full list sits beside it.
+  const globeItems = [
+    "Next.js",
+    "TypeScript",
+    "React",
+    "Node.js",
+    "Express.js",
+    "PostgreSQL",
+    "MongoDB",
+    "Prisma",
+    "Tailwind CSS",
+    "Three.js",
+    "Framer Motion",
+    "Redux",
+    "Firebase",
+    "Docker",
+    "AWS",
+    "Git",
+    "GitHub Actions",
+    "Vercel",
+    "Postman",
+    "Figma",
+    "Python",
+    "Java",
+    "C++",
+    "JWT",
+  ];
+
   return (
     <section id="skills" className="relative py-28 md:py-40">
       <div className="shell">
@@ -35,32 +64,28 @@ export default function Skills() {
       </div>
 
       <div className="shell mt-20 md:mt-28">
-        <dl className="border-t border-line/60">
-          {skills.map((group, index) => (
-            <Reveal
-              key={group.label}
-              delay={index * 0.04}
-              className="grid gap-4 border-b border-line/60 py-7 md:grid-cols-[16rem_1fr] md:gap-10 md:py-9"
-            >
-              <dt className="flex items-baseline gap-4">
-                <span className="font-mono text-xs text-mute">{String(index + 1).padStart(2, "0")}</span>
-                <span className="text-lg text-fg">{group.label}</span>
-              </dt>
-              <dd>
-                <ul className="flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <li
-                      key={item}
-                      className="rounded-full border border-line px-3.5 py-1.5 text-sm text-fg-2 transition-colors duration-300 hover:border-accent hover:text-fg"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </dd>
-            </Reveal>
-          ))}
-        </dl>
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+          <Reveal className="mx-auto w-full max-w-[34rem] lg:col-span-6">
+            <SkillGlobe items={globeItems} />
+            <p className="eyebrow mt-4 text-center">Drag to spin</p>
+          </Reveal>
+
+          <dl className="border-t border-line/60 lg:col-span-6">
+            {skills.map((group, index) => (
+              <Reveal
+                key={group.label}
+                delay={index * 0.04}
+                className="grid gap-3 border-b border-line/60 py-6 sm:grid-cols-[11rem_1fr] sm:gap-6"
+              >
+                <dt className="flex items-baseline gap-3">
+                  <span className="font-mono text-xs text-mute">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="text-fg">{group.label}</span>
+                </dt>
+                <dd className="text-fg-2 leading-relaxed">{group.items.join(" · ")}</dd>
+              </Reveal>
+            ))}
+          </dl>
+        </div>
 
         <Reveal className="mt-20 rounded-[1.75rem] border border-line/70 bg-ink-2/80 p-5 backdrop-blur-sm md:p-8">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
