@@ -114,13 +114,13 @@ export default function AboutSection() {
                 <div className="space-y-4">
                   <p className="text-t-text2 leading-relaxed">
                     Hello! I&apos;m Naman Dadhich, a Full Stack Developer with a
-                    passion for coding and currently in my final fourth year, sixth
-                    semester. I have more than two years of hands-on experience
-                    and specialize in developing solid web applications. I also
-                    have 3 months of experience as an SDE at Zelosify, where I
-                    learned a lot from senior developers and contributed to
-                    building a complete end-to-end vendor and contract management
-                    system. I started my journey with the MERN stack and now I
+                    passion for coding and more than two years of hands-on
+                    experience building web applications. I&apos;m currently a
+                    Software Developer at Flickly, where I work on content
+                    publishing, AI-assisted survey tools, admin workflows, and
+                    SEO. Previously, I was an SDE Intern at Zelosify, building
+                    dashboard features and secure file-handling workflows. I
+                    started my journey with the MERN stack and now I
                     primarily build projects using Next.js and TypeScript,
                     focusing on scalable and efficient solutions. I am committed
                     to building stylish, clean, and responsive user interfaces as

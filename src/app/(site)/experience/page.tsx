@@ -17,19 +17,25 @@ export default function ExperiencePage() {
 
   const experiences: Experience[] = [
     {
-      id: 1, title: "SDE Intern", company: "Zelosify", period: "Jul 2025 - Sept 2025",
+      id: 1, title: "Software Developer", company: "Flickly", period: "Aug 2026 - Present",
+      description: "At Flickly, I built a content management system for case studies, playbooks, thought leadership, videos, and newsroom content, with admin editing, previews, and publishing workflows. I developed AI survey question scoring and improvement suggestions across the Next.js app and Python agent, including scoring rules, LLM evaluation, caching, and tests. I also implemented admin controls for survey analytics access, user impersonation, and invitations, and improved public-page SEO with metadata, canonical URLs, structured data, and sitemap updates.",
+      skills: ["Next.js", "Python", "AI Agents", "LLM Evaluation", "CMS", "SEO"],
+      color: "var(--mc-diamond)", icon: <Briefcase className="h-5 w-5" />,
+    },
+    {
+      id: 2, title: "SDE Intern", company: "Zelosify", period: "Jul 2025 - Sept 2025",
       description: "Zelosify is a growing technology company focused on simplifying Vendor and Contract Management for large enterprises. The company provides a platform where organizations can manage their entire vendor ecosystem — from contract creation and approvals to onboarding, workflow tracking, and compliance management in a secure and automated way. As a Software Development Engineer, I built responsive landing pages and role-based dashboards while maintaining CI/CD pipelines. I also implemented secure multi-user authentication via Keycloak and managed cloud storage using AWS S3.",
       skills: ["Next.js", "Typescript", "Keycloak", "Node.js", "PostgreSQL with Prisma ORM", "Docker", "AWS S3", "Postman"],
       color: "var(--mc-diamond)", image: "/experience/zelosify.jpg", icon: <Briefcase className="h-5 w-5" />,
     },
     {
-      id: 2, title: "Development Head", company: "Google Developers Group on Campus - MSIT", period: "2024 - Present",
+      id: 3, title: "Development Head", company: "Google Developers Group on Campus - MSIT", period: "2024 - Present",
       description: "As Development Head at GDGOC MSIT, I actively promoted skill upliftment by organizing regular progress updates and providing growth opportunities. Initiated LinkedIn and GitHub profile challenges, assigned tasks, and facilitated hands-on projects to boost members' professional presence. Collaborated closely with the design team to guide developers in building the club website, ensuring smooth coordination and successful project delivery.",
       skills: ["Full Stack Development", "Team Leadership", "Project Management", "Community Building", "Technical Mentorship", "Event Organization", "Code Review"],
       color: "var(--mc-grass)", image: "/experience/gdg.jpeg", icon: <Briefcase className="h-5 w-5" />,
     },
     {
-      id: 3, title: "Development Deputy Head", company: "Geek Room", period: "2025 - Present",
+      id: 4, title: "Development Deputy Head", company: "Geek Room", period: "2025 - Present",
       description: "Recently appointed as Development Deputy Head at Geek Room, where I am supporting ongoing technical initiatives and collaborating with the team on new projects. Assisting in team coordination, skill development, and focusing on helping members improve their professional profiles. Contributing to a positive and productive environment as we work on upcoming projects.",
       skills: ["Team Collaboration", "Communication", "Problem Solving", "Technical Support", "Community Building"],
       color: "var(--mc-gold)", image: "/experience/gr.jpg", icon: <Award className="h-5 w-5" />,
